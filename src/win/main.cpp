@@ -485,8 +485,9 @@ int main(int, char **)
     if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
     {
         style.WindowRounding = 0.0f;
+       
         style.Colors[ImGuiCol_WindowBg].w = 1.0f;
-    }
+    } 
 
     // Setup Platform/Renderer backends
     ImGui_ImplWin32_Init(hwnd);
