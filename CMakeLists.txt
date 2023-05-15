@@ -35,7 +35,7 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${OpenCV_INCLUDE_DIRS}
 )
-
+include_directories(${FFMPEG_DIR}/include/)
 
 if (${FLAG} STREQUAL APPLE)
     # for <GLFW/glfw3.h>
@@ -118,5 +118,7 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${OpenCV_LIBS})
     target_link_libraries(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/lib/glfw3.lib)
     
 endif()
+
+
 
 target_link_libraries(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/lib/freetype.lib)

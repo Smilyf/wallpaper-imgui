@@ -1,0 +1,10 @@
+^C:\USERS\YAM_L\WALLPAPER-IMGUI\WALLPAPER-IMGUI\CMAKELISTS.TXT
+setlocal
+D:\sf\cmake\bin\cmake.exe -SC:/Users/yam_l/wallpaper-imgui/wallpaper-imgui -BC:/Users/yam_l/wallpaper-imgui/wallpaper-imgui/build --check-stamp-file C:/Users/yam_l/wallpaper-imgui/wallpaper-imgui/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

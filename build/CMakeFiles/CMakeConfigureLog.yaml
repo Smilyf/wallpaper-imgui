@@ -24,7 +24,7 @@ events:
       The output was:
       0
       MSBuild version 17.5.0+6f08c67f3 for .NET Framework
-      生成启动时间为 2023/5/10 10:37:18。
+      生成启动时间为 2023/5/15 9:33:32。
       Included response file: C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\MSBuild.rsp
       
       节点 1 上的项目“C:\\Users\\yam_l\\wallpaper-imgui\\wallpaper-imgui\\build\\CMakeFiles\\3.26.3\\CompilerIdC\\CompilerIdC.vcxproj”(默认目标)。
@@ -52,7 +52,7 @@ events:
           0 个警告
           0 个错误
       
-      已用时间 00:00:01.30
+      已用时间 00:00:01.04
       
       
       Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CompilerIdC.exe"
@@ -78,7 +78,7 @@ events:
       The output was:
       0
       MSBuild version 17.5.0+6f08c67f3 for .NET Framework
-      生成启动时间为 2023/5/10 10:37:19。
+      生成启动时间为 2023/5/15 9:33:33。
       Included response file: C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\MSBuild.rsp
       
       节点 1 上的项目“C:\\Users\\yam_l\\wallpaper-imgui\\wallpaper-imgui\\build\\CMakeFiles\\3.26.3\\CompilerIdCXX\\CompilerIdCXX.vcxproj”(默认目标)。
@@ -106,7 +106,7 @@ events:
           0 个警告
           0 个错误
       
-      已用时间 00:00:00.75
+      已用时间 00:00:00.59
       
       
       Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.exe"
@@ -125,46 +125,46 @@ events:
     checks:
       - "Detecting C compiler ABI info"
     directories:
-      source: "C:/Users/yam_l/wallpaper-imgui/wallpaper-imgui/build/CMakeFiles/CMakeScratch/TryCompile-cmqrh1"
-      binary: "C:/Users/yam_l/wallpaper-imgui/wallpaper-imgui/build/CMakeFiles/CMakeScratch/TryCompile-cmqrh1"
+      source: "C:/Users/yam_l/wallpaper-imgui/wallpaper-imgui/build/CMakeFiles/CMakeScratch/TryCompile-rb0u8r"
+      binary: "C:/Users/yam_l/wallpaper-imgui/wallpaper-imgui/build/CMakeFiles/CMakeScratch/TryCompile-rb0u8r"
     cmakeVariables:
       CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS /W3"
     buildResult:
       variable: "CMAKE_C_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: C:/Users/yam_l/wallpaper-imgui/wallpaper-imgui/build/CMakeFiles/CMakeScratch/TryCompile-cmqrh1
+        Change Dir: C:/Users/yam_l/wallpaper-imgui/wallpaper-imgui/build/CMakeFiles/CMakeScratch/TryCompile-rb0u8r
         
-        Run Build Command(s):C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe cmTC_38ca2.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n && MSBuild version 17.5.0+6f08c67f3 for .NET Framework
-        生成启动时间为 2023/5/10 10:37:20。
+        Run Build Command(s):C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe cmTC_e0120.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n && MSBuild version 17.5.0+6f08c67f3 for .NET Framework
+        生成启动时间为 2023/5/15 9:33:34。
         Included response file: C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\MSBuild.rsp
         
-        节点 1 上的项目“C:\\Users\\yam_l\\wallpaper-imgui\\wallpaper-imgui\\build\\CMakeFiles\\CMakeScratch\\TryCompile-cmqrh1\\cmTC_38ca2.vcxproj”(默认目标)。
+        节点 1 上的项目“C:\\Users\\yam_l\\wallpaper-imgui\\wallpaper-imgui\\build\\CMakeFiles\\CMakeScratch\\TryCompile-rb0u8r\\cmTC_e0120.vcxproj”(默认目标)。
         PrepareForBuild:
-          正在创建目录“cmTC_38ca2.dir\\Debug\\”。
-          正在创建目录“C:\\Users\\yam_l\\wallpaper-imgui\\wallpaper-imgui\\build\\CMakeFiles\\CMakeScratch\\TryCompile-cmqrh1\\Debug\\”。
-          正在创建目录“cmTC_38ca2.dir\\Debug\\cmTC_38ca2.tlog\\”。
+          正在创建目录“cmTC_e0120.dir\\Debug\\”。
+          正在创建目录“C:\\Users\\yam_l\\wallpaper-imgui\\wallpaper-imgui\\build\\CMakeFiles\\CMakeScratch\\TryCompile-rb0u8r\\Debug\\”。
+          正在创建目录“cmTC_e0120.dir\\Debug\\cmTC_e0120.tlog\\”。
         InitializeBuildStatus:
-          正在创建“cmTC_38ca2.dir\\Debug\\cmTC_38ca2.tlog\\unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+          正在创建“cmTC_e0120.dir\\Debug\\cmTC_e0120.tlog\\unsuccessfulbuild”，因为已指定“AlwaysCreate”。
         ClCompile:
-          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\HostX64\\x64\\CL.exe /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_38ca2.dir\\Debug\\\\" /Fd"cmTC_38ca2.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TC /errorReport:queue "D:\\sf\\cmake\\share\\cmake-3.26\\Modules\\CMakeCCompilerABI.c"
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\HostX64\\x64\\CL.exe /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_e0120.dir\\Debug\\\\" /Fd"cmTC_e0120.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TC /errorReport:queue "D:\\sf\\cmake\\share\\cmake-3.26\\Modules\\CMakeCCompilerABI.c"
           用于 x64 的 Microsoft (R) C/C++ 优化编译器 19.35.32215 版
           CMakeCCompilerABI.c
           版权所有(C) Microsoft Corporation。保留所有权利。
-          cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_38ca2.dir\\Debug\\\\" /Fd"cmTC_38ca2.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TC /errorReport:queue "D:\\sf\\cmake\\share\\cmake-3.26\\Modules\\CMakeCCompilerABI.c"
+          cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"cmTC_e0120.dir\\Debug\\\\" /Fd"cmTC_e0120.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TC /errorReport:queue "D:\\sf\\cmake\\share\\cmake-3.26\\Modules\\CMakeCCompilerABI.c"
         Link:
-          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\Users\\yam_l\\wallpaper-imgui\\wallpaper-imgui\\build\\CMakeFiles\\CMakeScratch\\TryCompile-cmqrh1\\Debug\\cmTC_38ca2.exe" /INCREMENTAL /ILK:"cmTC_38ca2.dir\\Debug\\cmTC_38ca2.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/yam_l/wallpaper-imgui/wallpaper-imgui/build/CMakeFiles/CMakeScratch/TryCompile-cmqrh1/Debug/cmTC_38ca2.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Users/yam_l/wallpaper-imgui/wallpaper-imgui/build/CMakeFiles/CMakeScratch/TryCompile-cmqrh1/Debug/cmTC_38ca2.lib" /MACHINE:X64  /machine:x64 cmTC_38ca2.dir\\Debug\\CMakeCCompilerABI.obj
-          cmTC_38ca2.vcxproj -> C:\\Users\\yam_l\\wallpaper-imgui\\wallpaper-imgui\\build\\CMakeFiles\\CMakeScratch\\TryCompile-cmqrh1\\Debug\\cmTC_38ca2.exe
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\Users\\yam_l\\wallpaper-imgui\\wallpaper-imgui\\build\\CMakeFiles\\CMakeScratch\\TryCompile-rb0u8r\\Debug\\cmTC_e0120.exe" /INCREMENTAL /ILK:"cmTC_e0120.dir\\Debug\\cmTC_e0120.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/yam_l/wallpaper-imgui/wallpaper-imgui/build/CMakeFiles/CMakeScratch/TryCompile-rb0u8r/Debug/cmTC_e0120.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Users/yam_l/wallpaper-imgui/wallpaper-imgui/build/CMakeFiles/CMakeScratch/TryCompile-rb0u8r/Debug/cmTC_e0120.lib" /MACHINE:X64  /machine:x64 cmTC_e0120.dir\\Debug\\CMakeCCompilerABI.obj
+          cmTC_e0120.vcxproj -> C:\\Users\\yam_l\\wallpaper-imgui\\wallpaper-imgui\\build\\CMakeFiles\\CMakeScratch\\TryCompile-rb0u8r\\Debug\\cmTC_e0120.exe
         FinalizeBuildStatus:
-          正在删除文件“cmTC_38ca2.dir\\Debug\\cmTC_38ca2.tlog\\unsuccessfulbuild”。
-          正在对“cmTC_38ca2.dir\\Debug\\cmTC_38ca2.tlog\\cmTC_38ca2.lastbuildstate”执行 Touch 任务。
-        已完成生成项目“C:\\Users\\yam_l\\wallpaper-imgui\\wallpaper-imgui\\build\\CMakeFiles\\CMakeScratch\\TryCompile-cmqrh1\\cmTC_38ca2.vcxproj”(默认目标)的操作。
+          正在删除文件“cmTC_e0120.dir\\Debug\\cmTC_e0120.tlog\\unsuccessfulbuild”。
+          正在对“cmTC_e0120.dir\\Debug\\cmTC_e0120.tlog\\cmTC_e0120.lastbuildstate”执行 Touch 任务。
+        已完成生成项目“C:\\Users\\yam_l\\wallpaper-imgui\\wallpaper-imgui\\build\\CMakeFiles\\CMakeScratch\\TryCompile-rb0u8r\\cmTC_e0120.vcxproj”(默认目标)的操作。
         
         已成功生成。
             0 个警告
             0 个错误
         
-        已用时间 00:00:00.74
+        已用时间 00:00:00.65
         
       exitCode: 0
   -
@@ -176,46 +176,46 @@ events:
     checks:
       - "Detecting CXX compiler ABI info"
     directories:
-      source: "C:/Users/yam_l/wallpaper-imgui/wallpaper-imgui/build/CMakeFiles/CMakeScratch/TryCompile-qq3aml"
-      binary: "C:/Users/yam_l/wallpaper-imgui/wallpaper-imgui/build/CMakeFiles/CMakeScratch/TryCompile-qq3aml"
+      source: "C:/Users/yam_l/wallpaper-imgui/wallpaper-imgui/build/CMakeFiles/CMakeScratch/TryCompile-a2gsop"
+      binary: "C:/Users/yam_l/wallpaper-imgui/wallpaper-imgui/build/CMakeFiles/CMakeScratch/TryCompile-a2gsop"
     cmakeVariables:
       CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /W3 /GR /EHsc"
     buildResult:
       variable: "CMAKE_CXX_ABI_COMPILED"
       cached: true
       stdout: |
-        Change Dir: C:/Users/yam_l/wallpaper-imgui/wallpaper-imgui/build/CMakeFiles/CMakeScratch/TryCompile-qq3aml
+        Change Dir: C:/Users/yam_l/wallpaper-imgui/wallpaper-imgui/build/CMakeFiles/CMakeScratch/TryCompile-a2gsop
         
-        Run Build Command(s):C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe cmTC_548fa.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n && MSBuild version 17.5.0+6f08c67f3 for .NET Framework
-        生成启动时间为 2023/5/10 10:37:22。
+        Run Build Command(s):C:/Program Files/Microsoft Visual Studio/2022/Community/MSBuild/Current/Bin/amd64/MSBuild.exe cmTC_67ac6.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=17.0 /v:n && MSBuild version 17.5.0+6f08c67f3 for .NET Framework
+        生成启动时间为 2023/5/15 9:33:35。
         Included response file: C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\MSBuild\\Current\\Bin\\amd64\\MSBuild.rsp
         
-        节点 1 上的项目“C:\\Users\\yam_l\\wallpaper-imgui\\wallpaper-imgui\\build\\CMakeFiles\\CMakeScratch\\TryCompile-qq3aml\\cmTC_548fa.vcxproj”(默认目标)。
+        节点 1 上的项目“C:\\Users\\yam_l\\wallpaper-imgui\\wallpaper-imgui\\build\\CMakeFiles\\CMakeScratch\\TryCompile-a2gsop\\cmTC_67ac6.vcxproj”(默认目标)。
         PrepareForBuild:
-          正在创建目录“cmTC_548fa.dir\\Debug\\”。
-          正在创建目录“C:\\Users\\yam_l\\wallpaper-imgui\\wallpaper-imgui\\build\\CMakeFiles\\CMakeScratch\\TryCompile-qq3aml\\Debug\\”。
-          正在创建目录“cmTC_548fa.dir\\Debug\\cmTC_548fa.tlog\\”。
+          正在创建目录“cmTC_67ac6.dir\\Debug\\”。
+          正在创建目录“C:\\Users\\yam_l\\wallpaper-imgui\\wallpaper-imgui\\build\\CMakeFiles\\CMakeScratch\\TryCompile-a2gsop\\Debug\\”。
+          正在创建目录“cmTC_67ac6.dir\\Debug\\cmTC_67ac6.tlog\\”。
         InitializeBuildStatus:
-          正在创建“cmTC_548fa.dir\\Debug\\cmTC_548fa.tlog\\unsuccessfulbuild”，因为已指定“AlwaysCreate”。
+          正在创建“cmTC_67ac6.dir\\Debug\\cmTC_67ac6.tlog\\unsuccessfulbuild”，因为已指定“AlwaysCreate”。
         ClCompile:
-          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\HostX64\\x64\\CL.exe /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_548fa.dir\\Debug\\\\" /Fd"cmTC_548fa.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TP /errorReport:queue "D:\\sf\\cmake\\share\\cmake-3.26\\Modules\\CMakeCXXCompilerABI.cpp"
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\HostX64\\x64\\CL.exe /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_67ac6.dir\\Debug\\\\" /Fd"cmTC_67ac6.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TP /errorReport:queue "D:\\sf\\cmake\\share\\cmake-3.26\\Modules\\CMakeCXXCompilerABI.cpp"
           用于 x64 的 Microsoft (R) C/C++ 优化编译器 19.35.32215 版
           CMakeCXXCompilerABI.cpp
           版权所有(C) Microsoft Corporation。保留所有权利。
-          cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_548fa.dir\\Debug\\\\" /Fd"cmTC_548fa.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TP /errorReport:queue "D:\\sf\\cmake\\share\\cmake-3.26\\Modules\\CMakeCXXCompilerABI.cpp"
+          cl /c /Zi /W3 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D "CMAKE_INTDIR=\\"Debug\\"" /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /GR /Fo"cmTC_67ac6.dir\\Debug\\\\" /Fd"cmTC_67ac6.dir\\Debug\\vc143.pdb" /external:W3 /Gd /TP /errorReport:queue "D:\\sf\\cmake\\share\\cmake-3.26\\Modules\\CMakeCXXCompilerABI.cpp"
         Link:
-          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\Users\\yam_l\\wallpaper-imgui\\wallpaper-imgui\\build\\CMakeFiles\\CMakeScratch\\TryCompile-qq3aml\\Debug\\cmTC_548fa.exe" /INCREMENTAL /ILK:"cmTC_548fa.dir\\Debug\\cmTC_548fa.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/yam_l/wallpaper-imgui/wallpaper-imgui/build/CMakeFiles/CMakeScratch/TryCompile-qq3aml/Debug/cmTC_548fa.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Users/yam_l/wallpaper-imgui/wallpaper-imgui/build/CMakeFiles/CMakeScratch/TryCompile-qq3aml/Debug/cmTC_548fa.lib" /MACHINE:X64  /machine:x64 cmTC_548fa.dir\\Debug\\CMakeCXXCompilerABI.obj
-          cmTC_548fa.vcxproj -> C:\\Users\\yam_l\\wallpaper-imgui\\wallpaper-imgui\\build\\CMakeFiles\\CMakeScratch\\TryCompile-qq3aml\\Debug\\cmTC_548fa.exe
+          C:\\Program Files\\Microsoft Visual Studio\\2022\\Community\\VC\\Tools\\MSVC\\14.35.32215\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:"C:\\Users\\yam_l\\wallpaper-imgui\\wallpaper-imgui\\build\\CMakeFiles\\CMakeScratch\\TryCompile-a2gsop\\Debug\\cmTC_67ac6.exe" /INCREMENTAL /ILK:"cmTC_67ac6.dir\\Debug\\cmTC_67ac6.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:/Users/yam_l/wallpaper-imgui/wallpaper-imgui/build/CMakeFiles/CMakeScratch/TryCompile-a2gsop/Debug/cmTC_67ac6.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"C:/Users/yam_l/wallpaper-imgui/wallpaper-imgui/build/CMakeFiles/CMakeScratch/TryCompile-a2gsop/Debug/cmTC_67ac6.lib" /MACHINE:X64  /machine:x64 cmTC_67ac6.dir\\Debug\\CMakeCXXCompilerABI.obj
+          cmTC_67ac6.vcxproj -> C:\\Users\\yam_l\\wallpaper-imgui\\wallpaper-imgui\\build\\CMakeFiles\\CMakeScratch\\TryCompile-a2gsop\\Debug\\cmTC_67ac6.exe
         FinalizeBuildStatus:
-          正在删除文件“cmTC_548fa.dir\\Debug\\cmTC_548fa.tlog\\unsuccessfulbuild”。
-          正在对“cmTC_548fa.dir\\Debug\\cmTC_548fa.tlog\\cmTC_548fa.lastbuildstate”执行 Touch 任务。
-        已完成生成项目“C:\\Users\\yam_l\\wallpaper-imgui\\wallpaper-imgui\\build\\CMakeFiles\\CMakeScratch\\TryCompile-qq3aml\\cmTC_548fa.vcxproj”(默认目标)的操作。
+          正在删除文件“cmTC_67ac6.dir\\Debug\\cmTC_67ac6.tlog\\unsuccessfulbuild”。
+          正在对“cmTC_67ac6.dir\\Debug\\cmTC_67ac6.tlog\\cmTC_67ac6.lastbuildstate”执行 Touch 任务。
+        已完成生成项目“C:\\Users\\yam_l\\wallpaper-imgui\\wallpaper-imgui\\build\\CMakeFiles\\CMakeScratch\\TryCompile-a2gsop\\cmTC_67ac6.vcxproj”(默认目标)的操作。
         
         已成功生成。
             0 个警告
             0 个错误
         
-        已用时间 00:00:00.72
+        已用时间 00:00:00.62
         
       exitCode: 0
 ...
