@@ -35,7 +35,9 @@ include_directories(
     ${CMAKE_CURRENT_SOURCE_DIR}/include
     ${OpenCV_INCLUDE_DIRS}
 )
-include_directories(${FFMPEG_DIR}/include/)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../ffmpeg/include/)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../SDL2/include/)
+
 
 if (${FLAG} STREQUAL APPLE)
     # for <GLFW/glfw3.h>
@@ -57,14 +59,13 @@ if (${FLAG} STREQUAL WIN32)
     file (GLOB PLATFORM_SRC
         ../imgui/backends/imgui_impl_win32.*
         ../imgui/backends/imgui_impl_dx12.*
-        ./src/win/main.cpp
-    )
+        ./src/win/*.cpp
+        ./src/win/*.c)
 elseif (${FLAG} STREQUAL UNIX)
     # support both mac and linux
-    add_definitions(-DIMGUI_IMPL_OPENGL_LOADER_GL3W)
+   # add_definitions(-DIMGUI_IMPL_OPENGL_LOADER_GL3W)
 
   
-
     file (GLOB PLATFORM_SRC
         ../imgui/examples/libs/gl3w/GL/gl3w.*
         ../imgui/backends/imgui_impl_glfw.*
@@ -120,5 +121,6 @@ TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${OpenCV_LIBS})
 endif()
 
 
-
+target_link_libraries(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/../SDL2/lib/x64/*.lib)
+target_link_libraries(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/../ffmpeg/lib/*.lib)
 target_link_libraries(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/lib/freetype.lib)

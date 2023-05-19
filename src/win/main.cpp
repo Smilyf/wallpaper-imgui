@@ -105,7 +105,7 @@ public:
                     // CloseHandle(pi.hThread);
                     break;
                 }
-                data=data_;
+                data = data_;
             }
         }
     }
@@ -192,10 +192,14 @@ int main()
             ::TranslateMessage(&msg);
             ::DispatchMessage(&msg);
             if (msg.message == WM_QUIT || !ccc)
+            {
                 done = true;
+            }
         }
         if (done)
+        {
             break;
+        }
 
         // Start the Dear ImGui frame
         ImGui_ImplDX12_NewFrame();
@@ -261,6 +265,7 @@ int main()
             // ImGui::Image(textureID, mat2Texture.getSzie(0.1), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0), ImVec4(255, 255, 255, 1), ImVec4(0, 0, 0, 1));
             if (ImGui::Button("Close Me"))
                 show_another_window = false;
+
         }
         ImGui::PopStyleVar(4);
         // Rendering
@@ -319,7 +324,7 @@ int main()
     CleanupDeviceD3D();
     ::DestroyWindow(hwnd);
     ::UnregisterClassW(wc.lpszClassName, wc.hInstance);
-
+    data_ = 8;
     return 0;
 }
 
@@ -602,3 +607,4 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     }
     return ::DefWindowProcW(hWnd, msg, wParam, lParam);
 }
+

@@ -25,6 +25,9 @@
     <ClCompile Include="C:\Users\yam_l\wallpaper-imgui\imgui\backends\imgui_impl_win32.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\src\win\ffplay.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\src\win\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
