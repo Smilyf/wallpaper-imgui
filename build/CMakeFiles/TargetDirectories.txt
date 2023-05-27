@@ -1,9 +1,3 @@
-<<<<<<< HEAD
 C:/Users/yam_l/wallpaper-imgui/wallpaper-imgui/build/CMakeFiles/openglim.dir
 C:/Users/yam_l/wallpaper-imgui/wallpaper-imgui/build/CMakeFiles/ALL_BUILD.dir
 C:/Users/yam_l/wallpaper-imgui/wallpaper-imgui/build/CMakeFiles/ZERO_CHECK.dir
-=======
-C:/Users/yam_l/wallpaper-imgui/build/CMakeFiles/openglim.dir
-C:/Users/yam_l/wallpaper-imgui/build/CMakeFiles/ALL_BUILD.dir
-C:/Users/yam_l/wallpaper-imgui/build/CMakeFiles/ZERO_CHECK.dir
->>>>>>> origin/main

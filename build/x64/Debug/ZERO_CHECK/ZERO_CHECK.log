@@ -1,9 +1,0 @@
-﻿  Checking Build System
-  CMake is re-running because C:/Users/yam_l/wallpaper-imgui/wallpaper-imgui/build/CMakeFiles/generate.stamp is out-of-date.
-    the file 'C:/Users/yam_l/wallpaper-imgui/wallpaper-imgui/CMakeLists.txt'
-    is newer than 'C:/Users/yam_l/wallpaper-imgui/wallpaper-imgui/build/CMakeFiles/generate.stamp.depend'
-    result='-1'
-  -- Selecting Windows SDK version 10.0.22000.0 to target Windows 10.0.22621.
-  -- Configuring done (0.0s)
-  -- Generating done (0.1s)
-  -- Build files have been written to: C:/Users/yam_l/wallpaper-imgui/wallpaper-imgui/build

@@ -10,12 +10,9 @@
     <ClCompile Include="C:\Users\yam_l\wallpaper-imgui\imgui\imgui_draw.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="C:\Users\yam_l\wallpaper-imgui\imgui\imgui_freetype.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-=======
->>>>>>> origin/main
     <ClCompile Include="C:\Users\yam_l\wallpaper-imgui\imgui\imgui_tables.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -28,39 +25,14 @@
     <ClCompile Include="C:\Users\yam_l\wallpaper-imgui\imgui\backends\imgui_impl_win32.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-<<<<<<< HEAD
     <ClCompile Include="C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\src\win\ffplay.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\src\win\main.cpp">
-=======
-    <ClCompile Include="C:\Users\yam_l\wallpaper-imgui\src\win\main.cpp">
->>>>>>> origin/main
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
-=======
-    <ClInclude Include="C:\Users\yam_l\wallpaper-imgui\imgui\imconfig.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="C:\Users\yam_l\wallpaper-imgui\imgui\imgui.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="C:\Users\yam_l\wallpaper-imgui\imgui\imgui_internal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="C:\Users\yam_l\wallpaper-imgui\imgui\imstb_rectpack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="C:\Users\yam_l\wallpaper-imgui\imgui\imstb_textedit.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="C:\Users\yam_l\wallpaper-imgui\imgui\imstb_truetype.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
->>>>>>> origin/main
     <ClInclude Include="C:\Users\yam_l\wallpaper-imgui\imgui\backends\imgui_impl_dx12.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -69,7 +41,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-<<<<<<< HEAD
     <CustomBuild Include="C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\CMakeLists.txt" />
   </ItemGroup>
   <ItemGroup>
@@ -81,16 +52,6 @@
     </Filter>
     <Filter Include="Source Files">
       <UniqueIdentifier>{9489E045-4C4C-39E9-9218-B45BF0EAF2F6}</UniqueIdentifier>
-=======
-    <CustomBuild Include="C:\Users\yam_l\wallpaper-imgui\CMakeLists.txt" />
-  </ItemGroup>
-  <ItemGroup>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{C002B146-CF26-3B22-9903-FE77FCB996C5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{BDEA7D9C-2DB1-38F2-AFF3-D7F1287961A1}</UniqueIdentifier>
->>>>>>> origin/main
     </Filter>
   </ItemGroup>
 </Project>
