@@ -8,6 +8,7 @@
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
+<<<<<<< HEAD
 
 #include <iostream>
 
@@ -16,12 +17,23 @@
 #include "stb_image.h"
 using namespace cv;
 
+=======
+ 
+#include <iostream>
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
+
+#include <opencv2/highgui/highgui_c.h>
+using namespace cv;
+>>>>>>> origin/main
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 void processInput(GLFWwindow *window);
 
 // settings
 const unsigned int SCR_WIDTH = 800;
 const unsigned int SCR_HEIGHT = 600;
+<<<<<<< HEAD
 GLuint Mat2Texture(std::string imgdir)
 {
 
@@ -89,13 +101,27 @@ int main()
 {
     // 设置330版本给imgui使用
     const char *glsl_version = "#version 330";
+=======
+
+int main()
+{
+
+>>>>>>> origin/main
     // glfw: initialize and configure
     // ------------------------------
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+<<<<<<< HEAD
     glfwWindowHint(GLFW_SAMPLES, 4);
+=======
+
+#ifdef __APPLE__
+    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+#endif
+
+>>>>>>> origin/main
     // glfw window creation
     // --------------------
     GLFWwindow *window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
@@ -116,6 +142,7 @@ int main()
         return -1;
     }
 
+<<<<<<< HEAD
     // configure global opengl state
     // -----------------------------
     glEnable(GL_DEPTH_TEST);
@@ -133,6 +160,14 @@ int main()
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init(glsl_version);
     Shader ourShader("/home/kali-smily/openglim/src/linux/shaders/fragment.txt", "/home/kali-smily/openglim/src/linux/shaders/vertex.txt");
+=======
+    // build and compile our shader zprogram
+    // ------------------------------------
+    Shader ourShader("/home/kali-smily/openglim/src/linux/shaders/text.vs", "/home/kali-smily/openglim/src/linux/shaders/text.fs");
+
+    // set up vertex data (and buffer(s)) and configure vertex attributes
+    // ------------------------------------------------------------------
+>>>>>>> origin/main
     float vertices[] = {
         // positions          // colors           // texture coords
         0.5f, 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 1.0f, 1.0f,   // top right
@@ -166,6 +201,7 @@ int main()
     // texture coord attribute
     glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 8 * sizeof(float), (void *)(6 * sizeof(float)));
     glEnableVertexAttribArray(2);
+<<<<<<< HEAD
 
     GLuint textureIDS = Mat2Texture("/home/kali-smily/openglim/2.jpg");
     ImTextureID textureID = reinterpret_cast<ImTextureID>(textureIDS);
@@ -173,10 +209,37 @@ int main()
       bool show_demo_window = true;
     bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
+=======
+    Mat mat1 = imread("/home/kali-smily/openglim/1.jpg");
+
+    // load and create a texture
+    // -------------------------
+    unsigned int texture;
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture); // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
+    // set the texture wrapping parameters
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT); // set texture wrapping to GL_REPEAT (default wrapping method)
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    // set texture filtering parameters
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    // load image, create texture and generate mipmaps
+    int width, height, nrChannels;
+    // The FileSystem::getPath(...) is part of the GitHub repository so we can find files on any IDE/platform; replace it with your own image path.
+    // unsigned char *data = stbi_load("/home/kali-smily/openglim/1.jpg", &width, &height, &nrChannels, 0);
+
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, mat1.cols, mat1.rows, 0, 0x80E0, GL_UNSIGNED_BYTE, mat1.data); // GL_BGR_EXT
+
+    glGenerateMipmap(GL_TEXTURE_2D);
+
+
+
+>>>>>>> origin/main
     // render loop
     // -----------
     while (!glfwWindowShouldClose(window))
     {
+<<<<<<< HEAD
 
         // input
         // -----
@@ -230,14 +293,31 @@ int main()
         // 通过imgui的颜色控制背景颜色
         glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // also clear the depth buffer now!
+=======
+        // input
+        // -----
+        processInput(window);
+
+        // render
+        // ------
+        glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        // bind Texture
+        glBindTexture(GL_TEXTURE_2D, texture);
+>>>>>>> origin/main
 
         // render container
         ourShader.use();
         glBindVertexArray(VAO);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+<<<<<<< HEAD
         // 渲染
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+=======
+
+>>>>>>> origin/main
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
         glfwSwapBuffers(window);
@@ -246,6 +326,7 @@ int main()
 
     // optional: de-allocate all resources once they've outlived their purpose:
     // ------------------------------------------------------------------------
+<<<<<<< HEAD
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
@@ -253,6 +334,16 @@ int main()
     glDeleteBuffers(1, &VBO);
     glDeleteBuffers(1, &EBO);
     glfwTerminate();
+=======
+    glDeleteVertexArrays(1, &VAO);
+    glDeleteBuffers(1, &VBO);
+    glDeleteBuffers(1, &EBO);
+
+    // glfw: terminate, clearing all previously allocated GLFW resources.
+    // ------------------------------------------------------------------
+    glfwTerminate();
+
+>>>>>>> origin/main
     return 0;
 }
 
@@ -271,6 +362,7 @@ void framebuffer_size_callback(GLFWwindow *window, int width, int height)
     // make sure the viewport matches the new window dimensions; note that width and
     // height will be significantly larger than specified on retina displays.
     glViewport(0, 0, width, height);
+<<<<<<< HEAD
 }
 
 
@@ -1755,3 +1847,6 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 
 
 
+=======
+}
+>>>>>>> origin/main

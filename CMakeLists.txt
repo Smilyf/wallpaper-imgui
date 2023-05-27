@@ -1,6 +1,9 @@
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> origin/main
 cmake_minimum_required(VERSION 3.0)
 
 project(openglim)
@@ -8,6 +11,7 @@ set(openglim PROJECT_NAME)
 
 set(CMAKE_CXX_STANDARD 20)
 
+<<<<<<< HEAD
 if(MSVC)
    
 endif(MSVC)
@@ -43,6 +47,20 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../SDL2/include/)
 
 
 if (${FLAG} STREQUAL APPLE)
+=======
+
+# add header path
+include_directories(
+	${CMAKE_CURRENT_SOURCE_DIR}/imgui
+	${CMAKE_CURRENT_SOURCE_DIR}/imgui/backends
+    /usr/include/
+)
+
+#find_package(OpenCV REQUIRED)
+
+
+if (APPLE)
+>>>>>>> origin/main
     # for <GLFW/glfw3.h>
     include_directories(
         /usr/local/include
@@ -53,6 +71,7 @@ endif()
 
 # set common source
 file(GLOB SRC
+<<<<<<< HEAD
     ../imgui/*.cpp
     ../imgui/backends
 )
@@ -82,6 +101,43 @@ endif()
 
 # add link path
 if (${FLAG} STREQUAL APPLE)
+=======
+    ./imgui/*.h
+    ./imgui/*.cpp
+    ./include/*.h
+)
+
+# set specific source and other option for platform
+if (WIN32)
+    file (GLOB PLATFORM_SRC
+        ./imgui/backends/imgui_impl_win32.*
+        ./imgui/backends/imgui_impl_dx12.*
+        ./src/win/main.cpp
+    )
+elseif (UNIX)
+    # support both mac and linux
+    add_definitions(-DIMGUI_IMPL_OPENGL_LOADER_GL3W)
+
+    include_directories(
+        ${CMAKE_CURRENT_SOURCE_DIR}/imgui/examples/libs/gl3w # for GL/gl3w.h
+    )
+
+    file (GLOB PLATFORM_SRC
+        ./imgui/examples/libs/gl3w/GL/gl3w.*
+        ./imgui/backends/imgui_impl_glfw.*
+        ./imgui/backends/imgui_impl_opengl3.*
+        ./src/linux/*.cpp
+        
+    )
+
+
+
+
+endif()
+
+# add link path
+if (APPLE)
+>>>>>>> origin/main
     link_directories(
         /usr/local/lib
         /opt/local/lib
@@ -92,15 +148,24 @@ endif()
 # generate binary
 add_executable(${PROJECT_NAME} ${SRC} ${PLATFORM_SRC})
 
+<<<<<<< HEAD
 
 # link lib, should install glfw first or prebuild lib and embed in project
 if (${FLAG} STREQUAL WIN32)
+=======
+# link lib, should install glfw first or prebuild lib and embed in project
+if (WIN32)
+>>>>>>> origin/main
     target_link_libraries(${PROJECT_NAME}
         d3d12.lib
         d3dcompiler.lib
         dxgi.lib
     )
+<<<<<<< HEAD
 elseif (${FLAG} STREQUAL APPLE)
+=======
+elseif (APPLE)
+>>>>>>> origin/main
     # mac: brew install glfw3
     find_library(OPENGL_LIBRARY OpenGL REQUIRED)
     find_library(COCOA_LIBRARY Cocoa REQUIRED)
@@ -117,6 +182,7 @@ elseif (${FLAG} STREQUAL APPLE)
         ${COREVID_LIBRARY}
         glfw # use this lib name
     )
+<<<<<<< HEAD
 elseif ((${FLAG} STREQUAL UNIX) AND NOT (${FLAG} STREQUAL APPLE))
 TARGET_LINK_LIBRARIES(${PROJECT_NAME} ${OpenCV_LIBS})
     target_link_libraries(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/lib/glfw3.lib)
@@ -127,3 +193,22 @@ endif()
 target_link_libraries(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/../SDL2/lib/x64/*.lib)
 target_link_libraries(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/../ffmpeg/lib/*.lib)
 target_link_libraries(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR}/lib/freetype.lib)
+=======
+elseif (UNIX AND NOT APPLE)
+
+
+    # linux: sudo apt install libglfw3-dev
+    target_link_libraries(${PROJECT_NAME}
+        GL
+        glfw # use this lib name
+        dl
+        ${GLEW_LIBRARIES}
+    )
+    target_link_libraries(${PROJECT_NAME} /usr/lib/x86_64-linux-gnu/libglfw.so.3)
+   # target_link_libraries(${PROJECT_NAME} PkgConfig::OPENCV)
+    
+    
+    target_link_libraries(${PROJECT_NAME} ${OpenCV_LIBRARIES})
+endif()
+
+>>>>>>> origin/main

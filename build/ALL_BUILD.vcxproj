@@ -25,7 +25,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
+<<<<<<< HEAD
     <ProjectGuid>{87E98EFC-011D-3774-AD71-1A8EFEFDC55B}</ProjectGuid>
+=======
+    <ProjectGuid>{CBE183AF-4800-3F59-84CB-F92ECC8BEA17}</ProjectGuid>
+>>>>>>> origin/main
     <Keyword>Win32Proj</Keyword>
     <WindowsTargetPlatformVersion>10.0.22000.0</WindowsTargetPlatformVersion>
     <Platform>x64</Platform>
@@ -69,7 +73,11 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <Midl>
+<<<<<<< HEAD
       <AdditionalIncludeDirectories>C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui\backends;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\include;C:\Users\yam_l\wallpaper-imgui\opencv\build\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\ffmpeg\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+=======
+      <AdditionalIncludeDirectories>C:\Users\yam_l\wallpaper-imgui\imgui;C:\Users\yam_l\wallpaper-imgui\imgui\backends;\usr\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+>>>>>>> origin/main
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -79,7 +87,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Midl>
+<<<<<<< HEAD
       <AdditionalIncludeDirectories>C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui\backends;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\include;C:\Users\yam_l\wallpaper-imgui\opencv\build\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\ffmpeg\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+=======
+      <AdditionalIncludeDirectories>C:\Users\yam_l\wallpaper-imgui\imgui;C:\Users\yam_l\wallpaper-imgui\imgui\backends;\usr\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+>>>>>>> origin/main
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -89,7 +101,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <Midl>
+<<<<<<< HEAD
       <AdditionalIncludeDirectories>C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui\backends;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\include;C:\Users\yam_l\wallpaper-imgui\opencv\build\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\ffmpeg\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+=======
+      <AdditionalIncludeDirectories>C:\Users\yam_l\wallpaper-imgui\imgui;C:\Users\yam_l\wallpaper-imgui\imgui\backends;\usr\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+>>>>>>> origin/main
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -99,7 +115,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <Midl>
+<<<<<<< HEAD
       <AdditionalIncludeDirectories>C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui\backends;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\include;C:\Users\yam_l\wallpaper-imgui\opencv\build\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\ffmpeg\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+=======
+      <AdditionalIncludeDirectories>C:\Users\yam_l\wallpaper-imgui\imgui;C:\Users\yam_l\wallpaper-imgui\imgui\backends;\usr\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+>>>>>>> origin/main
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -108,11 +128,19 @@
     </Midl>
   </ItemDefinitionGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <CustomBuild Include="C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\CMakeLists.txt">
       <UseUtf8Encoding>Always</UseUtf8Encoding>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Users/yam_l/wallpaper-imgui/wallpaper-imgui/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
 D:\sf\cmake\bin\cmake.exe -SC:/Users/yam_l/wallpaper-imgui/wallpaper-imgui -BC:/Users/yam_l/wallpaper-imgui/wallpaper-imgui/build --check-stamp-file C:/Users/yam_l/wallpaper-imgui/wallpaper-imgui/build/CMakeFiles/generate.stamp
+=======
+    <CustomBuild Include="C:\Users\yam_l\wallpaper-imgui\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/Users/yam_l/wallpaper-imgui/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Users/yam_l/wallpaper-imgui -BC:/Users/yam_l/wallpaper-imgui/build --check-stamp-file C:/Users/yam_l/wallpaper-imgui/build/CMakeFiles/generate.stamp
+>>>>>>> origin/main
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -120,12 +148,21 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
+<<<<<<< HEAD
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\OpenCVConfig-version.cmake;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\OpenCVConfig.cmake;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\OpenCVModules-debug.cmake;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\OpenCVModules-release.cmake;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\OpenCVModules.cmake;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\build\CMakeFiles\3.26.3\CMakeCCompiler.cmake;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\build\CMakeFiles\3.26.3\CMakeCXXCompiler.cmake;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\build\CMakeFiles\3.26.3\CMakeRCCompiler.cmake;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\build\CMakeFiles\3.26.3\CMakeSystem.cmake;D:\sf\cmake\share\cmake-3.26\Modules\CMakeCInformation.cmake;D:\sf\cmake\share\cmake-3.26\Modules\CMakeCXXInformation.cmake;D:\sf\cmake\share\cmake-3.26\Modules\CMakeCommonLanguageInclude.cmake;D:\sf\cmake\share\cmake-3.26\Modules\CMakeGenericSystem.cmake;D:\sf\cmake\share\cmake-3.26\Modules\CMakeInitializeConfigs.cmake;D:\sf\cmake\share\cmake-3.26\Modules\CMakeLanguageInformation.cmake;D:\sf\cmake\share\cmake-3.26\Modules\CMakeRCInformation.cmake;D:\sf\cmake\share\cmake-3.26\Modules\CMakeSystemSpecificInformation.cmake;D:\sf\cmake\share\cmake-3.26\Modules\CMakeSystemSpecificInitialize.cmake;D:\sf\cmake\share\cmake-3.26\Modules\Compiler\CMakeCommonCompilerMacros.cmake;D:\sf\cmake\share\cmake-3.26\Modules\Compiler\MSVC-C.cmake;D:\sf\cmake\share\cmake-3.26\Modules\Compiler\MSVC-CXX.cmake;D:\sf\cmake\share\cmake-3.26\Modules\Compiler\MSVC.cmake;D:\sf\cmake\share\cmake-3.26\Modules\FindPackageHandleStandardArgs.cmake;D:\sf\cmake\share\cmake-3.26\Modules\FindPackageMessage.cmake;D:\sf\cmake\share\cmake-3.26\Modules\Platform\Windows-MSVC-C.cmake;D:\sf\cmake\share\cmake-3.26\Modules\Platform\Windows-MSVC-CXX.cmake;D:\sf\cmake\share\cmake-3.26\Modules\Platform\Windows-MSVC.cmake;D:\sf\cmake\share\cmake-3.26\Modules\Platform\Windows.cmake;D:\sf\cmake\share\cmake-3.26\Modules\Platform\WindowsPaths.cmake;%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\build\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
       <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Users/yam_l/wallpaper-imgui/wallpaper-imgui/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
 D:\sf\cmake\bin\cmake.exe -SC:/Users/yam_l/wallpaper-imgui/wallpaper-imgui -BC:/Users/yam_l/wallpaper-imgui/wallpaper-imgui/build --check-stamp-file C:/Users/yam_l/wallpaper-imgui/wallpaper-imgui/build/CMakeFiles/generate.stamp
+=======
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeCInformation.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeCXXInformation.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeGenericSystem.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeLanguageInformation.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeRCInformation.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Compiler\MSVC-C.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Compiler\MSVC.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Platform\Windows.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Platform\WindowsPaths.cmake;C:\Users\yam_l\wallpaper-imgui\build\CMakeFiles\3.25.1-msvc1\CMakeCCompiler.cmake;C:\Users\yam_l\wallpaper-imgui\build\CMakeFiles\3.25.1-msvc1\CMakeCXXCompiler.cmake;C:\Users\yam_l\wallpaper-imgui\build\CMakeFiles\3.25.1-msvc1\CMakeRCCompiler.cmake;C:\Users\yam_l\wallpaper-imgui\build\CMakeFiles\3.25.1-msvc1\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\yam_l\wallpaper-imgui\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/Users/yam_l/wallpaper-imgui/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Users/yam_l/wallpaper-imgui -BC:/Users/yam_l/wallpaper-imgui/build --check-stamp-file C:/Users/yam_l/wallpaper-imgui/build/CMakeFiles/generate.stamp
+>>>>>>> origin/main
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -133,12 +170,21 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
+<<<<<<< HEAD
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\OpenCVConfig-version.cmake;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\OpenCVConfig.cmake;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\OpenCVModules-debug.cmake;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\OpenCVModules-release.cmake;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\OpenCVModules.cmake;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\build\CMakeFiles\3.26.3\CMakeCCompiler.cmake;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\build\CMakeFiles\3.26.3\CMakeCXXCompiler.cmake;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\build\CMakeFiles\3.26.3\CMakeRCCompiler.cmake;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\build\CMakeFiles\3.26.3\CMakeSystem.cmake;D:\sf\cmake\share\cmake-3.26\Modules\CMakeCInformation.cmake;D:\sf\cmake\share\cmake-3.26\Modules\CMakeCXXInformation.cmake;D:\sf\cmake\share\cmake-3.26\Modules\CMakeCommonLanguageInclude.cmake;D:\sf\cmake\share\cmake-3.26\Modules\CMakeGenericSystem.cmake;D:\sf\cmake\share\cmake-3.26\Modules\CMakeInitializeConfigs.cmake;D:\sf\cmake\share\cmake-3.26\Modules\CMakeLanguageInformation.cmake;D:\sf\cmake\share\cmake-3.26\Modules\CMakeRCInformation.cmake;D:\sf\cmake\share\cmake-3.26\Modules\CMakeSystemSpecificInformation.cmake;D:\sf\cmake\share\cmake-3.26\Modules\CMakeSystemSpecificInitialize.cmake;D:\sf\cmake\share\cmake-3.26\Modules\Compiler\CMakeCommonCompilerMacros.cmake;D:\sf\cmake\share\cmake-3.26\Modules\Compiler\MSVC-C.cmake;D:\sf\cmake\share\cmake-3.26\Modules\Compiler\MSVC-CXX.cmake;D:\sf\cmake\share\cmake-3.26\Modules\Compiler\MSVC.cmake;D:\sf\cmake\share\cmake-3.26\Modules\FindPackageHandleStandardArgs.cmake;D:\sf\cmake\share\cmake-3.26\Modules\FindPackageMessage.cmake;D:\sf\cmake\share\cmake-3.26\Modules\Platform\Windows-MSVC-C.cmake;D:\sf\cmake\share\cmake-3.26\Modules\Platform\Windows-MSVC-CXX.cmake;D:\sf\cmake\share\cmake-3.26\Modules\Platform\Windows-MSVC.cmake;D:\sf\cmake\share\cmake-3.26\Modules\Platform\Windows.cmake;D:\sf\cmake\share\cmake-3.26\Modules\Platform\WindowsPaths.cmake;%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\build\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
       <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/Users/yam_l/wallpaper-imgui/wallpaper-imgui/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
 D:\sf\cmake\bin\cmake.exe -SC:/Users/yam_l/wallpaper-imgui/wallpaper-imgui -BC:/Users/yam_l/wallpaper-imgui/wallpaper-imgui/build --check-stamp-file C:/Users/yam_l/wallpaper-imgui/wallpaper-imgui/build/CMakeFiles/generate.stamp
+=======
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeCInformation.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeCXXInformation.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeGenericSystem.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeLanguageInformation.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeRCInformation.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Compiler\MSVC-C.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Compiler\MSVC.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Platform\Windows.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Platform\WindowsPaths.cmake;C:\Users\yam_l\wallpaper-imgui\build\CMakeFiles\3.25.1-msvc1\CMakeCCompiler.cmake;C:\Users\yam_l\wallpaper-imgui\build\CMakeFiles\3.25.1-msvc1\CMakeCXXCompiler.cmake;C:\Users\yam_l\wallpaper-imgui\build\CMakeFiles\3.25.1-msvc1\CMakeRCCompiler.cmake;C:\Users\yam_l\wallpaper-imgui\build\CMakeFiles\3.25.1-msvc1\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\yam_l\wallpaper-imgui\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/Users/yam_l/wallpaper-imgui/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Users/yam_l/wallpaper-imgui -BC:/Users/yam_l/wallpaper-imgui/build --check-stamp-file C:/Users/yam_l/wallpaper-imgui/build/CMakeFiles/generate.stamp
+>>>>>>> origin/main
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -146,12 +192,21 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
+<<<<<<< HEAD
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\OpenCVConfig-version.cmake;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\OpenCVConfig.cmake;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\OpenCVModules-debug.cmake;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\OpenCVModules-release.cmake;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\OpenCVModules.cmake;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\build\CMakeFiles\3.26.3\CMakeCCompiler.cmake;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\build\CMakeFiles\3.26.3\CMakeCXXCompiler.cmake;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\build\CMakeFiles\3.26.3\CMakeRCCompiler.cmake;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\build\CMakeFiles\3.26.3\CMakeSystem.cmake;D:\sf\cmake\share\cmake-3.26\Modules\CMakeCInformation.cmake;D:\sf\cmake\share\cmake-3.26\Modules\CMakeCXXInformation.cmake;D:\sf\cmake\share\cmake-3.26\Modules\CMakeCommonLanguageInclude.cmake;D:\sf\cmake\share\cmake-3.26\Modules\CMakeGenericSystem.cmake;D:\sf\cmake\share\cmake-3.26\Modules\CMakeInitializeConfigs.cmake;D:\sf\cmake\share\cmake-3.26\Modules\CMakeLanguageInformation.cmake;D:\sf\cmake\share\cmake-3.26\Modules\CMakeRCInformation.cmake;D:\sf\cmake\share\cmake-3.26\Modules\CMakeSystemSpecificInformation.cmake;D:\sf\cmake\share\cmake-3.26\Modules\CMakeSystemSpecificInitialize.cmake;D:\sf\cmake\share\cmake-3.26\Modules\Compiler\CMakeCommonCompilerMacros.cmake;D:\sf\cmake\share\cmake-3.26\Modules\Compiler\MSVC-C.cmake;D:\sf\cmake\share\cmake-3.26\Modules\Compiler\MSVC-CXX.cmake;D:\sf\cmake\share\cmake-3.26\Modules\Compiler\MSVC.cmake;D:\sf\cmake\share\cmake-3.26\Modules\FindPackageHandleStandardArgs.cmake;D:\sf\cmake\share\cmake-3.26\Modules\FindPackageMessage.cmake;D:\sf\cmake\share\cmake-3.26\Modules\Platform\Windows-MSVC-C.cmake;D:\sf\cmake\share\cmake-3.26\Modules\Platform\Windows-MSVC-CXX.cmake;D:\sf\cmake\share\cmake-3.26\Modules\Platform\Windows-MSVC.cmake;D:\sf\cmake\share\cmake-3.26\Modules\Platform\Windows.cmake;D:\sf\cmake\share\cmake-3.26\Modules\Platform\WindowsPaths.cmake;%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\build\CMakeFiles\generate.stamp</Outputs>
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
       <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Users/yam_l/wallpaper-imgui/wallpaper-imgui/CMakeLists.txt</Message>
       <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
 D:\sf\cmake\bin\cmake.exe -SC:/Users/yam_l/wallpaper-imgui/wallpaper-imgui -BC:/Users/yam_l/wallpaper-imgui/wallpaper-imgui/build --check-stamp-file C:/Users/yam_l/wallpaper-imgui/wallpaper-imgui/build/CMakeFiles/generate.stamp
+=======
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeCInformation.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeCXXInformation.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeGenericSystem.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeLanguageInformation.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeRCInformation.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Compiler\MSVC-C.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Compiler\MSVC.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Platform\Windows.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Platform\WindowsPaths.cmake;C:\Users\yam_l\wallpaper-imgui\build\CMakeFiles\3.25.1-msvc1\CMakeCCompiler.cmake;C:\Users\yam_l\wallpaper-imgui\build\CMakeFiles\3.25.1-msvc1\CMakeCXXCompiler.cmake;C:\Users\yam_l\wallpaper-imgui\build\CMakeFiles\3.25.1-msvc1\CMakeRCCompiler.cmake;C:\Users\yam_l\wallpaper-imgui\build\CMakeFiles\3.25.1-msvc1\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\yam_l\wallpaper-imgui\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/Users/yam_l/wallpaper-imgui/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Users/yam_l/wallpaper-imgui -BC:/Users/yam_l/wallpaper-imgui/build --check-stamp-file C:/Users/yam_l/wallpaper-imgui/build/CMakeFiles/generate.stamp
+>>>>>>> origin/main
 if %errorlevel% neq 0 goto :cmEnd
 :cmEnd
 endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
@@ -159,22 +214,37 @@ endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
 exit /b %1
 :cmDone
 if %errorlevel% neq 0 goto :VCEnd</Command>
+<<<<<<< HEAD
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\OpenCVConfig-version.cmake;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\OpenCVConfig.cmake;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\OpenCVModules-debug.cmake;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\OpenCVModules-release.cmake;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\OpenCVModules.cmake;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\build\CMakeFiles\3.26.3\CMakeCCompiler.cmake;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\build\CMakeFiles\3.26.3\CMakeCXXCompiler.cmake;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\build\CMakeFiles\3.26.3\CMakeRCCompiler.cmake;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\build\CMakeFiles\3.26.3\CMakeSystem.cmake;D:\sf\cmake\share\cmake-3.26\Modules\CMakeCInformation.cmake;D:\sf\cmake\share\cmake-3.26\Modules\CMakeCXXInformation.cmake;D:\sf\cmake\share\cmake-3.26\Modules\CMakeCommonLanguageInclude.cmake;D:\sf\cmake\share\cmake-3.26\Modules\CMakeGenericSystem.cmake;D:\sf\cmake\share\cmake-3.26\Modules\CMakeInitializeConfigs.cmake;D:\sf\cmake\share\cmake-3.26\Modules\CMakeLanguageInformation.cmake;D:\sf\cmake\share\cmake-3.26\Modules\CMakeRCInformation.cmake;D:\sf\cmake\share\cmake-3.26\Modules\CMakeSystemSpecificInformation.cmake;D:\sf\cmake\share\cmake-3.26\Modules\CMakeSystemSpecificInitialize.cmake;D:\sf\cmake\share\cmake-3.26\Modules\Compiler\CMakeCommonCompilerMacros.cmake;D:\sf\cmake\share\cmake-3.26\Modules\Compiler\MSVC-C.cmake;D:\sf\cmake\share\cmake-3.26\Modules\Compiler\MSVC-CXX.cmake;D:\sf\cmake\share\cmake-3.26\Modules\Compiler\MSVC.cmake;D:\sf\cmake\share\cmake-3.26\Modules\FindPackageHandleStandardArgs.cmake;D:\sf\cmake\share\cmake-3.26\Modules\FindPackageMessage.cmake;D:\sf\cmake\share\cmake-3.26\Modules\Platform\Windows-MSVC-C.cmake;D:\sf\cmake\share\cmake-3.26\Modules\Platform\Windows-MSVC-CXX.cmake;D:\sf\cmake\share\cmake-3.26\Modules\Platform\Windows-MSVC.cmake;D:\sf\cmake\share\cmake-3.26\Modules\Platform\Windows.cmake;D:\sf\cmake\share\cmake-3.26\Modules\Platform\WindowsPaths.cmake;%(AdditionalInputs)</AdditionalInputs>
       <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\build\CMakeFiles\generate.stamp</Outputs>
+=======
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeCInformation.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeCXXInformation.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeGenericSystem.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeInitializeConfigs.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeLanguageInformation.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeRCInformation.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\CMakeSystemSpecificInitialize.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Compiler\MSVC-C.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Compiler\MSVC-CXX.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Compiler\MSVC.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Platform\Windows-MSVC-C.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Platform\Windows-MSVC.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Platform\Windows.cmake;C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\share\cmake-3.25\Modules\Platform\WindowsPaths.cmake;C:\Users\yam_l\wallpaper-imgui\build\CMakeFiles\3.25.1-msvc1\CMakeCCompiler.cmake;C:\Users\yam_l\wallpaper-imgui\build\CMakeFiles\3.25.1-msvc1\CMakeCXXCompiler.cmake;C:\Users\yam_l\wallpaper-imgui\build\CMakeFiles\3.25.1-msvc1\CMakeRCCompiler.cmake;C:\Users\yam_l\wallpaper-imgui\build\CMakeFiles\3.25.1-msvc1\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\yam_l\wallpaper-imgui\build\CMakeFiles\generate.stamp</Outputs>
+>>>>>>> origin/main
       <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
     </CustomBuild>
   </ItemGroup>
   <ItemGroup>
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
     <ProjectReference Include="C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\build\ZERO_CHECK.vcxproj">
       <Project>{1F064F52-FEE6-3EB8-9369-1CB9DF17663C}</Project>
+=======
+    <ProjectReference Include="C:\Users\yam_l\wallpaper-imgui\build\ZERO_CHECK.vcxproj">
+      <Project>{C3D41AF6-33E7-32B6-8260-5AA92DFAFCEC}</Project>
+>>>>>>> origin/main
       <Name>ZERO_CHECK</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
+<<<<<<< HEAD
     <ProjectReference Include="C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\build\openglim.vcxproj">
       <Project>{11CF1C02-4485-34C4-B3E0-A20950C7AAF2}</Project>
+=======
+    <ProjectReference Include="C:\Users\yam_l\wallpaper-imgui\build\openglim.vcxproj">
+      <Project>{8B43018E-72DF-3B0D-BC3E-1722F5D31FDF}</Project>
+>>>>>>> origin/main
       <Name>openglim</Name>
     </ProjectReference>
   </ItemGroup>
