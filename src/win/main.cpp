@@ -183,9 +183,9 @@ int main()
         buttons.push_back({"按钮", ImVec2(200.0, 100.0)});
     }
 
-    smily::joining_thread t{[]()
-                            { ffplay fff;
-                            fff.function(); }};
+    // smily::joining_thread t{[]()
+    //                         { ffplay fff;
+    //                         fff.function(); }};
     // ffplay fff;
     char str0[12] = "我";
 
@@ -251,29 +251,29 @@ int main()
         }
 
         // 3. Show another simple window.
-        if (show_another_window)
-        {
-            ImGuiWindowFlags window_flags = 0;
-            window_flags |= ImGuiWindowFlags_NoTitleBar;
-            window_flags |= ImGuiWindowFlags_NoScrollbar;
-            bool flag = true;
-            smily::Div div("Another Window", &flag, window_flags);
-            // div.drawImage(Images);
-            div.drawButton(buttons);
-            ImGui::Text("Hello from another window!");
-            ImGui::Text("width = %lf", ImGui::GetWindowWidth());
+        // if (show_another_window)
+        // {
+        //     ImGuiWindowFlags window_flags = 0;
+        //     window_flags |= ImGuiWindowFlags_NoTitleBar;
+        //     window_flags |= ImGuiWindowFlags_NoScrollbar;
+        //     bool flag = true;
+        //     smily::Div div("Another Window", &flag, window_flags);
+        //     // div.drawImage(Images);
+        //     div.drawButton(buttons);
+        //     ImGui::Text("Hello from another window!");
+        //     ImGui::Text("width = %lf", ImGui::GetWindowWidth());
 
-            ImGui::InputText("input text", str0, IM_ARRAYSIZE(str0));
+        //     ImGui::InputText("input text", str0, IM_ARRAYSIZE(str0));
 
-            // ImGui::Image(textureID, mat2Texture.getSzie(0.1), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0), ImVec4(255, 255, 255, 1), ImVec4(0, 0, 0, 1));
-            // ImGui::SameLine();
+        //     // ImGui::Image(textureID, mat2Texture.getSzie(0.1), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0), ImVec4(255, 255, 255, 1), ImVec4(0, 0, 0, 1));
+        //     // ImGui::SameLine();
 
-            // ImGui::Image(textureID, mat2Texture.getSzie(0.1), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0), ImVec4(255, 255, 255, 1), ImVec4(0, 0, 0, 1));
-            // ImGui::SameLine();
-            // ImGui::Image(textureID, mat2Texture.getSzie(0.1), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0), ImVec4(255, 255, 255, 1), ImVec4(0, 0, 0, 1));
-            if (ImGui::Button("Close Me"))
-                show_another_window = false;
-        }
+        //     // ImGui::Image(textureID, mat2Texture.getSzie(0.1), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0), ImVec4(255, 255, 255, 1), ImVec4(0, 0, 0, 1));
+        //     // ImGui::SameLine();
+        //     // ImGui::Image(textureID, mat2Texture.getSzie(0.1), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0), ImVec4(255, 255, 255, 1), ImVec4(0, 0, 0, 1));
+        //     if (ImGui::Button("Close Me"))
+        //         show_another_window = false;
+        // }
         ImGui::PopStyleVar(4);
         // Rendering
         ImGui::Render();
