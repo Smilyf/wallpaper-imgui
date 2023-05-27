@@ -7,11 +7,14 @@ project(openglim)
 set(openglim PROJECT_NAME)
 
 set(CMAKE_CXX_STANDARD 20)
-# 当使用 MSVC 编译器时, 设置输入代码的编码格式为 utf-8
-if(MSVC)
-    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /D _CRT_SECURE_NO_WARNINGS /MP /utf-8")
-endif(MSVC)
 
+if(MSVC)
+   
+endif(MSVC)
+#设置输入代码的编码格式为 utf-8
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /D _CRT_SECURE_NO_WARNINGS /MP /utf-8")
+#设置程序输出编码格式为UNICODE
+add_definitions(-DUNICODE -D_UNICODE)
 if (APPLE)
 set(FLAG  "APPLE")
 endif()

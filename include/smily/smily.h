@@ -1,6 +1,5 @@
-
-
-
+#include<thread>
+#include<string>
 namespace smily
 {
 
@@ -111,27 +110,27 @@ namespace smily
     //         glDeleteTextures(1, &texture);
     //     }
     // };
-    // class Image
-    // {
+    class Image
+    {
 
-    // private:
-    //     ImTextureID imTextureId;
-    //     ImVec2 imageSize;
+    private:
+        ImTextureID imTextureId;
+        ImVec2 imageSize;
 
-    // public:
-    //     Image(ImTextureID imTextureid, ImVec2 imagesize) : imTextureId(imTextureid), imageSize(imagesize)
-    //     {
-    //     }
-    //     ImVec2 getImageSize()
-    //     {
-    //         return imageSize;
-    //     }
+    public:
+        Image(ImTextureID imTextureid, ImVec2 imagesize) : imTextureId(imTextureid), imageSize(imagesize)
+        {
+        }
+        ImVec2 getImageSize()
+        {
+            return imageSize;
+        }
 
-    //     ImTextureID getImTextureID()
-    //     {
-    //         return imTextureId;
-    //     }
-    // };
+        ImTextureID getImTextureID()
+        {
+            return imTextureId;
+        }
+    };
     class Button
     {
 
@@ -177,107 +176,104 @@ namespace smily
         {
             display = x;
         }
-        // void drawImage(std::vector<Image> Images)
-        // {
+        void drawImage(std::vector<Image> Images)
+        {
 
-        //     auto fItemSpacing = ImGui::GetStyle().ItemSpacing;
-        //     auto WindowPadding = ImGui::GetStyle().WindowPadding;
-        //     if (display == "flex")
-        //     {
+            auto fItemSpacing = ImGui::GetStyle().ItemSpacing;
+            auto WindowPadding = ImGui::GetStyle().WindowPadding;
+            if (display == "flex")
+            {
+                ImVec2 ItemSpacing;
+                float windowswidth_ = windowWidth - WindowPadding.x * 2;
+                float width = 0;
+                bool flag = false;
+                std::deque<smily::Image> deque_Images;
+                for (size_t i = 0; i < Images.size(); i++)
+                {
+                    auto image = Images[i];
+                    if (width + 2 + image.getImageSize().x + (std::max)(1, (int)deque_Images.size() - 1) * minSpace.x <= windowswidth_)
+                    {
+                        width += image.getImageSize().x + 2;
+                        deque_Images.push_back(image);
+                    }
+                    else
+                    {
+                        // ImGui::Text("%d",deque_Images.size());
+                        if (deque_Images.empty())
+                        {
+                            ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0, minSpace.y));
+                            ItemSpacing = ImVec2(0.0, minSpace.y);
+                            ImGui::Image(image.getImTextureID(), image.getImageSize(), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0), ImVec4(255, 255, 255, 1), ImVec4(0, 0, 0, 1));
+                            ImGui::PopStyleVar();
+                        }
+                        if (deque_Images.size() == 1)
+                        {
+                            ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2((windowswidth_ - width) / 2, minSpace.y));
+                            ItemSpacing = ImVec2((windowswidth_ - width) / 2, minSpace.y);
+                            auto item = deque_Images.front();
+                            deque_Images.pop_front();
+                            ImGui::Image(item.getImTextureID(), item.getImageSize(), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0), ImVec4(255, 255, 255, 1), ImVec4(0, 0, 0, 1));
+                            i--;
+                            ImGui::PopStyleVar();
+                        }
 
-        //         ImVec2 ItemSpacing;
-        //         float windowswidth_ = windowWidth - WindowPadding.x * 2;
-        //         float width = 0;
-        //         bool flag = false;
-        //         std::deque<smily::Image> deque_Images;
-        //         for (size_t i = 0; i < Images.size(); i++)
-        //         {
-        //             auto image = Images[i];
+                        if (deque_Images.size() > 1)
+                        {
+                            bool flag_ = false;
+                            ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2((windowswidth_ - width) / (deque_Images.size() - 1), minSpace.y));
+                            ItemSpacing = ImVec2((windowswidth_ - width) / (deque_Images.size() - 1), minSpace.y);
 
-        //             if (width + 2 + image.getImageSize().x + std::max(1, (int)deque_Images.size() - 1) * minSpace.x <= windowswidth_)
-        //             {
+                            for (auto item : deque_Images)
+                            {
+                                if (!flag_)
+                                {
+                                    flag_ = true;
+                                }
+                                else
+                                {
 
-        //                 width += image.getImageSize().x + 2;
-        //                 deque_Images.push_back(image);
-        //             }
-        //             else
-        //             {
-        //                 // ImGui::Text("%d",deque_Images.size());
-        //                 if (deque_Images.empty())
-        //                 {
-        //                     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0, minSpace.y));
-        //                     ItemSpacing = ImVec2(0.0, minSpace.y);
-        //                     ImGui::Image(image.getImTextureID(), image.getImageSize(), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0), ImVec4(255, 255, 255, 1), ImVec4(0, 0, 0, 1));
-        //                     ImGui::PopStyleVar();
-        //                 }
-        //                 if (deque_Images.size() == 1)
-        //                 {
-        //                     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2((windowswidth_ - width) / 2, minSpace.y));
-        //                     ItemSpacing = ImVec2((windowswidth_ - width) / 2, minSpace.y);
-        //                     auto item = deque_Images.front();
-        //                     deque_Images.pop_front();
-        //                     ImGui::Image(item.getImTextureID(), item.getImageSize(), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0), ImVec4(255, 255, 255, 1), ImVec4(0, 0, 0, 1));
-        //                     i--;
-        //                     ImGui::PopStyleVar();
-        //                 }
+                                    ImGui::SameLine();
+                                }
+                                ImGui::Image(item.getImTextureID(), item.getImageSize(), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0), ImVec4(255, 255, 255, 1), ImVec4(0, 0, 0, 1));
+                                ImGui::SetItemDefaultFocus();
+                            }
+                            deque_Images.clear();
+                            i--;
+                            ImGui::PopStyleVar();
+                        }
+                        width = 0;
+                    }
+                }
+                if (deque_Images.size() <= 1)
+                {
+                    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0, 10.0));
+                }
+                else if (deque_Images.size() == Images.size())
+                {
+                    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2((windowswidth_ - width) / (deque_Images.size() - 1), minSpace.y));
+                }
+                else
+                {
 
-        //                 if (deque_Images.size() > 1)
-        //                 {
-        //                     bool flag_ = false;
-        //                     ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2((windowswidth_ - width) / (deque_Images.size() - 1), minSpace.y));
-        //                     ItemSpacing = ImVec2((windowswidth_ - width) / (deque_Images.size() - 1), minSpace.y);
-
-        //                     for (auto item : deque_Images)
-        //                     {
-        //                         if (!flag_)
-        //                         {
-        //                             flag_ = true;
-        //                         }
-        //                         else
-        //                         {
-
-        //                             ImGui::SameLine();
-        //                         }
-        //                         ImGui::Image(item.getImTextureID(), item.getImageSize(), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0), ImVec4(255, 255, 255, 1), ImVec4(0, 0, 0, 1));
-        //                         ImGui::SetItemDefaultFocus();
-        //                     }
-        //                     deque_Images.clear();
-        //                     i--;
-        //                     ImGui::PopStyleVar();
-        //                 }
-        //                 width = 0;
-        //             }
-        //         }
-        //         if (deque_Images.size() <= 1)
-        //         {
-        //             ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0, 10.0));
-        //         }
-        //         else if (deque_Images.size() == Images.size())
-        //         {
-        //             ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2((windowswidth_ - width) / (deque_Images.size() - 1), minSpace.y));
-        //         }
-        //         else
-        //         {
-
-        //             ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ItemSpacing);
-        //             // ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2((windowswidth_ - width) / (deque_Images.size() - 1), 10.0));
-        //         }
-        //         for (auto item : deque_Images)
-        //         {
-        //             if (!flag)
-        //             {
-        //                 flag = true;
-        //             }
-        //             else
-        //             {
-        //                 ImGui::SameLine();
-        //             }
-        //             ImGui::Image(item.getImTextureID(), item.getImageSize(), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0), ImVec4(255, 255, 255, 1), ImVec4(0, 0, 0, 1));
-        //         }
-        //         deque_Images.clear();
-        //         ImGui::PopStyleVar();
-        //     }
-        // }
+                    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ItemSpacing);
+                    // ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2((windowswidth_ - width) / (deque_Images.size() - 1), 10.0));
+                }
+                for (auto item : deque_Images)
+                {
+                    if (!flag)
+                    {
+                        flag = true;
+                    }
+                    else
+                    {
+                        ImGui::SameLine();
+                    }
+                    ImGui::Image(item.getImTextureID(), item.getImageSize(), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0), ImVec4(255, 255, 255, 1), ImVec4(0, 0, 0, 1));
+                }
+                deque_Images.clear();
+                ImGui::PopStyleVar();
+            }
+        }
         void push_back(std::vector<Button> &Buttons)
         {
             

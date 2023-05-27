@@ -12,6 +12,7 @@
 #include <chrono>
 #include <deque>
 #include <smily/smily.h>
+#include <clocale>
 #ifdef _DEBUG
 #define DX12_ENABLE_DEBUG_LAYER
 #endif
@@ -70,23 +71,23 @@ public:
     void play()
     {
 
-        ZeroMemory(&si, sizeof(si));
-        si.cb = sizeof(si);
-        ZeroMemory(&pi, sizeof(pi));
-        LPSTR szCommandLine = (char *)("D:\\sf\\ffmpeg\\bin\\ffplay.exe D:\\video\\1.mp4");
-        if (!CreateProcess(NULL,
-                           szCommandLine,
-                           NULL,
-                           NULL,
-                           FALSE,
-                           0,
-                           NULL,
-                           NULL,
-                           &si,
-                           &pi))
-        {
-            printf("CreateProcess failed (%d).\n", GetLastError());
-        }
+        // ZeroMemory(&si, sizeof(si));
+        // si.cb = sizeof(si);
+        // ZeroMemory(&pi, sizeof(pi));
+        // auto szCommandLine =(wchar_t *)L"D:\\sf\\ffmpeg\\bin\\ffplay.exe D:\\video\\1.mp4";
+        // if (!CreateProcess(NULL,
+        //                    szCommandLine,
+        //                    NULL,
+        //                    NULL,
+        //                    FALSE,
+        //                    0,
+        //                    NULL,
+        //                    NULL,
+        //                    &si,
+        //                    &pi))
+        // {
+        //     printf("CreateProcess failed (%d).\n", GetLastError());
+        // }
     }
     void function()
     {
@@ -120,8 +121,10 @@ public:
 // Main code
 int main()
 {
+    setlocale(LC_ALL, "chs");
     // Create application window
-    // ImGui_ImplWin32_EnableDpiAwareness();
+    ImGui_ImplWin32_EnableDpiAwareness();
+
     WNDCLASSEXW wc = {sizeof(wc), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, L"ImGui Example", NULL};
     ::RegisterClassExW(&wc);
     HWND hwnd = ::CreateWindowW(wc.lpszClassName, L"Dear ImGui DirectX12 Example", WS_OVERLAPPEDWINDOW, 0, 0, 0, 0, NULL, NULL, wc.hInstance, NULL);
@@ -168,10 +171,12 @@ int main()
     bool show_demo_window = true;
     bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-    ImFont *font = ImGui::GetIO().Fonts->AddFontFromFileTTF("../../Fonts/noto/NotoSansCJKsc-Regular.otf", 25.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
-    // Main loop
+    ImFont *font = ImGui::GetIO().Fonts->AddFontFromFileTTF("../../Fonts/noto/NotoSansCJKsc-Regular.otf", 60.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
+    // ImFont *font = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\simhei.ttf", 20.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
+
+    //   Main loop
     bool done = false;
-    bool ccc = true;
+    bool mainwindow = true;
     std::vector<smily::Button> buttons;
     for (int i = 0; i < 7; i++)
     {
@@ -182,6 +187,8 @@ int main()
                             { ffplay fff;
                             fff.function(); }};
     // ffplay fff;
+    char str0[12] = "我";
+
     while (!done)
     {
         // Poll and handle messages (inputs, window resize, etc.)
@@ -191,7 +198,7 @@ int main()
         {
             ::TranslateMessage(&msg);
             ::DispatchMessage(&msg);
-            if (msg.message == WM_QUIT || !ccc)
+            if (msg.message == WM_QUIT || !mainwindow)
             {
                 done = true;
             }
@@ -219,8 +226,7 @@ int main()
             static float f = 0.0f;
             static int counter = 0;
 
-            ImGui::Begin("Hello, world!", &ccc); // Create a window called "Hello, world!" and append into it.
-
+            ImGui::Begin("你好世界!", &mainwindow);                   // Create a window called "Hello, world!" and append into it.
             ImGui::Text("This is some useful text.");          // Display some text (you can use a format strings too)
             ImGui::Checkbox("Demo Window", &show_demo_window); // Edit bools storing our window open/close state
             ImGui::Checkbox("Another Window", &show_another_window);
@@ -257,6 +263,8 @@ int main()
             ImGui::Text("Hello from another window!");
             ImGui::Text("width = %lf", ImGui::GetWindowWidth());
 
+            ImGui::InputText("input text", str0, IM_ARRAYSIZE(str0));
+
             // ImGui::Image(textureID, mat2Texture.getSzie(0.1), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0), ImVec4(255, 255, 255, 1), ImVec4(0, 0, 0, 1));
             // ImGui::SameLine();
 
@@ -265,7 +273,6 @@ int main()
             // ImGui::Image(textureID, mat2Texture.getSzie(0.1), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0), ImVec4(255, 255, 255, 1), ImVec4(0, 0, 0, 1));
             if (ImGui::Button("Close Me"))
                 show_another_window = false;
-
         }
         ImGui::PopStyleVar(4);
         // Rendering
@@ -582,9 +589,11 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-    if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
-        return true;
 
+    if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
+    {
+        return true;
+    }
     switch (msg)
     {
     case WM_SIZE:
@@ -605,6 +614,6 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         ::PostQuitMessage(0);
         return 0;
     }
+
     return ::DefWindowProcW(hWnd, msg, wParam, lParam);
 }
-
