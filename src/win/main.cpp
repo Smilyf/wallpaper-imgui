@@ -1,4 +1,3 @@
-
 #include <imgui.h>
 #include "imgui_impl_win32.h"
 #include "imgui_impl_dx12.h"
@@ -13,6 +12,7 @@
 #include <deque>
 #include <smily/smily.h>
 #include <clocale>
+#include<imgui_internal.h>
 #ifdef _DEBUG
 #define DX12_ENABLE_DEBUG_LAYER
 #endif
@@ -21,9 +21,6 @@
 #include <dxgidebug.h>
 #pragma comment(lib, "dxguid.lib")
 #endif
-
-std::atomic<bool> data_ready(true);
-std::atomic<int> data_(true);
 struct FrameContext
 {
     ID3D12CommandAllocator *CommandAllocator;
@@ -57,78 +54,17 @@ void CleanupRenderTarget();
 void WaitForLastSubmittedFrame();
 FrameContext *WaitForNextFrameResources();
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-class ffplay
-{
-private:
-    STARTUPINFO si;
-    PROCESS_INFORMATION pi;
-
-public:
-    ffplay()
-    {
-        data_ = 0;
-    }
-    void play()
-    {
-
-        // ZeroMemory(&si, sizeof(si));
-        // si.cb = sizeof(si);
-        // ZeroMemory(&pi, sizeof(pi));
-        // auto szCommandLine =(wchar_t *)L"D:\\sf\\ffmpeg\\bin\\ffplay.exe D:\\video\\1.mp4";
-        // if (!CreateProcess(NULL,
-        //                    szCommandLine,
-        //                    NULL,
-        //                    NULL,
-        //                    FALSE,
-        //                    0,
-        //                    NULL,
-        //                    NULL,
-        //                    &si,
-        //                    &pi))
-        // {
-        //     printf("CreateProcess failed (%d).\n", GetLastError());
-        // }
-    }
-    void function()
-    {
-        int data = 0;
-        while (true)
-        {
-            if (data != data_)
-            {
-                if (data_ == 1)
-                {
-                    play();
-                }
-                if (data_ == 8)
-                {
-                    // CloseHandle(pi.hProcess);
-                    // CloseHandle(pi.hThread);
-                    break;
-                }
-                data = data_;
-            }
-        }
-    }
-    ~ffplay()
-    {
-
-        CloseHandle(pi.hProcess);
-        CloseHandle(pi.hThread);
-    }
-};
 
 // Main code
-int main()
+int main(int, char **)
 {
-    setlocale(LC_ALL, "chs");
     // Create application window
     ImGui_ImplWin32_EnableDpiAwareness();
-
     WNDCLASSEXW wc = {sizeof(wc), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, L"ImGui Example", NULL};
     ::RegisterClassExW(&wc);
-    HWND hwnd = ::CreateWindowW(wc.lpszClassName, L"Dear ImGui DirectX12 Example", WS_OVERLAPPEDWINDOW, 0, 0, 0, 0, NULL, NULL, wc.hInstance, NULL);
+    HWND hwnd = ::CreateWindowW(wc.lpszClassName, L"Dear ImGui DirectX12 Example", WS_OVERLAPPEDWINDOW, 100, 100, 1280, 800, NULL, NULL, wc.hInstance, NULL);
 
+    // Initialize Direct3D
     if (!CreateDeviceD3D(hwnd))
     {
         CleanupDeviceD3D();
@@ -137,8 +73,8 @@ int main()
     }
 
     // Show the window
-    //::ShowWindow(hwnd, SW_SHOWDEFAULT);
-    //::UpdateWindow(hwnd);
+    ::ShowWindow(hwnd, SW_SHOWDEFAULT);
+    ::UpdateWindow(hwnd);
 
     // Setup Dear ImGui context
     IMGUI_CHECKVERSION();
@@ -149,45 +85,80 @@ int main()
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;  // Enable Gamepad Controls
     io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;     // Enable Docking
     io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;   // Enable Multi-Viewport / Platform Windows
-                                                          // io.ConfigViewportsNoAutoMerge = true;
-                                                          // io.ConfigViewportsNoTaskBarIcon = true;
+    // io.ConfigViewportsNoAutoMerge = true;
+    // io.ConfigViewportsNoTaskBarIcon = true;
 
-    ImGui::StyleColorsClassic();
+    // Setup Dear ImGui style
+    ImGui::StyleColorsLight();
+    // ImGui::StyleColorsLight();
 
+    // When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
     ImGuiStyle &style = ImGui::GetStyle();
     if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
     {
         style.WindowRounding = 0.0f;
-
         style.Colors[ImGuiCol_WindowBg].w = 1.0f;
     }
 
+    // Setup Platform/Renderer backends
     ImGui_ImplWin32_Init(hwnd);
     ImGui_ImplDX12_Init(g_pd3dDevice, NUM_FRAMES_IN_FLIGHT,
                         DXGI_FORMAT_R8G8B8A8_UNORM, g_pd3dSrvDescHeap,
                         g_pd3dSrvDescHeap->GetCPUDescriptorHandleForHeapStart(),
                         g_pd3dSrvDescHeap->GetGPUDescriptorHandleForHeapStart());
 
+    // Load Fonts
+    // - If no fonts are loaded, dear imgui will use the default font. You can also load multiple fonts and use ImGui::PushFont()/PopFont() to select them.
+    // - AddFontFromFileTTF() will return the ImFont* so you can store it if you need to select the font among multiple.
+    // - If the file cannot be loaded, the function will return NULL. Please handle those errors in your application (e.g. use an assertion, or display an error and quit).
+    // - The fonts will be rasterized at a given size (w/ oversampling) and stored into a texture when calling ImFontAtlas::Build()/GetTexDataAsXXXX(), which ImGui_ImplXXXX_NewFrame below will call.
+    // - Use '#define IMGUI_ENABLE_FREETYPE' in your imconfig file to use Freetype for higher quality font rendering.
+    // - Read 'docs/FONTS.md' for more instructions and details.
+    // - Remember that in C/C++ if you want to include a backslash \ in a string literal you need to write a double backslash \\ !
+    // io.Fonts->AddFontDefault();
+    // io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\segoeui.ttf", 25.0f);
+    // io.Fonts->AddFontFromFileTTF("../../misc/fonts/DroidSans.ttf", 16.0f);
+    // io.Fonts->AddFontFromFileTTF("../../misc/fonts/Roboto-Medium.ttf", 16.0f);
+    // io.Fonts->AddFontFromFileTTF("../../misc/fonts/Cousine-Regular.ttf", 15.0f);
+    // ImFont* font = io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\segoeui.ttf", 18.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
+    // IM_ASSERT(font != NULL);
+    // ImFont *font = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\simhei.ttf", 20.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
+    // Our state
+    ImFont *font = ImGui::GetIO().Fonts->AddFontFromFileTTF("../../Fonts/noto/NotoSansCJKsc-Regular.otf", 40.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
     bool show_demo_window = true;
+    bool mainwindows = true;
     bool show_another_window = false;
     ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-    ImFont *font = ImGui::GetIO().Fonts->AddFontFromFileTTF("../../Fonts/noto/NotoSansCJKsc-Regular.otf", 60.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
-    // ImFont *font = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\simhei.ttf", 20.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
 
-    //   Main loop
+    // Main loop
     bool done = false;
-    bool mainwindow = true;
-    std::vector<smily::Button> buttons;
-    for (int i = 0; i < 7; i++)
-    {
-        buttons.push_back({"按钮", ImVec2(200.0, 100.0)});
-    }
 
-    // smily::joining_thread t{[]()
-    //                         { ffplay fff;
-    //                         fff.function(); }};
-    // ffplay fff;
-    char str0[12] = "我";
+    struct Funcs
+    {
+        static int MyResizeCallback(ImGuiInputTextCallbackData *data)
+        {
+            if (data->EventFlag == ImGuiInputTextFlags_CallbackResize)
+            {
+
+                ImVector<char> *my_str = (ImVector<char> *)data->UserData;
+                IM_ASSERT(my_str->begin() == data->Buf);
+                my_str->resize(data->BufSize); // NB: On resizing calls, generally data->BufSize == data->BufTextLen + 1
+                data->Buf = my_str->begin();
+            }
+            return 0;
+        }
+
+        // Note: Because ImGui:: is a namespace you would typically add your own function into the namespace.
+        // For example, you code may declare a function 'ImGui::InputText(const char* label, MyString* my_str)'
+        static bool MyInputTextMultiline(const char *label, ImVector<char> *my_str, const ImVec2 &size = ImVec2(0, 0), ImGuiInputTextFlags flags = 0)
+        {
+            IM_ASSERT((flags & ImGuiInputTextFlags_CallbackResize) == 0);
+            return ImGui::InputTextMultiline(label, my_str->begin(), (size_t)my_str->size(), size, flags | ImGuiInputTextFlags_CallbackResize, Funcs::MyResizeCallback, (void *)my_str);
+        }
+    };
+    ImVector<char> my_str;
+    if (my_str.empty())
+        my_str.push_back(0);
 
     while (!done)
     {
@@ -198,15 +169,11 @@ int main()
         {
             ::TranslateMessage(&msg);
             ::DispatchMessage(&msg);
-            if (msg.message == WM_QUIT || !mainwindow)
-            {
+            if (msg.message == WM_QUIT || !mainwindows)
                 done = true;
-            }
         }
         if (done)
-        {
             break;
-        }
 
         // Start the Dear ImGui frame
         ImGui_ImplDX12_NewFrame();
@@ -222,58 +189,49 @@ int main()
             ImGui::ShowDemoWindow(&show_demo_window);
 
         // 2. Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
+
         {
             static float f = 0.0f;
             static int counter = 0;
 
-            ImGui::Begin("你好世界!", &mainwindow);                   // Create a window called "Hello, world!" and append into it.
+            ImGui::Begin("Hello, world!", &mainwindows); // Create a window called "Hello, world!" and append into it.
+
             ImGui::Text("This is some useful text.");          // Display some text (you can use a format strings too)
             ImGui::Checkbox("Demo Window", &show_demo_window); // Edit bools storing our window open/close state
             ImGui::Checkbox("Another Window", &show_another_window);
-
             ImGui::SliderFloat("float", &f, 0.0f, 1.0f);             // Edit 1 float using a slider from 0.0f to 1.0f
             ImGui::ColorEdit3("clear color", (float *)&clear_color); // Edit 3 floats representing a color
 
             if (ImGui::Button("Button")) // Buttons return true when clicked (most widgets return true when edited/activated)
-            {
-                data_ = 1;
                 counter++;
-            }
-            if (ImGui::Button("display")) // Buttons return true when clicked (most widgets return true when edited/activated)
-            {
-                data_ = 8;
-                counter++;
-            }
             ImGui::SameLine();
             ImGui::Text("counter = %d", counter);
+           
+            Funcs::MyInputTextMultiline("##MyStr", &my_str, ImVec2(ImGui::GetTextLineHeight() * 160, ImGui::GetTextLineHeight() * 16));
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
             ImGui::End();
+            
         }
 
         // 3. Show another simple window.
-        // if (show_another_window)
-        // {
-        //     ImGuiWindowFlags window_flags = 0;
-        //     window_flags |= ImGuiWindowFlags_NoTitleBar;
-        //     window_flags |= ImGuiWindowFlags_NoScrollbar;
-        //     bool flag = true;
-        //     smily::Div div("Another Window", &flag, window_flags);
-        //     // div.drawImage(Images);
-        //     div.drawButton(buttons);
-        //     ImGui::Text("Hello from another window!");
-        //     ImGui::Text("width = %lf", ImGui::GetWindowWidth());
-
-        //     ImGui::InputText("input text", str0, IM_ARRAYSIZE(str0));
-
-        //     // ImGui::Image(textureID, mat2Texture.getSzie(0.1), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0), ImVec4(255, 255, 255, 1), ImVec4(0, 0, 0, 1));
-        //     // ImGui::SameLine();
-
-        //     // ImGui::Image(textureID, mat2Texture.getSzie(0.1), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0), ImVec4(255, 255, 255, 1), ImVec4(0, 0, 0, 1));
-        //     // ImGui::SameLine();
-        //     // ImGui::Image(textureID, mat2Texture.getSzie(0.1), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0), ImVec4(255, 255, 255, 1), ImVec4(0, 0, 0, 1));
-        //     if (ImGui::Button("Close Me"))
-        //         show_another_window = false;
-        // }
+        if (show_another_window)
+        {
+            ImGuiWindowFlags window_flags = 0;
+            // window_flags |= ImGuiWindowFlags_NoTitleBar;
+            // window_flags |= ImGuiWindowFlags_NoScrollbar;
+            // window_flags |= ImGuiTableFlags_SizingFixedSame;
+           
+            window_flags |= ImGuiWindowFlags_HorizontalScrollbar;
+            ImGui::Begin("Another Window", &show_another_window,window_flags); // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
+             static char str1[128] = "";
+            ImGui::InputTextWithHint("input text (w/ hint)", "enter text here", str1, IM_ARRAYSIZE(str1));
+            Funcs::MyInputTextMultiline("##MyStr", &my_str, ImVec2(200.0f, ImGui::GetTextLineHeight() * 16));
+            ImGui::Text("宽度%f",ImGui::GetWindowWidth());
+            if (ImGui::Button("Close Me"))
+                show_another_window = false;
+            
+            ImGui::End();
+        }
         ImGui::PopStyleVar(4);
         // Rendering
         ImGui::Render();
@@ -314,14 +272,6 @@ int main()
 
         g_pSwapChain->Present(1, 0); // Present with vsync
         // g_pSwapChain->Present(0, 0); // Present without vsync
-        barrier.Transition.StateAfter  = D3D12_RESOURCE_STATE_PRESENT;
-        g_pd3dCommandList->ResourceBarrier(1, &barrier);
-        g_pd3dCommandList->Close();
-
-        g_pd3dCommandQueue->ExecuteCommandLists(1, (ID3D12CommandList* const*)&g_pd3dCommandList);
-
-        g_pSwapChain->Present(1, 0); // Present with vsync
-        //g_pSwapChain->Present(0, 0); // Present without vsync
 
         UINT64 fenceValue = g_fenceLastSignaledValue + 1;
         g_pd3dCommandQueue->Signal(g_fence, fenceValue);
@@ -339,7 +289,7 @@ int main()
     CleanupDeviceD3D();
     ::DestroyWindow(hwnd);
     ::UnregisterClassW(wc.lpszClassName, wc.hInstance);
-    data_ = 8;
+
     return 0;
 }
 
@@ -597,11 +547,6 @@ extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg
 // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
 LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
-
-    if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
-    {
-        return true;
-    }
     if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
         return true;
 
@@ -625,6 +570,6 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
         ::PostQuitMessage(0);
         return 0;
     }
-
     return ::DefWindowProcW(hWnd, msg, wParam, lParam);
 }
+
