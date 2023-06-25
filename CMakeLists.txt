@@ -12,9 +12,9 @@ if(MSVC)
    #设置输入代码的编码格式为 utf-8
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /D _CRT_SECURE_NO_WARNINGS /MP /utf-8")
 #设置程序输出编码格式为UNICODE
-add_definitions(-DUNICODE -D_UNICODE)
-endif(MSVC)
 
+endif(MSVC)
+add_definitions(-DUNICODE -D_UNICODE)
 if (APPLE)
 set(FLAG  "APPLE")
 endif()
@@ -26,8 +26,8 @@ endif()
 if (UNIX)
 set(FLAG  "UNIX")
 endif()
-set(FLAG  "WIN32")
-#set(FLAG  "UNIX")
+#set(FLAG  "WIN32")
+set(FLAG  "UNIX")
 
 set(OpenCV_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../opencv/build/x64/vc16/lib)
 find_package(OpenCV REQUIRED)

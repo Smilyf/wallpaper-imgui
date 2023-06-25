@@ -19,16 +19,16 @@
     <ClCompile Include="C:\Users\yam_l\wallpaper-imgui\imgui\imgui_widgets.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\yam_l\wallpaper-imgui\imgui\backends\imgui_impl_dx12.cpp">
+    <ClCompile Include="C:\Users\yam_l\wallpaper-imgui\imgui\backends\imgui_impl_glfw.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\yam_l\wallpaper-imgui\imgui\backends\imgui_impl_win32.cpp">
+    <ClCompile Include="C:\Users\yam_l\wallpaper-imgui\imgui\backends\imgui_impl_opengl3.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\src\win\ffplay.cpp">
+    <ClCompile Include="C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\src\linux\glad.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\src\win\main.cpp">
+    <ClCompile Include="C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\src\linux\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -54,10 +54,10 @@
     <ClInclude Include="C:\Users\yam_l\wallpaper-imgui\imgui\imstb_truetype.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\yam_l\wallpaper-imgui\imgui\backends\imgui_impl_dx12.h">
+    <ClInclude Include="C:\Users\yam_l\wallpaper-imgui\imgui\backends\imgui_impl_glfw.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="C:\Users\yam_l\wallpaper-imgui\imgui\backends\imgui_impl_win32.h">
+    <ClInclude Include="C:\Users\yam_l\wallpaper-imgui\imgui\backends\imgui_impl_opengl3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

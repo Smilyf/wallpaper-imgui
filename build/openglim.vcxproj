@@ -86,12 +86,13 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui\backends;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\include;C:\Users\yam_l\wallpaper-imgui\opencv\build\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\ffmpeg\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>%(AdditionalOptions) /utf-8</AdditionalOptions>
+      <AdditionalIncludeDirectories>C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui\backends;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\ffmpeg\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "C:/Users/yam_l/wallpaper-imgui/opencv/build/include" /utf-8</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
       <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -106,10 +107,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;_CRT_SECURE_NO_WARNINGS;UNICODE;_UNICODE;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui\backends;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\include;C:\Users\yam_l\wallpaper-imgui\opencv\build\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\ffmpeg\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui\backends;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\ffmpeg\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\SDL2\include;C:\Users\yam_l\wallpaper-imgui\opencv\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui\backends;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\include;C:\Users\yam_l\wallpaper-imgui\opencv\build\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\ffmpeg\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui\backends;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\ffmpeg\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\SDL2\include;C:\Users\yam_l\wallpaper-imgui\opencv\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -117,7 +118,7 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>d3d12.lib;d3dcompiler.lib;dxgi.lib;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\SDL2\lib\x64\*.lib;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\ffmpeg\lib\*.lib;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\lib\freetype.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470d.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470d.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470d.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470d.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470d.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470d.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470d.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470d.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470d.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470d.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470d.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470d.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470d.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470d.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470d.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470d.lib;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\lib\glfw3.lib;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\SDL2\lib\x64\*.lib;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\ffmpeg\lib\*.lib;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\lib\freetype.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -132,10 +133,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui\backends;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\include;C:\Users\yam_l\wallpaper-imgui\opencv\build\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\ffmpeg\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>%(AdditionalOptions) /utf-8</AdditionalOptions>
+      <AdditionalIncludeDirectories>C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui\backends;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\ffmpeg\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "C:/Users/yam_l/wallpaper-imgui/opencv/build/include" /utf-8</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
       <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -152,10 +154,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;_CRT_SECURE_NO_WARNINGS;NDEBUG;UNICODE;_UNICODE;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui\backends;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\include;C:\Users\yam_l\wallpaper-imgui\opencv\build\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\ffmpeg\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui\backends;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\ffmpeg\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\SDL2\include;C:\Users\yam_l\wallpaper-imgui\opencv\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui\backends;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\include;C:\Users\yam_l\wallpaper-imgui\opencv\build\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\ffmpeg\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui\backends;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\ffmpeg\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\SDL2\include;C:\Users\yam_l\wallpaper-imgui\opencv\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -163,7 +165,7 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>d3d12.lib;d3dcompiler.lib;dxgi.lib;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\SDL2\lib\x64\*.lib;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\ffmpeg\lib\*.lib;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\lib\freetype.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\lib\glfw3.lib;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\SDL2\lib\x64\*.lib;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\ffmpeg\lib\*.lib;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\lib\freetype.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -178,10 +180,11 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui\backends;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\include;C:\Users\yam_l\wallpaper-imgui\opencv\build\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\ffmpeg\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>%(AdditionalOptions) /utf-8</AdditionalOptions>
+      <AdditionalIncludeDirectories>C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui\backends;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\ffmpeg\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "C:/Users/yam_l/wallpaper-imgui/opencv/build/include" /utf-8</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -198,10 +201,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;_CRT_SECURE_NO_WARNINGS;NDEBUG;UNICODE;_UNICODE;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui\backends;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\include;C:\Users\yam_l\wallpaper-imgui\opencv\build\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\ffmpeg\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui\backends;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\ffmpeg\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\SDL2\include;C:\Users\yam_l\wallpaper-imgui\opencv\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui\backends;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\include;C:\Users\yam_l\wallpaper-imgui\opencv\build\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\ffmpeg\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui\backends;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\ffmpeg\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\SDL2\include;C:\Users\yam_l\wallpaper-imgui\opencv\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -209,7 +212,7 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>d3d12.lib;d3dcompiler.lib;dxgi.lib;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\SDL2\lib\x64\*.lib;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\ffmpeg\lib\*.lib;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\lib\freetype.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\lib\glfw3.lib;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\SDL2\lib\x64\*.lib;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\ffmpeg\lib\*.lib;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\lib\freetype.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>false</GenerateDebugInformation>
@@ -224,11 +227,12 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui\backends;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\include;C:\Users\yam_l\wallpaper-imgui\opencv\build\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\ffmpeg\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-      <AdditionalOptions>%(AdditionalOptions) /utf-8</AdditionalOptions>
+      <AdditionalIncludeDirectories>C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui\backends;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\ffmpeg\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "C:/Users/yam_l/wallpaper-imgui/opencv/build/include" /utf-8</AdditionalOptions>
       <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
       <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
@@ -243,10 +247,10 @@
     </ClCompile>
     <ResourceCompile>
       <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;_CRT_SECURE_NO_WARNINGS;NDEBUG;UNICODE;_UNICODE;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui\backends;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\include;C:\Users\yam_l\wallpaper-imgui\opencv\build\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\ffmpeg\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui\backends;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\ffmpeg\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\SDL2\include;C:\Users\yam_l\wallpaper-imgui\opencv\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ResourceCompile>
     <Midl>
-      <AdditionalIncludeDirectories>C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui\backends;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\include;C:\Users\yam_l\wallpaper-imgui\opencv\build\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\ffmpeg\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\SDL2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\imgui\backends;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\ffmpeg\include;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\SDL2\include;C:\Users\yam_l\wallpaper-imgui\opencv\build\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
       <HeaderFileName>%(Filename).h</HeaderFileName>
       <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
@@ -254,7 +258,7 @@
       <ProxyFileName>%(Filename)_p.c</ProxyFileName>
     </Midl>
     <Link>
-      <AdditionalDependencies>d3d12.lib;d3dcompiler.lib;dxgi.lib;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\SDL2\lib\x64\*.lib;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\ffmpeg\lib\*.lib;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\lib\freetype.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalDependencies>C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\opencv\build\x64\vc16\lib\opencv_world470.lib;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\lib\glfw3.lib;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\SDL2\lib\x64\*.lib;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\..\ffmpeg\lib\*.lib;C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\lib\freetype.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
       <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -340,12 +344,12 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
     <ClInclude Include="C:\Users\yam_l\wallpaper-imgui\imgui\imstb_rectpack.h" />
     <ClInclude Include="C:\Users\yam_l\wallpaper-imgui\imgui\imstb_textedit.h" />
     <ClInclude Include="C:\Users\yam_l\wallpaper-imgui\imgui\imstb_truetype.h" />
-    <ClCompile Include="C:\Users\yam_l\wallpaper-imgui\imgui\backends\imgui_impl_dx12.cpp" />
-    <ClInclude Include="C:\Users\yam_l\wallpaper-imgui\imgui\backends\imgui_impl_dx12.h" />
-    <ClCompile Include="C:\Users\yam_l\wallpaper-imgui\imgui\backends\imgui_impl_win32.cpp" />
-    <ClInclude Include="C:\Users\yam_l\wallpaper-imgui\imgui\backends\imgui_impl_win32.h" />
-    <ClCompile Include="C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\src\win\ffplay.cpp" />
-    <ClCompile Include="C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\src\win\main.cpp" />
+    <ClCompile Include="C:\Users\yam_l\wallpaper-imgui\imgui\backends\imgui_impl_glfw.cpp" />
+    <ClInclude Include="C:\Users\yam_l\wallpaper-imgui\imgui\backends\imgui_impl_glfw.h" />
+    <ClCompile Include="C:\Users\yam_l\wallpaper-imgui\imgui\backends\imgui_impl_opengl3.cpp" />
+    <ClInclude Include="C:\Users\yam_l\wallpaper-imgui\imgui\backends\imgui_impl_opengl3.h" />
+    <ClCompile Include="C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\src\linux\glad.cpp" />
+    <ClCompile Include="C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\src\linux\main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="C:\Users\yam_l\wallpaper-imgui\wallpaper-imgui\build\ZERO_CHECK.vcxproj">

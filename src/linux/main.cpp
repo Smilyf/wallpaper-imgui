@@ -3,509 +3,124 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
-<<<<<<< HEAD
-=======
-// #include "Shader.h"
->>>>>>> origin/main
 #include "imgui.h"
 #include "imgui_impl_glfw.h"
 #include "imgui_impl_opengl3.h"
 
-<<<<<<< HEAD
 #include <opencv2/opencv.hpp>
 #include <future>
 #include <iostream>
 #include <thread>
 #include <chrono>
+
+#include <smily/smily.h>
 // #define STB_IMAGE_IMPLEMENTATION
 // #include "stb_image.h"
-
-std::atomic<bool> data_ready(true);
-namespace smily
-{
-
-    class joining_thread
-    {
-        std::thread t;
-
-    public:
-        joining_thread() noexcept = default;
-        template <typename Callable, typename... Args>
-        explicit joining_thread(Callable &&func, Args &&...args) : t(std::forward<Callable>(func), std::forward<Args>(args)...)
-        {
-        }
-        explicit joining_thread(std::thread t_) noexcept : t(std::move(t_))
-        {
-        }
-        joining_thread(joining_thread &&other) noexcept : t(std::move(other.t))
-        {
-        }
-        joining_thread &operator=(joining_thread &&other) noexcept
-        {
-
-            if (joinable())
-            {
-                join();
-            }
-            t = std::move(other.t);
-            return *this;
-        }
-
-        ~joining_thread() noexcept
-        {
-            if (joinable())
-                join();
-        }
-        void swap(joining_thread &other) noexcept
-        {
-            t.swap(other.t);
-        }
-        std::thread::id get_id() const noexcept
-        {
-            return t.get_id();
-        }
-        bool joinable() const noexcept
-        {
-            return t.joinable();
-        }
-        void join()
-        {
-            t.join();
-        }
-        void detach()
-        {
-            t.detach();
-        }
-        std::thread &as_thread() noexcept
-        {
-            return t;
-        }
-        const std::thread &as_thread() const noexcept
-        {
-            return t;
-        }
-    };
-
-    class Mat2Texture
-    {
-    public:
-        GLuint texture;
-        int width;
-        int height;
-        uchar *data;
-        Mat2Texture() = default;
-        Mat2Texture(std::string imgdir) 
-        {
-            cv::Mat image;
-            image = cv::imread(imgdir);
-            // cv::cvtColor(image, image, cv::COLOR_RGB2BGRA);
-            width = image.cols;
-            height = image.rows;
-            data = image.data;
-            glGenTextures(1, &texture);
-            glBindTexture(GL_TEXTURE_2D, texture);
-            // 为当前绑定的纹理对象设置环绕、过滤方式
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-            // 加载并生成纹理
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, data);
-            glGenerateMipmap(GL_TEXTURE_2D);
-        }
-        GLuint getId()
-        {
-            return texture;
-        }
-        ImVec2 getSzie()
-        {
-
-            return ImVec2((float)width, (float)height);
-        }
-        ImVec2 getSzie(float scaling)
-        {
-            return ImVec2(width * scaling, height * scaling);
-        }
-        ~Mat2Texture()
-        {
-            glDeleteTextures(1, &texture);
-        }
-    };
-    class Image
-    {
-
-    private:
-        ImTextureID imTextureId;
-        ImVec2 imageSize;
-
-    public:
-        Image(ImTextureID imTextureid, ImVec2 imagesize) : imTextureId(imTextureid), imageSize(imagesize)
-        {
-        }
-        ImVec2 getImageSize()
-        {
-            return imageSize;
-        }
-
-        ImTextureID getImTextureID()
-        {
-            return imTextureId;
-        }
-    };
-    class Button
-    {
-
-    private:
-        ImVec2 buttonSize;
-        std::string label;
-
-    public:
-        Button() = default;
-        Button(std::string label, ImVec2 size) : label(label), buttonSize(size)
-        {
-        }
-        ImVec2 getButtonSize()
-        {
-            return buttonSize;
-        }
-        const char *getButtonLabel()
-        {
-            return label.c_str();
-        }
-
-        ~Button() = default;
-    };
-    class Div
-    {
-    private:
-        std::string display = "flex";
-        float windowWidth;
-        float windowHeight;
-        ImVec2 minSpace = {20.0, 20.0};
-        ImVec2 WindowPadding = {0.0, 0.0};
-
-    public:
-        Div(std::string divName, bool *p_open, ImGuiWindowFlags window_flags = 0)
-        {
-
-            ImGui::Begin(divName.c_str(), p_open, window_flags); // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-            windowWidth = ImGui::GetWindowWidth();
-            windowHeight = ImGui::GetWindowHeight();
-        }
-
-        void setDisplay(std::string x)
-        {
-            display = x;
-        }
-        void drawImage(std::vector<Image> Images)
-        {
-
-            auto fItemSpacing = ImGui::GetStyle().ItemSpacing;
-            auto WindowPadding = ImGui::GetStyle().WindowPadding;
-            if (display == "flex")
-            {
-
-                ImVec2 ItemSpacing;
-                float windowswidth_ = windowWidth - WindowPadding.x * 2;
-                float width = 0;
-                bool flag = false;
-                std::deque<smily::Image> deque_Images;
-                for (size_t i = 0; i < Images.size(); i++)
-                {
-                    auto image = Images[i];
-
-                    if (width + 2 + image.getImageSize().x + std::max(1, (int)deque_Images.size() - 1) * minSpace.x <= windowswidth_)
-                    {
-
-                        width += image.getImageSize().x + 2;
-                        deque_Images.push_back(image);
-                    }
-                    else
-                    {
-                        // ImGui::Text("%d",deque_Images.size());
-                        if (deque_Images.empty())
-                        {
-                            ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0, minSpace.y));
-                            ItemSpacing = ImVec2(0.0, minSpace.y);
-                            ImGui::Image(image.getImTextureID(), image.getImageSize(), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0), ImVec4(255, 255, 255, 1), ImVec4(0, 0, 0, 1));
-                            ImGui::PopStyleVar();
-                        }
-                        if (deque_Images.size() == 1)
-                        {
-                            ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2((windowswidth_ - width) / 2, minSpace.y));
-                            ItemSpacing = ImVec2((windowswidth_ - width) / 2, minSpace.y);
-                            auto item = deque_Images.front();
-                            deque_Images.pop_front();
-                            ImGui::Image(item.getImTextureID(), item.getImageSize(), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0), ImVec4(255, 255, 255, 1), ImVec4(0, 0, 0, 1));
-                            i--;
-                            ImGui::PopStyleVar();
-                        }
-
-                        if (deque_Images.size() > 1)
-                        {
-                            bool flag_ = false;
-                            ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2((windowswidth_ - width) / (deque_Images.size() - 1), minSpace.y));
-                            ItemSpacing = ImVec2((windowswidth_ - width) / (deque_Images.size() - 1), minSpace.y);
-
-                            for (auto item : deque_Images)
-                            {
-                                if (!flag_)
-                                {
-                                    flag_ = true;
-                                }
-                                else
-                                {
-
-                                    ImGui::SameLine();
-                                }
-                                ImGui::Image(item.getImTextureID(), item.getImageSize(), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0), ImVec4(255, 255, 255, 1), ImVec4(0, 0, 0, 1));
-                                ImGui::SetItemDefaultFocus();
-                            }
-                            deque_Images.clear();
-                            i--;
-                            ImGui::PopStyleVar();
-                        }
-                        width = 0;
-                    }
-                }
-                if (deque_Images.size() <= 1)
-                {
-                    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0, 10.0));
-                }
-                else if (deque_Images.size() == Images.size())
-                {
-                    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2((windowswidth_ - width) / (deque_Images.size() - 1), minSpace.y));
-                }
-                else
-                {
-
-                    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ItemSpacing);
-                    // ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2((windowswidth_ - width) / (deque_Images.size() - 1), 10.0));
-                }
-                for (auto item : deque_Images)
-                {
-                    if (!flag)
-                    {
-                        flag = true;
-                    }
-                    else
-                    {
-                        ImGui::SameLine();
-                    }
-                    ImGui::Image(item.getImTextureID(), item.getImageSize(), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0), ImVec4(255, 255, 255, 1), ImVec4(0, 0, 0, 1));
-                }
-                deque_Images.clear();
-                ImGui::PopStyleVar();
-            }
-        }
-
-        void drawButton(std::vector<Button> Buttons)
-        {
-
-            auto fItemSpacing = ImGui::GetStyle().ItemSpacing;
-            auto WindowPadding = ImGui::GetStyle().WindowPadding;
-            if (display == "flex")
-            {
-                ImVec2 ItemSpacing = {0.0, 0.0};
-                float windowswidth_ = windowWidth - WindowPadding.x * 2;
-                float width = 0;
-                bool flag = false;
-                std::deque<smily::Button> dequeButtons;
-
-                for (size_t i = 0; i < Buttons.size(); i++)
-                {
-                    auto button = Buttons[i];
-
-                    if (width + 2 + button.getButtonSize().x + std::max(1, (int)dequeButtons.size() - 1) * minSpace.x <= windowswidth_)
-                    {
-
-                        width += button.getButtonSize().x;
-                        dequeButtons.push_back(button);
-                    }
-                    else
-                    {
-
-                        if (dequeButtons.empty())
-                        {
-                            ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0, minSpace.y));
-                            ItemSpacing = ImVec2(0.0, minSpace.y);
-                            ImGui::Button(button.getButtonLabel(), button.getButtonSize());
-                            ImGui::PopStyleVar();
-                        }
-                        if (dequeButtons.size() == 1)
-                        {
-                            ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2((windowswidth_ - width) / 2, minSpace.y));
-                            ItemSpacing = ImVec2((windowswidth_ - width) / 2, minSpace.y);
-
-                            auto item = dequeButtons.front();
-                            dequeButtons.pop_front();
-
-                            ImGui::Button(item.getButtonLabel(), item.getButtonSize());
-                            i--;
-                            ImGui::PopStyleVar();
-                        }
-
-                        if (dequeButtons.size() > 1)
-                        {
-                            bool flag_ = false;
-                            ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2((windowswidth_ - width) / (dequeButtons.size() - 1), minSpace.y));
-                            ItemSpacing = ImVec2((windowswidth_ - width) / (dequeButtons.size() - 1), minSpace.y);
-
-                            for (auto item : dequeButtons)
-                            {
-                                if (!flag_)
-                                {
-                                    flag_ = true;
-                                }
-                                else
-                                {
-
-                                    ImGui::SameLine();
-                                }
-                                ImGui::Button(item.getButtonLabel(), item.getButtonSize());
-                                ImGui::SetItemDefaultFocus();
-                            }
-                            dequeButtons.clear();
-                            i--;
-                            ImGui::PopStyleVar();
-                        }
-                        width = 0;
-                    }
-                }
-                if (dequeButtons.size() <= 1)
-                {
-                    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0, 10.0));
-                }
-                else if (dequeButtons.size() == Buttons.size())
-                {
-                    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2((windowswidth_ - width) / (dequeButtons.size() - 1), minSpace.y));
-                }
-                else
-                {
-
-                    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ItemSpacing);
-                    // ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2((windowswidth_ - width) / (dequeButtons.size() - 1), 10.0));
-                }
-                for (auto item : dequeButtons)
-                {
-                    if (!flag)
-                    {
-                        flag = true;
-                    }
-                    else
-                    {
-                        ImGui::SameLine();
-                    }
-                    ImGui::Button(item.getButtonLabel(), item.getButtonSize());
-                }
-                dequeButtons.clear();
-                ImGui::PopStyleVar();
-            }
-        }
-        ~Div()
-        {
-            ImGui::End();
-        }
-    };
-
-};
-=======
-#include <iostream>
-
-#include <opencv2/opencv.hpp>
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
-using namespace cv;
->>>>>>> origin/main
 
 void framebuffer_size_callback(GLFWwindow *window, int width, int height);
 void processInput(GLFWwindow *window);
 
 // settings
-<<<<<<< HEAD
 const unsigned int SCR_WIDTH = 1920;
 const unsigned int SCR_HEIGHT = 1080;
-void fun(GLFWwindow *window)
+struct Funcs
 {
-
-    while (1)
+    static int MyResizeCallback(ImGuiInputTextCallbackData *data)
     {
-        ImGuiIO &io = ImGui::GetIO();
-        int width, height;
-        bool flag = false;
-        glfwGetWindowSize(window, &width, &height);
-        if (io.MousePos.x - 10 < 0 || io.MousePos.y - 10 < 0 || io.MousePos.x > width + 10 || io.MousePos.y > height + 10)
+        if (data->EventFlag == ImGuiInputTextFlags_CallbackResize)
         {
-            flag = true;
+
+            ImVector<char> *my_str = (ImVector<char> *)data->UserData;
+            IM_ASSERT(my_str->begin() == data->Buf);
+            my_str->resize(data->BufSize); // NB: On resizing calls, generally data->BufSize == data->BufTextLen + 1
+            data->Buf = my_str->begin();
         }
-        if (!ImGui::IsMousePosValid())
-        {
-            flag = true;
-        }
-        if (flag)
-        {
-            if (io.Framerate > 30.0)
-            {
-                data_ready = false;
-            }
-            // std::this_thread::sleep_for(std::chrono::duration<long long, std::ratio<1, 1000>>(20));
-        }
-        if (glfwWindowShouldClose(window))
-        {
-            break;
-        }
+        return 0;
+    }
+
+    // Note: Because ImGui:: is a namespace you would typically add your own function into the namespace.
+    // For example, you code may declare a function 'ImGui::InputText(const char* label, MyString* my_str)'
+    static bool MyInputTextMultiline(const char *label, ImVector<char> *my_str, const ImVec2 &size = ImVec2(0, 0), ImGuiInputTextFlags flags = 0)
+    {
+        IM_ASSERT((flags & ImGuiInputTextFlags_CallbackResize) == 0);
+        return ImGui::InputTextMultiline(label, my_str->begin(), (size_t)my_str->size(), size, flags | ImGuiInputTextFlags_CallbackResize, Funcs::MyResizeCallback, (void *)my_str);
+    }
+};
+
+void drawTriangle(ImDrawList *draw_list, ImVec2 p1, ImVec2 p2, ImVec2 p3, ImU32 color)
+{
+    draw_list->AddTriangle(p1, p2, p3, color);
+}
+void CenteredText(const char *text)
+{
+    ImGui::SetCursorPosX((ImGui::GetWindowWidth() - ImGui::CalcTextSize(text).x) / 2.0f);
+    ImGui::SetCursorPosY((ImGui::GetWindowHeight() - ImGui::GetFontSize()) / 2.0f);
+    ImGui::Text(text);
+}
+
+void drawImGuiCanvas(ImTextureID textureID)
+{
+    // 创建新的 ImDrawList 对象以在画布上进行绘制
+    ImDrawList *draw_list = ImGui::GetWindowDrawList();
+    // ImGui::Image((void *)(intptr_t)(textureID), t);
+    //  为画布绘制白色背景
+    draw_list->AddRectFilled(ImGui::GetWindowPos(), ImVec2(ImGui::GetWindowPos().x + ImGui::GetWindowWidth(), ImGui::GetWindowPos().y + ImGui::GetWindowHeight()), IM_COL32_WHITE);
+    // draw_list->AddRectFilled(ImGui::GetWindowPos(), ImVec2(ImGui::GetWindowPos().x+ImGui::GetWindowWidth(), ImGui::GetWindowPos().y+ImGui::GetWindowHeight()), IM_COL32_WHITE);
+
+    draw_list->AddImage(
+        textureID,
+        ImGui::GetWindowPos(),
+        ImVec2(ImGui::GetWindowPos().x + ImGui::GetWindowWidth(), ImGui::GetWindowPos().y + ImGui::GetWindowHeight()),
+        ImVec2(0, 0),
+        ImVec2(1, 1),
+        ImColor(255, 255, 255, 255));
+    // 使用 ImDrawList 绘制红色三角形
+    // drawTriangle(draw_list, ImGui::GetWindowPos(), ImVec2(ImGui::GetWindowPos().x+100, ImGui::GetWindowPos().y+150), ImVec2(ImGui::GetWindowPos().x+250, ImGui::GetWindowPos().y+50), IM_COL32_BLACK);
+}
+bool drawing_line = true;
+ImVec2 start_point;
+ImVec2 end_point;
+std::vector<std::pair<ImVec2, ImVec2>> lines;
+void drawLines(ImDrawList *draw_list)
+{
+    for (const auto &line : lines)
+    {
+        draw_list->AddLine(line.first, line.second, IM_COL32_BLACK);
+    }
+
+    if (drawing_line)
+    {
+        draw_list->AddLine(start_point, end_point, IM_COL32_BLACK);
     }
 }
 
-=======
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
-GLuint Mat2Texture(std::string imgdir)
+void mouseButtonCallback(GLFWwindow *window, int button, int action, int mods)
 {
-
-    cv::Mat image;
-    image = imread(imgdir);
-    cv::cvtColor(image, image, cv::COLOR_RGB2BGRA);
-
-    // auto width=image.cols;
-    // auto height=image.rows;
-    // auto data=image.data;
-    int width = 10, height = 10, nrChannels;
-    unsigned char *data = stbi_load(imgdir.c_str(), &width, &height, &nrChannels, 0);
-
-    if (image.empty())
+    if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_PRESS)
     {
-        std::cout << "image is empty! " << std::endl;
-        return -1;
+        // 开始绘制新的线段
+        double x, y;
+        glfwGetCursorPos(window, &x, &y);
+        start_point = {static_cast<float>(x), static_cast<float>(y)};
+        end_point = {static_cast<float>(x), static_cast<float>(y)};
+        drawing_line = true;
     }
-    else
+    else if (button == GLFW_MOUSE_BUTTON_LEFT && action == GLFW_RELEASE)
     {
-        
-        GLuint texture;
-        glGenTextures(1, &texture);
-        glBindTexture(GL_TEXTURE_2D, texture);
-        // 为当前绑定的纹理对象设置环绕、过滤方式
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        // 加载并生成纹理
-        int width, height, nrChannels;
-        unsigned char *data = stbi_load(imgdir.c_str(), &width, &height, &nrChannels, 0);
-        if (data)
-        {
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-            glGenerateMipmap(GL_TEXTURE_2D);
-        }
-        else
-        {
-            std::cout << "Failed to load texture" << std::endl;
-        }
-        stbi_image_free(data);
-        return texture;
+        // 添加完成的线段到线段列表中
+        lines.push_back({start_point, end_point});
+        drawing_line = false;
     }
 }
->>>>>>> origin/main
+
+void cursorPosCallback(GLFWwindow *window, double xpos, double ypos)
+{
+    if (drawing_line)
+    {
+        end_point = {static_cast<float>(xpos), static_cast<float>(ypos)};
+    }
+}
+
 int main()
 {
     // 设置330版本给imgui使用
@@ -516,17 +131,10 @@ int main()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-<<<<<<< HEAD
     glfwWindowHint(GLFW_SAMPLES, 4);
-    // glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // 设置 offscreen context 的标志位
+    glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // 设置 offscreen context 的标志位
     //  glfw window creation
     //  --------------------
-=======
-
-
-    // glfw window creation
-    // --------------------
->>>>>>> origin/main
     GLFWwindow *window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
     if (window == NULL)
     {
@@ -536,7 +144,8 @@ int main()
     }
     glfwMakeContextCurrent(window);
     glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
-
+    glfwSetMouseButtonCallback(window, mouseButtonCallback);
+    glfwSetCursorPosCallback(window, cursorPosCallback);
     // glad: load all OpenGL function pointers
     // ---------------------------------------
     if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
@@ -548,83 +157,48 @@ int main()
     // configure global opengl state
     // -----------------------------
     glEnable(GL_DEPTH_TEST);
-<<<<<<< HEAD
     glEnable(GL_MULTISAMPLE);
     glfwSwapInterval(1);
-=======
-
->>>>>>> origin/main
     // build and compile our shader zprogram
     // 在上面配置初始化完成后再进行界面的引入
     // 创建imgui的上下文
     ImGui::CreateContext();
     ImGuiIO &io = ImGui::GetIO();
     (void)io;
-<<<<<<< HEAD
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
     io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;  // Enable Gamepad Controls
-      io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // !!! 启用 docking 功能的支持
-      io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // !!! 启用 viewport 功能的支持
-                                                          // ImFont *font = io.Fonts->AddFontFromFileTTF("C:\\Users\\yam_l\\wallpaper-imgui\\Fonts\\noto\\NotoSerifCJK-Bold.ttc", 18.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
-    //io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;     // !!! 启用 docking 功能的支持
+    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;   // !!! 启用 viewport 功能的支持
+    //                                                       // ImFont *font = io.Fonts->AddFontFromFileTTF("C:\\Users\\yam_l\\wallpaper-imgui\\Fonts\\noto\\NotoSerifCJK-Bold.ttc", 18.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
+    // io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
     // ImFont *font = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\simhei.ttf", 20.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
-    smily::joining_thread tt{[](){ ImFont *font = ImGui::GetIO().Fonts->AddFontFromFileTTF("../../Fonts/noto/NotoSansCJKsc-Regular.otf", 25.0f, NULL, ImGui::GetIO().Fonts->GetGlyphRangesChineseFull());}};
-    tt.join();
+    ImFont *font = ImGui::GetIO().Fonts->AddFontFromFileTTF("../../Fonts/noto/NotoSansCJKsc-Regular.otf", 60.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
     //  设置样式
     //  ImGui::StyleColorsDark();
-    io.FontGlobalScale = 2;
-    ImGui::StyleColorsClassic();
+    // io.FontGlobalScale = 1;
+
+    ImGui::StyleColorsLight();
     // 设置平台和渲染器
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init(glsl_version);
-    // cv::Mat img;
-    // // 读取图像
-    // img = cv::imread("C:\\Users\\yam_l\\wallpaper-imgui\\2.jpg", 1); // 1-RGB、0-gray
-    // // 创建一个名为 "beautiful"窗口
-    // cv::namedWindow("beautiful");
-    // // 在窗口中显示“beautiful”窗口
-    // cv::imshow("beautiful", img);
-    // // 等待6000 ms后窗口自动关闭
-    // cv::waitKey(6000);
-    // // destroyAllWindows();
-    // // destroyWindow("beautiful");
 
-    // std::future<GLuint> the_answer = std::async([]()
-    //                                             {
-    //     smily::Mat2Texture mat2Texture("C:\\Users\\yam_l\\wallpaper-imgui\\2.jpg");
-    //     return mat2Texture.getId(); }
-    //                                             );
-    // GLuint textureIDS = the_answer.get();
-    smily::Mat2Texture mat2Texture("C:\\Users\\yam_l\\wallpaper-imgui\\wallpaper-imgui\\2.jpg");
-    GLuint textureIDS = mat2Texture.getId();
-
-    std::byte a[sizeof(ImTextureID) > sizeof(GLuint) ? sizeof(ImTextureID) : sizeof(GLuint)]{};
-    memcpy(a, &textureIDS, sizeof(textureIDS));
-
-    ImTextureID textureID;
-    memcpy(&textureID, a, sizeof(textureID));
-    std::vector<smily::Image> Images;
-    for (int i = 0; i < 7; i++)
-    {
-        Images.push_back({textureID, ImVec2(200.0, 100.0)});
-    }
-    std::vector<smily::Button> buttons;
-    for (int i = 0; i < 7; i++)
-    {
-        buttons.push_back({"按钮", ImVec2(200.0, 100.0)});
-    }
     bool show_demo_window = true;
     bool show_another_window = false;
     ImVec4 clear_color = ImVec4(1.0f, 1.0f, 1.0f, 1.00f);
-    // render loop
-    // -----------
-    // Normalized coordinates of pixel (10,10) in a 256x256 texture.
-    ImVec2 uv0 = ImVec2(10.0f / 256.0f, 10.0f / 256.0f);
+    bool close = true;
+    ImVector<char> my_str;
+    if (my_str.empty())
+        my_str.push_back(0);
 
-    // Normalized coordinates of pixel (110,210) in a 256x256 texture.
-    ImVec2 uv1 = ImVec2((10.0f + 100.0f) / 256.0f, (10.0f + 200.0f) / 256.0f);
-    smily::joining_thread t{fun, window};
-    while (!glfwWindowShouldClose(window))
+    std::vector<smily::Image> Images;
+    smily::Mat2Texture img("C:\\Users\\yam_l\\Pictures\\Saved Pictures\\wallhaven-jx17ym.png");
+    auto textureID = img.getId();
+
+    smily::Image xxx((void *)(intptr_t)(textureID), img.getSzie());
+    Images.push_back(xxx);
+    float ff = 0.5;
+
+    while (!glfwWindowShouldClose(window) && close)
     {
 
         // input
@@ -642,117 +216,92 @@ int main()
 
         if (show_demo_window)
             ImGui::ShowDemoWindow(&show_demo_window);
-
+        // 在ImGui窗口中显示居中的文本
+        ImGui::Begin("Centered Text Window");
+        CenteredText("Hello, world!");
+        ImGui::End();
         // 2. Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
         {
-            static float f = 0.0f;
+            ImGuiWindowFlags window_flags = 0;
+            // window_flags |= ImGuiWindowFlags_NoTitleBar;
+            // window_flags |= ImGuiWindowFlags_NoScrollbar;
+            // window_flags |= ImGuiTableFlags_SizingFixedSame;
+
+            window_flags |= ImGuiWindowFlags_HorizontalScrollbar;
+            static float fppp = 0.0f;
             static int counter = 0;
 
-            ImGui::Begin("你好世界"); // Create a window called "Hello, world!" and append into it.
+            ImGui::Begin("你好世界", &close, window_flags); // Create a window called "Hello, world!" and append into it.
 
             ImGui::Text("This is some useful text.");          // Display some text (you can use a format strings too)
             ImGui::Checkbox("Demo Window", &show_demo_window); // Edit bools storing our window open/close state
             ImGui::Checkbox("Another Window", &show_another_window);
-            ImGui::SliderFloat("float", &f, 0.0f, 1.0f);             // Edit 1 float using a slider from 0.0f to 1.0f
+            ImGui::SliderFloat("float", &fppp, 0.0f, 1.0f);          // Edit 1 float using a slider from 0.0f to 1.0f
             ImGui::ColorEdit3("clear color", (float *)&clear_color); // Edit 3 floats representing a color
             if (ImGui::Button("Button"))                             // Buttons return true when clicked (most widgets return true when edited/activated)
                 counter++;
             ImGui::SameLine();
+
             ImGui::Text("counter = %d", counter);
+            ImGui::SliderFloat("float", &ff, 0.0f, 1.0f);
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
+            ImVec2 t{img.getSzie().x * ff, img.getSzie().y * ff};
+
+            ImGui::Image((void *)(intptr_t)(textureID), t);
+
             ImGui::End();
         }
-
-       // 3. Show another simple window.
         if (show_another_window)
         {
             ImGuiWindowFlags window_flags = 0;
-            window_flags |= ImGuiWindowFlags_NoTitleBar;
-            window_flags |= ImGuiWindowFlags_NoScrollbar;
-            bool flag = true;
-            smily::Div div("Another Window", &flag, window_flags);
-            div.drawImage(Images);
-            div.drawButton(buttons);
-            ImGui::Text("Hello from another window!");
-            ImGui::Text("width = %lf", ImGui::GetWindowWidth());
+            // window_flags |= ImGuiWindowFlags_NoTitleBar;
+            // window_flags |= ImGuiWindowFlags_NoScrollbar;
+            // window_flags |= ImGuiTableFlags_SizingFixedSame;
 
-            // ImGui::Image(textureID, mat2Texture.getSzie(0.1), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0), ImVec4(255, 255, 255, 1), ImVec4(0, 0, 0, 1));
-            // ImGui::SameLine();
-
-            // ImGui::Image(textureID, mat2Texture.getSzie(0.1), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0), ImVec4(255, 255, 255, 1), ImVec4(0, 0, 0, 1));
-            // ImGui::SameLine();
-            // ImGui::Image(textureID, mat2Texture.getSzie(0.1), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0), ImVec4(255, 255, 255, 1), ImVec4(0, 0, 0, 1));
+            window_flags |= ImGuiWindowFlags_HorizontalScrollbar;
+            ImGui::Begin("Another Window", &show_another_window, window_flags); // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
+            // static char str1[128] = "";
+            // ImDrawList *draw_list = ImGui::GetWindowDrawList();
+            // drawLines(draw_list);
+            // ImGui::InputTextWithHint("input text (w/ hint)", "enter text here", str1, IM_ARRAYSIZE(str1));
+            // Funcs::MyInputTextMultiline("##MyStr", &my_str);
+            // ImGui::Text("宽度%f", ImGui::GetWindowWidth());
             if (ImGui::Button("Close Me"))
                 show_another_window = false;
+
+            drawImGuiCanvas(window);
+            // bool flag = true;
+            // smily::Div div("Another Window", &flag, window_flags);
+            // div.drawImage(Images);
+
+            // ImDrawList* drawList = ImGui::GetWindowDrawList();
+            //    drawList->AddImage((void*)(intptr_t)texture, ImVec2(ImGui::GetCursorScreenPos()), ImVec2(ImGui::GetCursorScreenPos().x + imageSize.x, ImGui::GetCursorScreenPos().y + imageSize.y), ImVec2(0, 1), ImVec2(1, 0));
+            // div.drawButton(buttons);
+            ImGui::End();
         }
 
-=======
-    ImFont *font = io.Fonts->AddFontFromFileTTF("/home/kali-smily/openglim/Fonts/simhei.ttf", 18.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
-    // 设置样式
-    ImGui::StyleColorsDark();
-    // 设置平台和渲染器
-    ImGui_ImplGlfw_InitForOpenGL(window, true);
-    ImGui_ImplOpenGL3_Init(glsl_version);
-
-    GLuint textureID = Mat2Texture("/home/kali-smily/openglim/2.jpg");
-    float f = 0.0f;
-    ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-    // render loop
-    // -----------
-    while (!glfwWindowShouldClose(window))
-    {
-        // input
-        // -----
-        processInput(window);
-
-        // 使用imgui创建窗口
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
-        ImGui::NewFrame();
-        ImGui::Begin("你好");
-        ImGui::Image(&textureID, ImGui::GetContentRegionAvail(), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0), ImVec4(255, 255, 255, 1), ImVec4(0, 255, 0, 1));
-        ImGui::Text("%.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-        ImGui::SliderFloat("float", &f, 0.0f, 1.0f);             // Edit 1 float using a slider from 0.0f to 1.0f
-        ImGui::ColorEdit3("clear color", (float *)&clear_color); // Edit 3 floats representing a color
-        ImGui::End();
->>>>>>> origin/main
         // render
         // 通过imgui的颜色控制背景颜色
         glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // also clear the depth buffer now!
-<<<<<<< HEAD
         ImGui::PopStyleVar(4);
-=======
-
->>>>>>> origin/main
         // 渲染
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
-<<<<<<< HEAD
-
-        glfwSwapBuffers(window);
-        glfwPollEvents();
-
-        if (!data_ready)
+        if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
         {
-            std::this_thread::sleep_for(std::chrono::duration<long long, std::ratio<1, 1000>>(20));
-            data_ready = true;
+            GLFWwindow *backup_current_context = glfwGetCurrentContext();
+            ImGui::UpdatePlatformWindows();
+            ImGui::RenderPlatformWindowsDefault();
+            glfwMakeContextCurrent(backup_current_context);
         }
-    }
 
-=======
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
 
-    // optional: de-allocate all resources once they've outlived their purpose:
-    // ------------------------------------------------------------------------
-
-    // glfw: terminate, clearing all previously allocated GLFW resources.
-    // ------------------------------------------------------------------
->>>>>>> origin/main
     glfwTerminate();
     return 0;
 }
@@ -769,18 +318,9 @@ void processInput(GLFWwindow *window)
 // ---------------------------------------------------------------------------------------------
 void framebuffer_size_callback(GLFWwindow *window, int width, int height)
 {
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/main
     // make sure the viewport matches the new window dimensions; note that width and
     // height will be significantly larger than specified on retina displays.
     glViewport(0, 0, width, height);
 }
-<<<<<<< HEAD
 
 // huafen midu cengce
-
-
-=======
->>>>>>> origin/main

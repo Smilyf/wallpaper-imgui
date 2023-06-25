@@ -10,9 +10,9 @@
 #include <thread>
 #include <chrono>
 #include <deque>
-#include <smily/smily.h>
+// #include <smily/smily.h>
 #include <clocale>
-#include<imgui_internal.h>
+#include <imgui_internal.h>
 #ifdef _DEBUG
 #define DX12_ENABLE_DEBUG_LAYER
 #endif
@@ -58,6 +58,7 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 // Main code
 int main(int, char **)
 {
+
     // Create application window
     ImGui_ImplWin32_EnableDpiAwareness();
     WNDCLASSEXW wc = {sizeof(wc), CS_CLASSDC, WndProc, 0L, 0L, GetModuleHandle(NULL), NULL, NULL, NULL, NULL, L"ImGui Example", NULL};
@@ -159,7 +160,7 @@ int main(int, char **)
     ImVector<char> my_str;
     if (my_str.empty())
         my_str.push_back(0);
-
+    ImTextureID texID = (void *)(intptr_t)hwnd;
     while (!done)
     {
         // Poll and handle messages (inputs, window resize, etc.)
@@ -206,12 +207,12 @@ int main(int, char **)
                 counter++;
             ImGui::SameLine();
             ImGui::Text("counter = %d", counter);
-           
+
             Funcs::MyInputTextMultiline("##MyStr", &my_str, ImVec2(ImGui::GetTextLineHeight() * 160, ImGui::GetTextLineHeight() * 16));
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
             ImGui::End();
-            
         }
+
 
         // 3. Show another simple window.
         if (show_another_window)
@@ -220,16 +221,16 @@ int main(int, char **)
             // window_flags |= ImGuiWindowFlags_NoTitleBar;
             // window_flags |= ImGuiWindowFlags_NoScrollbar;
             // window_flags |= ImGuiTableFlags_SizingFixedSame;
-           
+
             window_flags |= ImGuiWindowFlags_HorizontalScrollbar;
-            ImGui::Begin("Another Window", &show_another_window,window_flags); // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-             static char str1[128] = "";
+            ImGui::Begin("Another Window", &show_another_window, window_flags); // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
+            static char str1[128] = "";
             ImGui::InputTextWithHint("input text (w/ hint)", "enter text here", str1, IM_ARRAYSIZE(str1));
             Funcs::MyInputTextMultiline("##MyStr", &my_str, ImVec2(200.0f, ImGui::GetTextLineHeight() * 16));
-            ImGui::Text("宽度%f",ImGui::GetWindowWidth());
+            ImGui::Text("宽度%f", ImGui::GetWindowWidth());
             if (ImGui::Button("Close Me"))
                 show_another_window = false;
-            
+
             ImGui::End();
         }
         ImGui::PopStyleVar(4);
@@ -572,4 +573,3 @@ LRESULT WINAPI WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
     }
     return ::DefWindowProcW(hWnd, msg, wParam, lParam);
 }
-
