@@ -298,22 +298,21 @@ int main(int, char **)
 bool CreateDeviceD3D(HWND hWnd)
 {
     // Setup swap chain
-    DXGI_SWAP_CHAIN_DESC1 sd;
+    DXGI_SWAP_CHAIN_DESC1 sd
     {
-        ZeroMemory(&sd, sizeof(sd));
-        sd.BufferCount = NUM_BACK_BUFFERS;
-        sd.Width = 0;
-        sd.Height = 0;
-        sd.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
-        sd.Flags = DXGI_SWAP_CHAIN_FLAG_FRAME_LATENCY_WAITABLE_OBJECT;
-        sd.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
-        sd.SampleDesc.Count = 1;
-        sd.SampleDesc.Quality = 0;
-        sd.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
-        sd.AlphaMode = DXGI_ALPHA_MODE_UNSPECIFIED;
-        sd.Scaling = DXGI_SCALING_STRETCH;
-        sd.Stereo = FALSE;
-    }
+        .Width = 0,
+        .Height = 0,
+        .Format = DXGI_FORMAT_R8G8B8A8_UNORM,
+        .Stereo = FALSE,
+        .SampleDesc = {.Count = 1, .Quality = 0},
+        .BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT,
+        .BufferCount = NUM_BACK_BUFFERS,
+        .Scaling = DXGI_SCALING_STRETCH,
+        .SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD,
+        .AlphaMode = DXGI_ALPHA_MODE_UNSPECIFIED,
+        .Flags = DXGI_SWAP_CHAIN_FLAG_FRAME_LATENCY_WAITABLE_OBJECT,
+    };
+
 
     // [DEBUG] Enable debug interface
 #ifdef DX12_ENABLE_DEBUG_LAYER

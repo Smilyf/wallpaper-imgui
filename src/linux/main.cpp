@@ -14,6 +14,12 @@
 #include <chrono>
 
 #include <smily/smily.h>
+
+#include <iostream>
+#include <fstream>
+#include <vector>
+#include <filesystem>
+namespace fs = std::filesystem;
 // #define STB_IMAGE_IMPLEMENTATION
 // #include "stb_image.h"
 
@@ -132,9 +138,9 @@ int main()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     glfwWindowHint(GLFW_SAMPLES, 4);
-    glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // 设置 offscreen context 的标志位
-    //  glfw window creation
-    //  --------------------
+    // glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // 设置 offscreen context 的标志位
+    //   glfw window creation
+    //   --------------------
     GLFWwindow *window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
     if (window == NULL)
     {
@@ -191,13 +197,33 @@ int main()
         my_str.push_back(0);
 
     std::vector<smily::Image> Images;
-    smily::Mat2Texture img("C:\\Users\\yam_l\\Pictures\\Saved Pictures\\wallhaven-jx17ym.png");
-    auto textureID = img.getId();
 
-    smily::Image xxx((void *)(intptr_t)(textureID), img.getSzie());
-    Images.push_back(xxx);
+    std::vector<std::string> aaa{
+
+        "wallhaven-gp9god.jpg",
+        "wallhaven-zyxvqy.jpg",
+        "wallhaven-9mjoy1.png",
+        "wallhaven-j3m8y5.png",
+        "wallhaven-zyxvqy.jpg",
+        "wallhaven-zygeko.jpg",
+        "wallhaven-m9xyg8.jpg",
+        "wallhaven-yxqzpd.jpg",
+        "wallhaven-e7jj6r.jpg",
+        "wallhaven-l83o92.jpg"};
+
+    // smily::Mat2Texture img("https://w.wallhaven.cc/full/vq/wallhaven-vqylel.jpg");
+    // smily::Mat2Texture img("C:\\Users\\yam_l\\wallpaper-imgui\\wallpaper-imgui\\2.jpg");
+    //     std::string s = "D:\\bz\\100\\2023-07-02\\";
+    //     s += aaa[0];
+    //     smily::Mat2Texture img(s);
+    // auto textureID = img.getId();
+
+    // smily::Image xxx((void *)(intptr_t)(textureID), img.getSzie());
+    // Images.push_back(xxx);
     float ff = 0.5;
-
+    int countersss = 0;
+    int index = 0;
+    smily::Mat2Textures sssl;
     while (!glfwWindowShouldClose(window) && close)
     {
 
@@ -213,26 +239,31 @@ int main()
         ImGui::PushStyleVar(ImGuiStyleVar_TabRounding, 5.0f);
         ImGui::PushStyleVar(ImGuiStyleVar_GrabRounding, 5.0f);
         ImGui::NewFrame();
-
         if (show_demo_window)
             ImGui::ShowDemoWindow(&show_demo_window);
         // 在ImGui窗口中显示居中的文本
         ImGui::Begin("Centered Text Window");
         CenteredText("Hello, world!");
         ImGui::End();
+        int imgcount = 0;
         // 2. Show a simple window that we create ourselves. We use a Begin/End pair to create a named window.
+        if (1)
         {
             ImGuiWindowFlags window_flags = 0;
-            // window_flags |= ImGuiWindowFlags_NoTitleBar;
+            window_flags |= ImGuiWindowFlags_NoTitleBar;
             // window_flags |= ImGuiWindowFlags_NoScrollbar;
-            // window_flags |= ImGuiTableFlags_SizingFixedSame;
-
+            window_flags |= ImGuiTableFlags_SizingFixedSame;
             window_flags |= ImGuiWindowFlags_HorizontalScrollbar;
             static float fppp = 0.0f;
             static int counter = 0;
-
             ImGui::Begin("你好世界", &close, window_flags); // Create a window called "Hello, world!" and append into it.
-
+            if (!ImGui::IsWindowHovered() && io.Framerate > 24)
+            {
+                if (io.MouseDelta.x == 0 && io.MouseDelta.y == 0)
+                {
+                    std::this_thread::sleep_for(std::chrono::duration<int, std::milli>(10));
+                }
+            }
             ImGui::Text("This is some useful text.");          // Display some text (you can use a format strings too)
             ImGui::Checkbox("Demo Window", &show_demo_window); // Edit bools storing our window open/close state
             ImGui::Checkbox("Another Window", &show_another_window);
@@ -245,34 +276,65 @@ int main()
             ImGui::Text("counter = %d", counter);
             ImGui::SliderFloat("float", &ff, 0.0f, 1.0f);
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
-            ImVec2 t{img.getSzie().x * ff, img.getSzie().y * ff};
-
-            ImGui::Image((void *)(intptr_t)(textureID), t);
-
+            {
+                if (ImGui::Button("添加")) // Buttons return true when clicked (most widgets return true when edited/activated)
+                {
+                    if (index < aaa.size())
+                    {
+                        std::string s = "D:\\bz\\100\\2023-07-02\\";
+                        s += aaa[index];
+                        sssl.push_back(s);
+                        index++;
+                    }
+                }
+                if (ImGui::Button("下一个")) // Buttons return true when clicked (most widgets return true when edited/activated)
+                {
+                    if (aaa.size() > 0 && countersss < aaa.size() - 1)
+                    {
+                        countersss++;
+                    }
+                    else
+                    {
+                        countersss = 0;
+                    }
+                    std::string s = "D:\\bz\\100\\2023-07-02\\";
+                    s += aaa[countersss];
+                    if (sssl.size() > 0)
+                    {
+                        sssl.erase();
+                    }
+                    sssl.push_back(s);
+                    index++;
+                }
+                if (sssl.size() > 0)
+                {
+                    ImVec2 t{(sssl.get(0)).getSzie().x * ff, (sssl.get(0)).getSzie().y * ff};
+                    ImGui::Image((void *)(intptr_t)(sssl.get(0).getId()), t);
+                }
+                ImGui::Text("%d", countersss);
+            }
             ImGui::End();
         }
         if (show_another_window)
         {
             ImGuiWindowFlags window_flags = 0;
-            // window_flags |= ImGuiWindowFlags_NoTitleBar;
+            window_flags |= ImGuiWindowFlags_NoTitleBar;
             // window_flags |= ImGuiWindowFlags_NoScrollbar;
-            // window_flags |= ImGuiTableFlags_SizingFixedSame;
-
+            window_flags |= ImGuiTableFlags_SizingFixedSame;
             window_flags |= ImGuiWindowFlags_HorizontalScrollbar;
             ImGui::Begin("Another Window", &show_another_window, window_flags); // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-            // static char str1[128] = "";
-            // ImDrawList *draw_list = ImGui::GetWindowDrawList();
-            // drawLines(draw_list);
-            // ImGui::InputTextWithHint("input text (w/ hint)", "enter text here", str1, IM_ARRAYSIZE(str1));
-            // Funcs::MyInputTextMultiline("##MyStr", &my_str);
-            // ImGui::Text("宽度%f", ImGui::GetWindowWidth());
+            static char str1[128] = "";
+            ImDrawList *draw_list = ImGui::GetWindowDrawList();
+            drawLines(draw_list);
+            ImGui::InputTextWithHint("input text (w/ hint)", "enter text here", str1, IM_ARRAYSIZE(str1));
+            Funcs::MyInputTextMultiline("##MyStr", &my_str);
+            ImGui::Text("宽度%f", ImGui::GetWindowWidth());
             if (ImGui::Button("Close Me"))
                 show_another_window = false;
 
-            drawImGuiCanvas(window);
-            // bool flag = true;
-            // smily::Div div("Another Window", &flag, window_flags);
-            // div.drawImage(Images);
+            bool flag = true;
+            smily::Div div("Another Window", &flag, window_flags);
+            div.drawImage(Images);
 
             // ImDrawList* drawList = ImGui::GetWindowDrawList();
             //    drawList->AddImage((void*)(intptr_t)texture, ImVec2(ImGui::GetCursorScreenPos()), ImVec2(ImGui::GetCursorScreenPos().x + imageSize.x, ImGui::GetCursorScreenPos().y + imageSize.y), ImVec2(0, 1), ImVec2(1, 0));
@@ -287,6 +349,7 @@ int main()
         ImGui::PopStyleVar(4);
         // 渲染
         ImGui::Render();
+
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
@@ -300,6 +363,11 @@ int main()
 
         glfwSwapBuffers(window);
         glfwPollEvents();
+        // if(io.Framerate>60)
+        // {
+        //      std::this_thread::sleep_for(std::chrono::duration<int, std::milli>(100));
+        // }
+        imgcount++;
     }
 
     glfwTerminate();

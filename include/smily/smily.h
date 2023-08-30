@@ -1,6 +1,6 @@
-#include<thread>
-#include<string>
-
+#include <thread>
+#include <string>
+#include <vector>
 namespace smily
 {
 
@@ -68,47 +68,114 @@ namespace smily
 
     class Mat2Texture
     {
+        class text
+        {
+        public:
+            GLuint texture;
+            int width;
+            int height;
+            uchar *data;
+            text() = default;
+            text(std::string imgdir)
+            {
+                cv::Mat image;
+                image = cv::imread(imgdir);
+                // cv::cvtColor(image, image, cv::COLOR_RGB2BGRA);
+                width = image.cols;
+                height = image.rows;
+                data = image.data;
+                glGenTextures(1, &texture);
+                glBindTexture(GL_TEXTURE_2D, texture);
+                // 为当前绑定的纹理对象设置环绕、过滤方式
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                // 加载并生成纹理
+                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, data);
+                glGenerateMipmap(GL_TEXTURE_2D);
+            }
+            ~text()
+            {
+                glDeleteTextures(1, &texture);
+                std::cout << "dsa" << std::endl;
+            }
+        };
+
     public:
+        std::shared_ptr<text> img;
+        Mat2Texture() = default;
+        Mat2Texture(std::string imgdir)
+        {
+            img = std::make_shared<text>(imgdir);
+        }
+        GLuint getId()
+        {
+            return (*img).texture;
+        }
+        ImVec2 getSzie()
+        {
+            return ImVec2((float)(*img).width, (float)(*img).height);
+        }
+        ImVec2 getSzie(float scaling)
+        {
+            return ImVec2((*img).width * scaling, (*img).height * scaling);
+        }
+    };
+    class Mat2Textures
+    {
+
+    public:
+        class maps
+        {
+        public:
+            std::set<std::string> imgMap;
+            bool push(std::string element)
+            {
+                if (imgMap.find(element) == imgMap.end())
+                {
+                    imgMap.insert(element);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        };
         GLuint texture;
         int width;
         int height;
         uchar *data;
-        Mat2Texture() = default;
-        Mat2Texture(std::string imgdir)
+        std::vector<Mat2Texture> imgs;
+        maps imgMap;
+        Mat2Textures() = default;
+        void push_back(std::string imagedir)
         {
-            cv::Mat image;
-            image = cv::imread(imgdir);
-            // cv::cvtColor(image, image, cv::COLOR_RGB2BGRA);
-            width = image.cols;
-            height = image.rows;
-            data = image.data;
-            glGenTextures(1, &texture);
-            glBindTexture(GL_TEXTURE_2D, texture);
-            // 为当前绑定的纹理对象设置环绕、过滤方式
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-            // 加载并生成纹理
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, data);
-            glGenerateMipmap(GL_TEXTURE_2D);
+            if (imgMap.push(imagedir))
+            {
+                // auto fun = []( std::vector<Mat2Texture> imgs,std::string imagedir)
+                // { 
+                // };
+                // std::thread t(fun,imgs,imagedir);
+                // t.detach();
+                 imgs.push_back(Mat2Texture(imagedir)); 
+            }
         }
-        GLuint getId()
+        void erase()
         {
-            return texture;
+            imgs.erase(imgs.begin());
         }
-        ImVec2 getSzie()
+        Mat2Texture get(int index)
         {
-
-            return ImVec2((float)width, (float)height);
+            return imgs[index];
         }
-        ImVec2 getSzie(float scaling)
+        size_t size()
         {
-            return ImVec2(width * scaling, height * scaling);
+            return imgs.size();
         }
-        ~Mat2Texture()
+        ~Mat2Textures()
         {
-            glDeleteTextures(1, &texture);
         }
     };
     class Image
@@ -122,15 +189,14 @@ namespace smily
         Image(ImTextureID imTextureid, ImVec2 imagesize) : imTextureId(imTextureid), imageSize(imagesize)
         {
         }
-         Image(ImTextureID imTextureid) : imTextureId(imTextureid)
+        Image(ImTextureID imTextureid) : imTextureId(imTextureid)
         {
-            imageSize={100,100};
+            imageSize = {100, 100};
         }
         ImVec2 getImageSize()
         {
             return imageSize;
         }
-
         ImTextureID getImTextureID()
         {
             return imTextureId;
@@ -183,7 +249,6 @@ namespace smily
         }
         void drawImage(std::vector<Image> Images)
         {
-
             auto fItemSpacing = ImGui::GetStyle().ItemSpacing;
             auto WindowPadding = ImGui::GetStyle().WindowPadding;
             if (display == "flex")
@@ -281,7 +346,6 @@ namespace smily
         }
         void push_back()
         {
-            
         }
 
         void drawButton(std::vector<Button> &Buttons)
