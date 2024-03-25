@@ -1,5 +1,7 @@
-#include<thread>
-#include<string>
+#include <thread>
+#include <string>
+#include <vector>
+#include <opencv2/opencv.hpp>
 namespace smily
 {
 
@@ -65,51 +67,118 @@ namespace smily
         }
     };
 
-    // class Mat2Texture
-    // {
-    // public:
-    //     GLuint texture;
-    //     int width;
-    //     int height;
-    //     uchar *data;
-    //     Mat2Texture() = default;
-    //     Mat2Texture(std::string imgdir)
-    //     {
-    //         cv::Mat image;
-    //         image = cv::imread(imgdir);
-    //         // cv::cvtColor(image, image, cv::COLOR_RGB2BGRA);
-    //         width = image.cols;
-    //         height = image.rows;
-    //         data = image.data;
-    //         glGenTextures(1, &texture);
-    //         glBindTexture(GL_TEXTURE_2D, texture);
-    //         // 为当前绑定的纹理对象设置环绕、过滤方式
-    //         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-    //         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-    //         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    //         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    //         // 加载并生成纹理
-    //         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, data);
-    //         glGenerateMipmap(GL_TEXTURE_2D);
-    //     }
-    //     GLuint getId()
-    //     {
-    //         return texture;
-    //     }
-    //     ImVec2 getSzie()
-    //     {
+    class Mat2Texture
+    {
+        class text
+        {
+        public:
+            GLuint texture;
+            int width;
+            int height;
+            uchar *data;
+            text() = default;
+            text(std::string imgdir)
+            {
+                cv::Mat image;
+                image = cv::imread(imgdir);
+                // cv::cvtColor(image, image, cv::COLOR_RGB2BGRA);
+                width = image.cols;
+                height = image.rows;
+                data = image.data;
+                glGenTextures(1, &texture);
+                glBindTexture(GL_TEXTURE_2D, texture);
+                // 为当前绑定的纹理对象设置环绕、过滤方式
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+                // 加载并生成纹理
+                glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, data);
+                glGenerateMipmap(GL_TEXTURE_2D);
+            }
+            ~text()
+            {
+                glDeleteTextures(1, &texture);
+               
+            }
+        };
 
-    //         return ImVec2((float)width, (float)height);
-    //     }
-    //     ImVec2 getSzie(float scaling)
-    //     {
-    //         return ImVec2(width * scaling, height * scaling);
-    //     }
-    //     ~Mat2Texture()
-    //     {
-    //         glDeleteTextures(1, &texture);
-    //     }
-    // };
+    public:
+        std::shared_ptr<text> img;
+        Mat2Texture() = default;
+        Mat2Texture(std::string imgdir)
+        {
+            img = std::make_shared<text>(imgdir);
+        }
+        GLuint getId()
+        {
+            return (*img).texture;
+        }
+        ImVec2 getSzie()
+        {
+            return ImVec2((float)(*img).width, (float)(*img).height);
+        }
+        ImVec2 getSzie(float scaling)
+        {
+            return ImVec2((*img).width * scaling, (*img).height * scaling);
+        }
+    };
+    class Mat2Textures
+    {
+
+    public:
+        class maps
+        {
+        public:
+            std::set<std::string> imgMap;
+            bool push(std::string element)
+            {
+                if (imgMap.find(element) == imgMap.end())
+                {
+                    imgMap.insert(element);
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        };
+        GLuint texture;
+        int width;
+        int height;
+        uchar *data;
+        std::vector<Mat2Texture> imgs;
+        maps imgMap;
+        Mat2Textures() = default;
+        void push_back(std::string imagedir)
+        {
+            if (imgMap.push(imagedir))
+            {
+                // auto fun = []( std::vector<Mat2Texture> imgs,std::string imagedir)
+                // { 
+                // };
+                // std::thread t(fun,imgs,imagedir);
+                // t.detach();
+                 imgs.push_back(Mat2Texture(imagedir)); 
+            }
+        }
+        void erase()
+        {
+            imgs.erase(imgs.begin());
+        }
+        Mat2Texture get(int index)
+        {
+            return imgs[index];
+        }
+        size_t size()
+        {
+            return imgs.size();
+        }
+        ~Mat2Textures()
+        {
+        }
+    };
     class Image
     {
 
@@ -121,11 +190,14 @@ namespace smily
         Image(ImTextureID imTextureid, ImVec2 imagesize) : imTextureId(imTextureid), imageSize(imagesize)
         {
         }
+        Image(ImTextureID imTextureid) : imTextureId(imTextureid)
+        {
+            imageSize = {100, 100};
+        }
         ImVec2 getImageSize()
         {
             return imageSize;
         }
-
         ImTextureID getImTextureID()
         {
             return imTextureId;
@@ -178,7 +250,6 @@ namespace smily
         }
         void drawImage(std::vector<Image> Images)
         {
-
             auto fItemSpacing = ImGui::GetStyle().ItemSpacing;
             auto WindowPadding = ImGui::GetStyle().WindowPadding;
             if (display == "flex")
@@ -274,12 +345,11 @@ namespace smily
                 ImGui::PopStyleVar();
             }
         }
-        void push_back(std::vector<Button> &Buttons)
+        void push_back()
         {
-            
-
         }
-        void drawButton(std::vector<Button> Buttons)
+
+        void drawButton(std::vector<Button> &Buttons)
         {
 
             auto fItemSpacing = ImGui::GetStyle().ItemSpacing;

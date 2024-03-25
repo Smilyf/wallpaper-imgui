@@ -1,645 +1,516 @@
-#include <glad/glad.h>
-#include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-<<<<<<< HEAD
-=======
-// #include "Shader.h"
->>>>>>> origin/main
+// Dear ImGui: standalone example application for SDL2 + Vulkan
+// If you are new to Dear ImGui, read documentation from the docs/ folder + read the top of imgui.cpp.
+// Read online: https://github.com/ocornut/imgui/tree/master/docs
+
+// Important note to the reader who wish to integrate imgui_impl_vulkan.cpp/.h in their own engine/app.
+// - Common ImGui_ImplVulkan_XXX functions and structures are used to interface with imgui_impl_vulkan.cpp/.h.
+//   You will use those if you want to use this rendering backend in your engine/app.
+// - Helper ImGui_ImplVulkanH_XXX functions and structures are only used by this example (main.cpp) and by
+//   the backend itself (imgui_impl_vulkan.cpp), but should PROBABLY NOT be used by your own engine/app code.
+// Read comments in imgui_impl_vulkan.h.
+
 #include "imgui.h"
-#include "imgui_impl_glfw.h"
-#include "imgui_impl_opengl3.h"
+#include "imgui_impl_sdl2.h"
+#include "imgui_impl_vulkan.h"
+#include <stdio.h>          // printf, fprintf
+#include <stdlib.h>         // abort
+#include <SDL.h>
+#include <SDL_vulkan.h>
+#include <vulkan/vulkan.h>
 
-<<<<<<< HEAD
-#include <opencv2/opencv.hpp>
-#include <future>
-#include <iostream>
-#include <thread>
-#include <chrono>
-// #define STB_IMAGE_IMPLEMENTATION
-// #include "stb_image.h"
+//#define IMGUI_UNLIMITED_FRAME_RATE
+#ifdef _DEBUG
+#define IMGUI_VULKAN_DEBUG_REPORT
+#endif
+#undef main
+// Data
+static VkAllocationCallbacks*   g_Allocator = NULL;
+static VkInstance               g_Instance = VK_NULL_HANDLE;
+static VkPhysicalDevice         g_PhysicalDevice = VK_NULL_HANDLE;
+static VkDevice                 g_Device = VK_NULL_HANDLE;
+static uint32_t                 g_QueueFamily = (uint32_t)-1;
+static VkQueue                  g_Queue = VK_NULL_HANDLE;
+static VkDebugReportCallbackEXT g_DebugReport = VK_NULL_HANDLE;
+static VkPipelineCache          g_PipelineCache = VK_NULL_HANDLE;
+static VkDescriptorPool         g_DescriptorPool = VK_NULL_HANDLE;
 
-std::atomic<bool> data_ready(true);
-namespace smily
+static ImGui_ImplVulkanH_Window g_MainWindowData;
+static uint32_t                 g_MinImageCount = 2;
+static bool                     g_SwapChainRebuild = false;
+
+static void check_vk_result(VkResult err)
 {
+    if (err == 0)
+        return;
+    fprintf(stderr, "[vulkan] Error: VkResult = %d\n", err);
+    if (err < 0)
+        abort();
+}
 
-    class joining_thread
-    {
-        std::thread t;
-
-    public:
-        joining_thread() noexcept = default;
-        template <typename Callable, typename... Args>
-        explicit joining_thread(Callable &&func, Args &&...args) : t(std::forward<Callable>(func), std::forward<Args>(args)...)
-        {
-        }
-        explicit joining_thread(std::thread t_) noexcept : t(std::move(t_))
-        {
-        }
-        joining_thread(joining_thread &&other) noexcept : t(std::move(other.t))
-        {
-        }
-        joining_thread &operator=(joining_thread &&other) noexcept
-        {
-
-            if (joinable())
-            {
-                join();
-            }
-            t = std::move(other.t);
-            return *this;
-        }
-
-        ~joining_thread() noexcept
-        {
-            if (joinable())
-                join();
-        }
-        void swap(joining_thread &other) noexcept
-        {
-            t.swap(other.t);
-        }
-        std::thread::id get_id() const noexcept
-        {
-            return t.get_id();
-        }
-        bool joinable() const noexcept
-        {
-            return t.joinable();
-        }
-        void join()
-        {
-            t.join();
-        }
-        void detach()
-        {
-            t.detach();
-        }
-        std::thread &as_thread() noexcept
-        {
-            return t;
-        }
-        const std::thread &as_thread() const noexcept
-        {
-            return t;
-        }
-    };
-
-    class Mat2Texture
-    {
-    public:
-        GLuint texture;
-        int width;
-        int height;
-        uchar *data;
-        Mat2Texture() = default;
-        Mat2Texture(std::string imgdir) 
-        {
-            cv::Mat image;
-            image = cv::imread(imgdir);
-            // cv::cvtColor(image, image, cv::COLOR_RGB2BGRA);
-            width = image.cols;
-            height = image.rows;
-            data = image.data;
-            glGenTextures(1, &texture);
-            glBindTexture(GL_TEXTURE_2D, texture);
-            // 为当前绑定的纹理对象设置环绕、过滤方式
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_BORDER);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_BORDER);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-            // 加载并生成纹理
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_BGR, GL_UNSIGNED_BYTE, data);
-            glGenerateMipmap(GL_TEXTURE_2D);
-        }
-        GLuint getId()
-        {
-            return texture;
-        }
-        ImVec2 getSzie()
-        {
-
-            return ImVec2((float)width, (float)height);
-        }
-        ImVec2 getSzie(float scaling)
-        {
-            return ImVec2(width * scaling, height * scaling);
-        }
-        ~Mat2Texture()
-        {
-            glDeleteTextures(1, &texture);
-        }
-    };
-    class Image
-    {
-
-    private:
-        ImTextureID imTextureId;
-        ImVec2 imageSize;
-
-    public:
-        Image(ImTextureID imTextureid, ImVec2 imagesize) : imTextureId(imTextureid), imageSize(imagesize)
-        {
-        }
-        ImVec2 getImageSize()
-        {
-            return imageSize;
-        }
-
-        ImTextureID getImTextureID()
-        {
-            return imTextureId;
-        }
-    };
-    class Button
-    {
-
-    private:
-        ImVec2 buttonSize;
-        std::string label;
-
-    public:
-        Button() = default;
-        Button(std::string label, ImVec2 size) : label(label), buttonSize(size)
-        {
-        }
-        ImVec2 getButtonSize()
-        {
-            return buttonSize;
-        }
-        const char *getButtonLabel()
-        {
-            return label.c_str();
-        }
-
-        ~Button() = default;
-    };
-    class Div
-    {
-    private:
-        std::string display = "flex";
-        float windowWidth;
-        float windowHeight;
-        ImVec2 minSpace = {20.0, 20.0};
-        ImVec2 WindowPadding = {0.0, 0.0};
-
-    public:
-        Div(std::string divName, bool *p_open, ImGuiWindowFlags window_flags = 0)
-        {
-
-            ImGui::Begin(divName.c_str(), p_open, window_flags); // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
-            windowWidth = ImGui::GetWindowWidth();
-            windowHeight = ImGui::GetWindowHeight();
-        }
-
-        void setDisplay(std::string x)
-        {
-            display = x;
-        }
-        void drawImage(std::vector<Image> Images)
-        {
-
-            auto fItemSpacing = ImGui::GetStyle().ItemSpacing;
-            auto WindowPadding = ImGui::GetStyle().WindowPadding;
-            if (display == "flex")
-            {
-
-                ImVec2 ItemSpacing;
-                float windowswidth_ = windowWidth - WindowPadding.x * 2;
-                float width = 0;
-                bool flag = false;
-                std::deque<smily::Image> deque_Images;
-                for (size_t i = 0; i < Images.size(); i++)
-                {
-                    auto image = Images[i];
-
-                    if (width + 2 + image.getImageSize().x + std::max(1, (int)deque_Images.size() - 1) * minSpace.x <= windowswidth_)
-                    {
-
-                        width += image.getImageSize().x + 2;
-                        deque_Images.push_back(image);
-                    }
-                    else
-                    {
-                        // ImGui::Text("%d",deque_Images.size());
-                        if (deque_Images.empty())
-                        {
-                            ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0, minSpace.y));
-                            ItemSpacing = ImVec2(0.0, minSpace.y);
-                            ImGui::Image(image.getImTextureID(), image.getImageSize(), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0), ImVec4(255, 255, 255, 1), ImVec4(0, 0, 0, 1));
-                            ImGui::PopStyleVar();
-                        }
-                        if (deque_Images.size() == 1)
-                        {
-                            ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2((windowswidth_ - width) / 2, minSpace.y));
-                            ItemSpacing = ImVec2((windowswidth_ - width) / 2, minSpace.y);
-                            auto item = deque_Images.front();
-                            deque_Images.pop_front();
-                            ImGui::Image(item.getImTextureID(), item.getImageSize(), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0), ImVec4(255, 255, 255, 1), ImVec4(0, 0, 0, 1));
-                            i--;
-                            ImGui::PopStyleVar();
-                        }
-
-                        if (deque_Images.size() > 1)
-                        {
-                            bool flag_ = false;
-                            ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2((windowswidth_ - width) / (deque_Images.size() - 1), minSpace.y));
-                            ItemSpacing = ImVec2((windowswidth_ - width) / (deque_Images.size() - 1), minSpace.y);
-
-                            for (auto item : deque_Images)
-                            {
-                                if (!flag_)
-                                {
-                                    flag_ = true;
-                                }
-                                else
-                                {
-
-                                    ImGui::SameLine();
-                                }
-                                ImGui::Image(item.getImTextureID(), item.getImageSize(), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0), ImVec4(255, 255, 255, 1), ImVec4(0, 0, 0, 1));
-                                ImGui::SetItemDefaultFocus();
-                            }
-                            deque_Images.clear();
-                            i--;
-                            ImGui::PopStyleVar();
-                        }
-                        width = 0;
-                    }
-                }
-                if (deque_Images.size() <= 1)
-                {
-                    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0, 10.0));
-                }
-                else if (deque_Images.size() == Images.size())
-                {
-                    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2((windowswidth_ - width) / (deque_Images.size() - 1), minSpace.y));
-                }
-                else
-                {
-
-                    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ItemSpacing);
-                    // ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2((windowswidth_ - width) / (deque_Images.size() - 1), 10.0));
-                }
-                for (auto item : deque_Images)
-                {
-                    if (!flag)
-                    {
-                        flag = true;
-                    }
-                    else
-                    {
-                        ImGui::SameLine();
-                    }
-                    ImGui::Image(item.getImTextureID(), item.getImageSize(), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0), ImVec4(255, 255, 255, 1), ImVec4(0, 0, 0, 1));
-                }
-                deque_Images.clear();
-                ImGui::PopStyleVar();
-            }
-        }
-
-        void drawButton(std::vector<Button> Buttons)
-        {
-
-            auto fItemSpacing = ImGui::GetStyle().ItemSpacing;
-            auto WindowPadding = ImGui::GetStyle().WindowPadding;
-            if (display == "flex")
-            {
-                ImVec2 ItemSpacing = {0.0, 0.0};
-                float windowswidth_ = windowWidth - WindowPadding.x * 2;
-                float width = 0;
-                bool flag = false;
-                std::deque<smily::Button> dequeButtons;
-
-                for (size_t i = 0; i < Buttons.size(); i++)
-                {
-                    auto button = Buttons[i];
-
-                    if (width + 2 + button.getButtonSize().x + std::max(1, (int)dequeButtons.size() - 1) * minSpace.x <= windowswidth_)
-                    {
-
-                        width += button.getButtonSize().x;
-                        dequeButtons.push_back(button);
-                    }
-                    else
-                    {
-
-                        if (dequeButtons.empty())
-                        {
-                            ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0, minSpace.y));
-                            ItemSpacing = ImVec2(0.0, minSpace.y);
-                            ImGui::Button(button.getButtonLabel(), button.getButtonSize());
-                            ImGui::PopStyleVar();
-                        }
-                        if (dequeButtons.size() == 1)
-                        {
-                            ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2((windowswidth_ - width) / 2, minSpace.y));
-                            ItemSpacing = ImVec2((windowswidth_ - width) / 2, minSpace.y);
-
-                            auto item = dequeButtons.front();
-                            dequeButtons.pop_front();
-
-                            ImGui::Button(item.getButtonLabel(), item.getButtonSize());
-                            i--;
-                            ImGui::PopStyleVar();
-                        }
-
-                        if (dequeButtons.size() > 1)
-                        {
-                            bool flag_ = false;
-                            ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2((windowswidth_ - width) / (dequeButtons.size() - 1), minSpace.y));
-                            ItemSpacing = ImVec2((windowswidth_ - width) / (dequeButtons.size() - 1), minSpace.y);
-
-                            for (auto item : dequeButtons)
-                            {
-                                if (!flag_)
-                                {
-                                    flag_ = true;
-                                }
-                                else
-                                {
-
-                                    ImGui::SameLine();
-                                }
-                                ImGui::Button(item.getButtonLabel(), item.getButtonSize());
-                                ImGui::SetItemDefaultFocus();
-                            }
-                            dequeButtons.clear();
-                            i--;
-                            ImGui::PopStyleVar();
-                        }
-                        width = 0;
-                    }
-                }
-                if (dequeButtons.size() <= 1)
-                {
-                    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0, 10.0));
-                }
-                else if (dequeButtons.size() == Buttons.size())
-                {
-                    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2((windowswidth_ - width) / (dequeButtons.size() - 1), minSpace.y));
-                }
-                else
-                {
-
-                    ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ItemSpacing);
-                    // ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2((windowswidth_ - width) / (dequeButtons.size() - 1), 10.0));
-                }
-                for (auto item : dequeButtons)
-                {
-                    if (!flag)
-                    {
-                        flag = true;
-                    }
-                    else
-                    {
-                        ImGui::SameLine();
-                    }
-                    ImGui::Button(item.getButtonLabel(), item.getButtonSize());
-                }
-                dequeButtons.clear();
-                ImGui::PopStyleVar();
-            }
-        }
-        ~Div()
-        {
-            ImGui::End();
-        }
-    };
-
-};
-=======
-#include <iostream>
-
-#include <opencv2/opencv.hpp>
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
-using namespace cv;
->>>>>>> origin/main
-
-void framebuffer_size_callback(GLFWwindow *window, int width, int height);
-void processInput(GLFWwindow *window);
-
-// settings
-<<<<<<< HEAD
-const unsigned int SCR_WIDTH = 1920;
-const unsigned int SCR_HEIGHT = 1080;
-void fun(GLFWwindow *window)
+#ifdef IMGUI_VULKAN_DEBUG_REPORT
+static VKAPI_ATTR VkBool32 VKAPI_CALL debug_report(VkDebugReportFlagsEXT flags, VkDebugReportObjectTypeEXT objectType, uint64_t object, size_t location, int32_t messageCode, const char* pLayerPrefix, const char* pMessage, void* pUserData)
 {
+    (void)flags; (void)object; (void)location; (void)messageCode; (void)pUserData; (void)pLayerPrefix; // Unused arguments
+    fprintf(stderr, "[vulkan] Debug report from ObjectType: %i\nMessage: %s\n\n", objectType, pMessage);
+    return VK_FALSE;
+}
+#endif // IMGUI_VULKAN_DEBUG_REPORT
 
-    while (1)
+static void SetupVulkan(const char** extensions, uint32_t extensions_count)
+{
+    VkResult err;
+
+    // Create Vulkan Instance
     {
-        ImGuiIO &io = ImGui::GetIO();
-        int width, height;
-        bool flag = false;
-        glfwGetWindowSize(window, &width, &height);
-        if (io.MousePos.x - 10 < 0 || io.MousePos.y - 10 < 0 || io.MousePos.x > width + 10 || io.MousePos.y > height + 10)
+        VkInstanceCreateInfo create_info = {};
+        create_info.sType = VK_STRUCTURE_TYPE_INSTANCE_CREATE_INFO;
+        create_info.enabledExtensionCount = extensions_count;
+        create_info.ppEnabledExtensionNames = extensions;
+#ifdef IMGUI_VULKAN_DEBUG_REPORT
+        // Enabling validation layers
+        const char* layers[] = { "VK_LAYER_KHRONOS_validation" };
+        create_info.enabledLayerCount = 1;
+        create_info.ppEnabledLayerNames = layers;
+
+        // Enable debug report extension (we need additional storage, so we duplicate the user array to add our new extension to it)
+        const char** extensions_ext = (const char**)malloc(sizeof(const char*) * (extensions_count + 1));
+        memcpy(extensions_ext, extensions, extensions_count * sizeof(const char*));
+        extensions_ext[extensions_count] = "VK_EXT_debug_report";
+        create_info.enabledExtensionCount = extensions_count + 1;
+        create_info.ppEnabledExtensionNames = extensions_ext;
+
+        // Create Vulkan Instance
+        err = vkCreateInstance(&create_info, g_Allocator, &g_Instance);
+        check_vk_result(err);
+        free(extensions_ext);
+
+        // Get the function pointer (required for any extensions)
+        auto vkCreateDebugReportCallbackEXT = (PFN_vkCreateDebugReportCallbackEXT)vkGetInstanceProcAddr(g_Instance, "vkCreateDebugReportCallbackEXT");
+        IM_ASSERT(vkCreateDebugReportCallbackEXT != NULL);
+
+        // Setup the debug report callback
+        VkDebugReportCallbackCreateInfoEXT debug_report_ci = {};
+        debug_report_ci.sType = VK_STRUCTURE_TYPE_DEBUG_REPORT_CALLBACK_CREATE_INFO_EXT;
+        debug_report_ci.flags = VK_DEBUG_REPORT_ERROR_BIT_EXT | VK_DEBUG_REPORT_WARNING_BIT_EXT | VK_DEBUG_REPORT_PERFORMANCE_WARNING_BIT_EXT;
+        debug_report_ci.pfnCallback = debug_report;
+        debug_report_ci.pUserData = NULL;
+        err = vkCreateDebugReportCallbackEXT(g_Instance, &debug_report_ci, g_Allocator, &g_DebugReport);
+        check_vk_result(err);
+#else
+        // Create Vulkan Instance without any debug feature
+        err = vkCreateInstance(&create_info, g_Allocator, &g_Instance);
+        check_vk_result(err);
+        IM_UNUSED(g_DebugReport);
+#endif
+    }
+
+    // Select GPU
+    {
+        uint32_t gpu_count;
+        err = vkEnumeratePhysicalDevices(g_Instance, &gpu_count, NULL);
+        check_vk_result(err);
+        IM_ASSERT(gpu_count > 0);
+
+        VkPhysicalDevice* gpus = (VkPhysicalDevice*)malloc(sizeof(VkPhysicalDevice) * gpu_count);
+        err = vkEnumeratePhysicalDevices(g_Instance, &gpu_count, gpus);
+        check_vk_result(err);
+
+        // If a number >1 of GPUs got reported, find discrete GPU if present, or use first one available. This covers
+        // most common cases (multi-gpu/integrated+dedicated graphics). Handling more complicated setups (multiple
+        // dedicated GPUs) is out of scope of this sample.
+        int use_gpu = 0;
+        for (int i = 0; i < (int)gpu_count; i++)
         {
-            flag = true;
-        }
-        if (!ImGui::IsMousePosValid())
-        {
-            flag = true;
-        }
-        if (flag)
-        {
-            if (io.Framerate > 30.0)
+            VkPhysicalDeviceProperties properties;
+            vkGetPhysicalDeviceProperties(gpus[i], &properties);
+            if (properties.deviceType == VK_PHYSICAL_DEVICE_TYPE_DISCRETE_GPU)
             {
-                data_ready = false;
+                use_gpu = i;
+                break;
             }
-            // std::this_thread::sleep_for(std::chrono::duration<long long, std::ratio<1, 1000>>(20));
         }
-        if (glfwWindowShouldClose(window))
+
+        g_PhysicalDevice = gpus[use_gpu];
+        free(gpus);
+    }
+
+    // Select graphics queue family
+    {
+        uint32_t count;
+        vkGetPhysicalDeviceQueueFamilyProperties(g_PhysicalDevice, &count, NULL);
+        VkQueueFamilyProperties* queues = (VkQueueFamilyProperties*)malloc(sizeof(VkQueueFamilyProperties) * count);
+        vkGetPhysicalDeviceQueueFamilyProperties(g_PhysicalDevice, &count, queues);
+        for (uint32_t i = 0; i < count; i++)
+            if (queues[i].queueFlags & VK_QUEUE_GRAPHICS_BIT)
+            {
+                g_QueueFamily = i;
+                break;
+            }
+        free(queues);
+        IM_ASSERT(g_QueueFamily != (uint32_t)-1);
+    }
+
+    // Create Logical Device (with 1 queue)
+    {
+        int device_extension_count = 1;
+        const char* device_extensions[] = { "VK_KHR_swapchain" };
+        const float queue_priority[] = { 1.0f };
+        VkDeviceQueueCreateInfo queue_info[1] = {};
+        queue_info[0].sType = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;
+        queue_info[0].queueFamilyIndex = g_QueueFamily;
+        queue_info[0].queueCount = 1;
+        queue_info[0].pQueuePriorities = queue_priority;
+        VkDeviceCreateInfo create_info = {};
+        create_info.sType = VK_STRUCTURE_TYPE_DEVICE_CREATE_INFO;
+        create_info.queueCreateInfoCount = sizeof(queue_info) / sizeof(queue_info[0]);
+        create_info.pQueueCreateInfos = queue_info;
+        create_info.enabledExtensionCount = device_extension_count;
+        create_info.ppEnabledExtensionNames = device_extensions;
+        err = vkCreateDevice(g_PhysicalDevice, &create_info, g_Allocator, &g_Device);
+        check_vk_result(err);
+        vkGetDeviceQueue(g_Device, g_QueueFamily, 0, &g_Queue);
+    }
+
+    // Create Descriptor Pool
+    {
+        VkDescriptorPoolSize pool_sizes[] =
         {
-            break;
-        }
+            { VK_DESCRIPTOR_TYPE_SAMPLER, 1000 },
+            { VK_DESCRIPTOR_TYPE_COMBINED_IMAGE_SAMPLER, 1000 },
+            { VK_DESCRIPTOR_TYPE_SAMPLED_IMAGE, 1000 },
+            { VK_DESCRIPTOR_TYPE_STORAGE_IMAGE, 1000 },
+            { VK_DESCRIPTOR_TYPE_UNIFORM_TEXEL_BUFFER, 1000 },
+            { VK_DESCRIPTOR_TYPE_STORAGE_TEXEL_BUFFER, 1000 },
+            { VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER, 1000 },
+            { VK_DESCRIPTOR_TYPE_STORAGE_BUFFER, 1000 },
+            { VK_DESCRIPTOR_TYPE_UNIFORM_BUFFER_DYNAMIC, 1000 },
+            { VK_DESCRIPTOR_TYPE_STORAGE_BUFFER_DYNAMIC, 1000 },
+            { VK_DESCRIPTOR_TYPE_INPUT_ATTACHMENT, 1000 }
+        };
+        VkDescriptorPoolCreateInfo pool_info = {};
+        pool_info.sType = VK_STRUCTURE_TYPE_DESCRIPTOR_POOL_CREATE_INFO;
+        pool_info.flags = VK_DESCRIPTOR_POOL_CREATE_FREE_DESCRIPTOR_SET_BIT;
+        pool_info.maxSets = 1000 * IM_ARRAYSIZE(pool_sizes);
+        pool_info.poolSizeCount = (uint32_t)IM_ARRAYSIZE(pool_sizes);
+        pool_info.pPoolSizes = pool_sizes;
+        err = vkCreateDescriptorPool(g_Device, &pool_info, g_Allocator, &g_DescriptorPool);
+        check_vk_result(err);
     }
 }
 
-=======
-const unsigned int SCR_WIDTH = 800;
-const unsigned int SCR_HEIGHT = 600;
-GLuint Mat2Texture(std::string imgdir)
+// All the ImGui_ImplVulkanH_XXX structures/functions are optional helpers used by the demo.
+// Your real engine/app may not use them.
+static void SetupVulkanWindow(ImGui_ImplVulkanH_Window* wd, VkSurfaceKHR surface, int width, int height)
 {
+    wd->Surface = surface;
 
-    cv::Mat image;
-    image = imread(imgdir);
-    cv::cvtColor(image, image, cv::COLOR_RGB2BGRA);
-
-    // auto width=image.cols;
-    // auto height=image.rows;
-    // auto data=image.data;
-    int width = 10, height = 10, nrChannels;
-    unsigned char *data = stbi_load(imgdir.c_str(), &width, &height, &nrChannels, 0);
-
-    if (image.empty())
+    // Check for WSI support
+    VkBool32 res;
+    vkGetPhysicalDeviceSurfaceSupportKHR(g_PhysicalDevice, g_QueueFamily, wd->Surface, &res);
+    if (res != VK_TRUE)
     {
-        std::cout << "image is empty! " << std::endl;
-        return -1;
+        fprintf(stderr, "Error no WSI support on physical device 0\n");
+        exit(-1);
     }
-    else
+
+    // Select Surface Format
+    const VkFormat requestSurfaceImageFormat[] = { VK_FORMAT_B8G8R8A8_UNORM, VK_FORMAT_R8G8B8A8_UNORM, VK_FORMAT_B8G8R8_UNORM, VK_FORMAT_R8G8B8_UNORM };
+    const VkColorSpaceKHR requestSurfaceColorSpace = VK_COLORSPACE_SRGB_NONLINEAR_KHR;
+    wd->SurfaceFormat = ImGui_ImplVulkanH_SelectSurfaceFormat(g_PhysicalDevice, wd->Surface, requestSurfaceImageFormat, (size_t)IM_ARRAYSIZE(requestSurfaceImageFormat), requestSurfaceColorSpace);
+
+    // Select Present Mode
+#ifdef IMGUI_UNLIMITED_FRAME_RATE
+    VkPresentModeKHR present_modes[] = { VK_PRESENT_MODE_MAILBOX_KHR, VK_PRESENT_MODE_IMMEDIATE_KHR, VK_PRESENT_MODE_FIFO_KHR };
+#else
+    VkPresentModeKHR present_modes[] = { VK_PRESENT_MODE_FIFO_KHR };
+#endif
+    wd->PresentMode = ImGui_ImplVulkanH_SelectPresentMode(g_PhysicalDevice, wd->Surface, &present_modes[0], IM_ARRAYSIZE(present_modes));
+    //printf("[vulkan] Selected PresentMode = %d\n", wd->PresentMode);
+
+    // Create SwapChain, RenderPass, Framebuffer, etc.
+    IM_ASSERT(g_MinImageCount >= 2);
+    ImGui_ImplVulkanH_CreateOrResizeWindow(g_Instance, g_PhysicalDevice, g_Device, wd, g_QueueFamily, g_Allocator, width, height, g_MinImageCount);
+}
+
+static void CleanupVulkan()
+{
+    vkDestroyDescriptorPool(g_Device, g_DescriptorPool, g_Allocator);
+
+#ifdef IMGUI_VULKAN_DEBUG_REPORT
+    // Remove the debug report callback
+    auto vkDestroyDebugReportCallbackEXT = (PFN_vkDestroyDebugReportCallbackEXT)vkGetInstanceProcAddr(g_Instance, "vkDestroyDebugReportCallbackEXT");
+    vkDestroyDebugReportCallbackEXT(g_Instance, g_DebugReport, g_Allocator);
+#endif // IMGUI_VULKAN_DEBUG_REPORT
+
+    vkDestroyDevice(g_Device, g_Allocator);
+    vkDestroyInstance(g_Instance, g_Allocator);
+}
+
+static void CleanupVulkanWindow()
+{
+    ImGui_ImplVulkanH_DestroyWindow(g_Instance, g_Device, &g_MainWindowData, g_Allocator);
+}
+
+static void FrameRender(ImGui_ImplVulkanH_Window* wd, ImDrawData* draw_data)
+{
+    VkResult err;
+
+    VkSemaphore image_acquired_semaphore  = wd->FrameSemaphores[wd->SemaphoreIndex].ImageAcquiredSemaphore;
+    VkSemaphore render_complete_semaphore = wd->FrameSemaphores[wd->SemaphoreIndex].RenderCompleteSemaphore;
+    err = vkAcquireNextImageKHR(g_Device, wd->Swapchain, UINT64_MAX, image_acquired_semaphore, VK_NULL_HANDLE, &wd->FrameIndex);
+    if (err == VK_ERROR_OUT_OF_DATE_KHR || err == VK_SUBOPTIMAL_KHR)
     {
-        
-        GLuint texture;
-        glGenTextures(1, &texture);
-        glBindTexture(GL_TEXTURE_2D, texture);
-        // 为当前绑定的纹理对象设置环绕、过滤方式
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-        // 加载并生成纹理
-        int width, height, nrChannels;
-        unsigned char *data = stbi_load(imgdir.c_str(), &width, &height, &nrChannels, 0);
-        if (data)
-        {
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-            glGenerateMipmap(GL_TEXTURE_2D);
-        }
-        else
-        {
-            std::cout << "Failed to load texture" << std::endl;
-        }
-        stbi_image_free(data);
-        return texture;
+        g_SwapChainRebuild = true;
+        return;
+    }
+    check_vk_result(err);
+
+    ImGui_ImplVulkanH_Frame* fd = &wd->Frames[wd->FrameIndex];
+    {
+        err = vkWaitForFences(g_Device, 1, &fd->Fence, VK_TRUE, UINT64_MAX);    // wait indefinitely instead of periodically checking
+        check_vk_result(err);
+
+        err = vkResetFences(g_Device, 1, &fd->Fence);
+        check_vk_result(err);
+    }
+    {
+        err = vkResetCommandPool(g_Device, fd->CommandPool, 0);
+        check_vk_result(err);
+        VkCommandBufferBeginInfo info = {};
+        info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+        info.flags |= VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+        err = vkBeginCommandBuffer(fd->CommandBuffer, &info);
+        check_vk_result(err);
+    }
+    {
+        VkRenderPassBeginInfo info = {};
+        info.sType = VK_STRUCTURE_TYPE_RENDER_PASS_BEGIN_INFO;
+        info.renderPass = wd->RenderPass;
+        info.framebuffer = fd->Framebuffer;
+        info.renderArea.extent.width = wd->Width;
+        info.renderArea.extent.height = wd->Height;
+        info.clearValueCount = 1;
+        info.pClearValues = &wd->ClearValue;
+        vkCmdBeginRenderPass(fd->CommandBuffer, &info, VK_SUBPASS_CONTENTS_INLINE);
+    }
+
+    // Record dear imgui primitives into command buffer
+    ImGui_ImplVulkan_RenderDrawData(draw_data, fd->CommandBuffer);
+
+    // Submit command buffer
+    vkCmdEndRenderPass(fd->CommandBuffer);
+    {
+        VkPipelineStageFlags wait_stage = VK_PIPELINE_STAGE_COLOR_ATTACHMENT_OUTPUT_BIT;
+        VkSubmitInfo info = {};
+        info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+        info.waitSemaphoreCount = 1;
+        info.pWaitSemaphores = &image_acquired_semaphore;
+        info.pWaitDstStageMask = &wait_stage;
+        info.commandBufferCount = 1;
+        info.pCommandBuffers = &fd->CommandBuffer;
+        info.signalSemaphoreCount = 1;
+        info.pSignalSemaphores = &render_complete_semaphore;
+
+        err = vkEndCommandBuffer(fd->CommandBuffer);
+        check_vk_result(err);
+        err = vkQueueSubmit(g_Queue, 1, &info, fd->Fence);
+        check_vk_result(err);
     }
 }
->>>>>>> origin/main
-int main()
+
+static void FramePresent(ImGui_ImplVulkanH_Window* wd)
 {
-    // 设置330版本给imgui使用
-    const char *glsl_version = "#version 330";
-    // glfw: initialize and configure
-    // ------------------------------
-    glfwInit();
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-<<<<<<< HEAD
-    glfwWindowHint(GLFW_SAMPLES, 4);
-    // glfwWindowHint(GLFW_VISIBLE, GLFW_FALSE); // 设置 offscreen context 的标志位
-    //  glfw window creation
-    //  --------------------
-=======
-
-
-    // glfw window creation
-    // --------------------
->>>>>>> origin/main
-    GLFWwindow *window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
-    if (window == NULL)
+    if (g_SwapChainRebuild)
+        return;
+    VkSemaphore render_complete_semaphore = wd->FrameSemaphores[wd->SemaphoreIndex].RenderCompleteSemaphore;
+    VkPresentInfoKHR info = {};
+    info.sType = VK_STRUCTURE_TYPE_PRESENT_INFO_KHR;
+    info.waitSemaphoreCount = 1;
+    info.pWaitSemaphores = &render_complete_semaphore;
+    info.swapchainCount = 1;
+    info.pSwapchains = &wd->Swapchain;
+    info.pImageIndices = &wd->FrameIndex;
+    VkResult err = vkQueuePresentKHR(g_Queue, &info);
+    if (err == VK_ERROR_OUT_OF_DATE_KHR || err == VK_SUBOPTIMAL_KHR)
     {
-        std::cout << "Failed to create GLFW window" << std::endl;
-        glfwTerminate();
-        return -1;
+        g_SwapChainRebuild = true;
+        return;
     }
-    glfwMakeContextCurrent(window);
-    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    check_vk_result(err);
+    wd->SemaphoreIndex = (wd->SemaphoreIndex + 1) % wd->ImageCount; // Now we can use the next set of semaphores
+}
 
-    // glad: load all OpenGL function pointers
-    // ---------------------------------------
-    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
+// Main code
+int main(int, char**)
+{
+    // Setup SDL
+    if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_TIMER | SDL_INIT_GAMECONTROLLER) != 0)
     {
-        std::cout << "Failed to initialize GLAD" << std::endl;
+        printf("Error: %s\n", SDL_GetError());
         return -1;
     }
 
-    // configure global opengl state
-    // -----------------------------
-    glEnable(GL_DEPTH_TEST);
-<<<<<<< HEAD
-    glEnable(GL_MULTISAMPLE);
-    glfwSwapInterval(1);
-=======
+    // From 2.0.18: Enable native IME.
+#ifdef SDL_HINT_IME_SHOW_UI
+    SDL_SetHint(SDL_HINT_IME_SHOW_UI, "1");
+#endif
 
->>>>>>> origin/main
-    // build and compile our shader zprogram
-    // 在上面配置初始化完成后再进行界面的引入
-    // 创建imgui的上下文
+    // Create window with Vulkan graphics context
+    SDL_WindowFlags window_flags = (SDL_WindowFlags)(SDL_WINDOW_VULKAN | SDL_WINDOW_RESIZABLE | SDL_WINDOW_ALLOW_HIGHDPI);
+    SDL_Window* window = SDL_CreateWindow("Dear ImGui SDL2+Vulkan example", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720, window_flags);
+    uint32_t extensions_count = 0;
+    SDL_Vulkan_GetInstanceExtensions(window, &extensions_count, NULL);
+    const char** extensions = new const char*[extensions_count];
+    SDL_Vulkan_GetInstanceExtensions(window, &extensions_count, extensions);
+    SetupVulkan(extensions, extensions_count);
+    delete[] extensions;
+
+    // Create Window Surface
+    VkSurfaceKHR surface;
+    VkResult err;
+    if (SDL_Vulkan_CreateSurface(window, g_Instance, &surface) == 0)
+    {
+        printf("Failed to create Vulkan surface.\n");
+        return 1;
+    }
+
+    // Create Framebuffers
+    int w, h;
+    SDL_GetWindowSize(window, &w, &h);
+    ImGui_ImplVulkanH_Window* wd = &g_MainWindowData;
+    SetupVulkanWindow(wd, surface, w, h);
+
+    // Setup Dear ImGui context
+    IMGUI_CHECKVERSION();
     ImGui::CreateContext();
-    ImGuiIO &io = ImGui::GetIO();
-    (void)io;
-<<<<<<< HEAD
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard; // Enable Keyboard Controls
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;  // Enable Gamepad Controls
-      io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;           // !!! 启用 docking 功能的支持
-      io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;         // !!! 启用 viewport 功能的支持
-                                                          // ImFont *font = io.Fonts->AddFontFromFileTTF("C:\\Users\\yam_l\\wallpaper-imgui\\Fonts\\noto\\NotoSerifCJK-Bold.ttc", 18.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
-    //io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
-    // ImFont *font = io.Fonts->AddFontFromFileTTF("C:\\Windows\\Fonts\\simhei.ttf", 20.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
-    smily::joining_thread tt{[](){ ImFont *font = ImGui::GetIO().Fonts->AddFontFromFileTTF("../../Fonts/noto/NotoSansCJKsc-Regular.otf", 25.0f, NULL, ImGui::GetIO().Fonts->GetGlyphRangesChineseFull());}};
-    tt.join();
-    //  设置样式
-    //  ImGui::StyleColorsDark();
-    io.FontGlobalScale = 2;
-    ImGui::StyleColorsClassic();
-    // 设置平台和渲染器
-    ImGui_ImplGlfw_InitForOpenGL(window, true);
-    ImGui_ImplOpenGL3_Init(glsl_version);
-    // cv::Mat img;
-    // // 读取图像
-    // img = cv::imread("C:\\Users\\yam_l\\wallpaper-imgui\\2.jpg", 1); // 1-RGB、0-gray
-    // // 创建一个名为 "beautiful"窗口
-    // cv::namedWindow("beautiful");
-    // // 在窗口中显示“beautiful”窗口
-    // cv::imshow("beautiful", img);
-    // // 等待6000 ms后窗口自动关闭
-    // cv::waitKey(6000);
-    // // destroyAllWindows();
-    // // destroyWindow("beautiful");
+    ImGuiIO& io = ImGui::GetIO(); (void)io;
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+    io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;         // Enable Docking
+    io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;       // Enable Multi-Viewport / Platform Windows
+    //io.ConfigFlags |= ImGuiConfigFlags_ViewportsNoTaskBarIcons;
+    //io.ConfigFlags |= ImGuiConfigFlags_ViewportsNoMerge;
 
-    // std::future<GLuint> the_answer = std::async([]()
-    //                                             {
-    //     smily::Mat2Texture mat2Texture("C:\\Users\\yam_l\\wallpaper-imgui\\2.jpg");
-    //     return mat2Texture.getId(); }
-    //                                             );
-    // GLuint textureIDS = the_answer.get();
-    smily::Mat2Texture mat2Texture("C:\\Users\\yam_l\\wallpaper-imgui\\wallpaper-imgui\\2.jpg");
-    GLuint textureIDS = mat2Texture.getId();
+    // Setup Dear ImGui style
+    ImGui::StyleColorsDark();
+    //ImGui::StyleColorsLight();
 
-    std::byte a[sizeof(ImTextureID) > sizeof(GLuint) ? sizeof(ImTextureID) : sizeof(GLuint)]{};
-    memcpy(a, &textureIDS, sizeof(textureIDS));
-
-    ImTextureID textureID;
-    memcpy(&textureID, a, sizeof(textureID));
-    std::vector<smily::Image> Images;
-    for (int i = 0; i < 7; i++)
+    // When viewports are enabled we tweak WindowRounding/WindowBg so platform windows can look identical to regular ones.
+    ImGuiStyle& style = ImGui::GetStyle();
+    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
     {
-        Images.push_back({textureID, ImVec2(200.0, 100.0)});
+        style.WindowRounding = 0.0f;
+        style.Colors[ImGuiCol_WindowBg].w = 1.0f;
     }
-    std::vector<smily::Button> buttons;
-    for (int i = 0; i < 7; i++)
+
+    // Setup Platform/Renderer backends
+    ImGui_ImplSDL2_InitForVulkan(window);
+    ImGui_ImplVulkan_InitInfo init_info = {};
+    init_info.Instance = g_Instance;
+    init_info.PhysicalDevice = g_PhysicalDevice;
+    init_info.Device = g_Device;
+    init_info.QueueFamily = g_QueueFamily;
+    init_info.Queue = g_Queue;
+    init_info.PipelineCache = g_PipelineCache;
+    init_info.DescriptorPool = g_DescriptorPool;
+    init_info.Subpass = 0;
+    init_info.MinImageCount = g_MinImageCount;
+    init_info.ImageCount = wd->ImageCount;
+    init_info.MSAASamples = VK_SAMPLE_COUNT_1_BIT;
+    init_info.Allocator = g_Allocator;
+    init_info.CheckVkResultFn = check_vk_result;
+    ImGui_ImplVulkan_Init(&init_info, wd->RenderPass);
+
+    // Load Fonts
+    // - If no fonts are loaded, dear imgui will use the default font. You can also load multiple fonts and use ImGui::PushFont()/PopFont() to select them.
+    // - AddFontFromFileTTF() will return the ImFont* so you can store it if you need to select the font among multiple.
+    // - If the file cannot be loaded, the function will return NULL. Please handle those errors in your application (e.g. use an assertion, or display an error and quit).
+    // - The fonts will be rasterized at a given size (w/ oversampling) and stored into a texture when calling ImFontAtlas::Build()/GetTexDataAsXXXX(), which ImGui_ImplXXXX_NewFrame below will call.
+    // - Use '#define IMGUI_ENABLE_FREETYPE' in your imconfig file to use Freetype for higher quality font rendering.
+    // - Read 'docs/FONTS.md' for more instructions and details.
+    // - Remember that in C/C++ if you want to include a backslash \ in a string literal you need to write a double backslash \\ !
+    //io.Fonts->AddFontDefault();
+    //io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\segoeui.ttf", 18.0f);
+    //io.Fonts->AddFontFromFileTTF("../../misc/fonts/DroidSans.ttf", 16.0f);
+    //io.Fonts->AddFontFromFileTTF("../../misc/fonts/Roboto-Medium.ttf", 16.0f);
+    //io.Fonts->AddFontFromFileTTF("../../misc/fonts/Cousine-Regular.ttf", 15.0f);
+    //ImFont* font = io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\ArialUni.ttf", 18.0f, NULL, io.Fonts->GetGlyphRangesJapanese());
+    //IM_ASSERT(font != NULL);
+
+    // Upload Fonts
     {
-        buttons.push_back({"按钮", ImVec2(200.0, 100.0)});
+        // Use any command queue
+        VkCommandPool command_pool = wd->Frames[wd->FrameIndex].CommandPool;
+        VkCommandBuffer command_buffer = wd->Frames[wd->FrameIndex].CommandBuffer;
+
+        err = vkResetCommandPool(g_Device, command_pool, 0);
+        check_vk_result(err);
+        VkCommandBufferBeginInfo begin_info = {};
+        begin_info.sType = VK_STRUCTURE_TYPE_COMMAND_BUFFER_BEGIN_INFO;
+        begin_info.flags |= VK_COMMAND_BUFFER_USAGE_ONE_TIME_SUBMIT_BIT;
+        err = vkBeginCommandBuffer(command_buffer, &begin_info);
+        check_vk_result(err);
+
+        ImGui_ImplVulkan_CreateFontsTexture(command_buffer);
+
+        VkSubmitInfo end_info = {};
+        end_info.sType = VK_STRUCTURE_TYPE_SUBMIT_INFO;
+        end_info.commandBufferCount = 1;
+        end_info.pCommandBuffers = &command_buffer;
+        err = vkEndCommandBuffer(command_buffer);
+        check_vk_result(err);
+        err = vkQueueSubmit(g_Queue, 1, &end_info, VK_NULL_HANDLE);
+        check_vk_result(err);
+
+        err = vkDeviceWaitIdle(g_Device);
+        check_vk_result(err);
+        ImGui_ImplVulkan_DestroyFontUploadObjects();
     }
+
+    // Our state
     bool show_demo_window = true;
     bool show_another_window = false;
-    ImVec4 clear_color = ImVec4(1.0f, 1.0f, 1.0f, 1.00f);
-    // render loop
-    // -----------
-    // Normalized coordinates of pixel (10,10) in a 256x256 texture.
-    ImVec2 uv0 = ImVec2(10.0f / 256.0f, 10.0f / 256.0f);
+    ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
 
-    // Normalized coordinates of pixel (110,210) in a 256x256 texture.
-    ImVec2 uv1 = ImVec2((10.0f + 100.0f) / 256.0f, (10.0f + 200.0f) / 256.0f);
-    smily::joining_thread t{fun, window};
-    while (!glfwWindowShouldClose(window))
+    // Main loop
+    bool done = false;
+    while (!done)
     {
+        // Poll and handle events (inputs, window resize, etc.)
+        // You can read the io.WantCaptureMouse, io.WantCaptureKeyboard flags to tell if dear imgui wants to use your inputs.
+        // - When io.WantCaptureMouse is true, do not dispatch mouse input data to your main application, or clear/overwrite your copy of the mouse data.
+        // - When io.WantCaptureKeyboard is true, do not dispatch keyboard input data to your main application, or clear/overwrite your copy of the keyboard data.
+        // Generally you may always pass all inputs to dear imgui, and hide them from your application based on those two flags.
+        SDL_Event event;
+        while (SDL_PollEvent(&event))
+        {
+            ImGui_ImplSDL2_ProcessEvent(&event);
+            if (event.type == SDL_QUIT)
+                done = true;
+            if (event.type == SDL_WINDOWEVENT && event.window.event == SDL_WINDOWEVENT_CLOSE && event.window.windowID == SDL_GetWindowID(window))
+                done = true;
+        }
 
-        // input
-        // -----
-        processInput(window);
-        // glBindTexture(GL_TEXTURE_2D, textureIDS);
-        // 使用imgui创建窗口
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
-        ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 5.0f);
-        ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 5.0f);
-        ImGui::PushStyleVar(ImGuiStyleVar_TabRounding, 5.0f);
-        ImGui::PushStyleVar(ImGuiStyleVar_GrabRounding, 5.0f);
+        // Resize swap chain?
+        if (g_SwapChainRebuild)
+        {
+            int width, height;
+            SDL_GetWindowSize(window, &width, &height);
+            if (width > 0 && height > 0)
+            {
+                ImGui_ImplVulkan_SetMinImageCount(g_MinImageCount);
+                ImGui_ImplVulkanH_CreateOrResizeWindow(g_Instance, g_PhysicalDevice, g_Device, &g_MainWindowData, g_QueueFamily, g_Allocator, width, height, g_MinImageCount);
+                g_MainWindowData.FrameIndex = 0;
+                g_SwapChainRebuild = false;
+            }
+        }
+
+        // Start the Dear ImGui frame
+        ImGui_ImplVulkan_NewFrame();
+        ImGui_ImplSDL2_NewFrame();
         ImGui::NewFrame();
 
+        // 1. Show the big demo window (Most of the sample code is in ImGui::ShowDemoWindow()! You can browse its code to learn more about Dear ImGui!).
         if (show_demo_window)
             ImGui::ShowDemoWindow(&show_demo_window);
 
@@ -648,139 +519,69 @@ int main()
             static float f = 0.0f;
             static int counter = 0;
 
-            ImGui::Begin("你好世界"); // Create a window called "Hello, world!" and append into it.
+            ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
 
-            ImGui::Text("This is some useful text.");          // Display some text (you can use a format strings too)
-            ImGui::Checkbox("Demo Window", &show_demo_window); // Edit bools storing our window open/close state
+            ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
+            ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
             ImGui::Checkbox("Another Window", &show_another_window);
-            ImGui::SliderFloat("float", &f, 0.0f, 1.0f);             // Edit 1 float using a slider from 0.0f to 1.0f
-            ImGui::ColorEdit3("clear color", (float *)&clear_color); // Edit 3 floats representing a color
-            if (ImGui::Button("Button"))                             // Buttons return true when clicked (most widgets return true when edited/activated)
+
+            ImGui::SliderFloat("float", &f, 0.0f, 1.0f);            // Edit 1 float using a slider from 0.0f to 1.0f
+            ImGui::ColorEdit3("clear color", (float*)&clear_color); // Edit 3 floats representing a color
+
+            if (ImGui::Button("Button"))                            // Buttons return true when clicked (most widgets return true when edited/activated)
                 counter++;
             ImGui::SameLine();
             ImGui::Text("counter = %d", counter);
+
             ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
             ImGui::End();
         }
 
-       // 3. Show another simple window.
+        // 3. Show another simple window.
         if (show_another_window)
         {
-            ImGuiWindowFlags window_flags = 0;
-            window_flags |= ImGuiWindowFlags_NoTitleBar;
-            window_flags |= ImGuiWindowFlags_NoScrollbar;
-            bool flag = true;
-            smily::Div div("Another Window", &flag, window_flags);
-            div.drawImage(Images);
-            div.drawButton(buttons);
+            ImGui::Begin("Another Window", &show_another_window);   // Pass a pointer to our bool variable (the window will have a closing button that will clear the bool when clicked)
             ImGui::Text("Hello from another window!");
-            ImGui::Text("width = %lf", ImGui::GetWindowWidth());
-
-            // ImGui::Image(textureID, mat2Texture.getSzie(0.1), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0), ImVec4(255, 255, 255, 1), ImVec4(0, 0, 0, 1));
-            // ImGui::SameLine();
-
-            // ImGui::Image(textureID, mat2Texture.getSzie(0.1), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0), ImVec4(255, 255, 255, 1), ImVec4(0, 0, 0, 1));
-            // ImGui::SameLine();
-            // ImGui::Image(textureID, mat2Texture.getSzie(0.1), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0), ImVec4(255, 255, 255, 1), ImVec4(0, 0, 0, 1));
             if (ImGui::Button("Close Me"))
                 show_another_window = false;
+            ImGui::End();
         }
 
-=======
-    ImFont *font = io.Fonts->AddFontFromFileTTF("/home/kali-smily/openglim/Fonts/simhei.ttf", 18.0f, NULL, io.Fonts->GetGlyphRangesChineseFull());
-    // 设置样式
-    ImGui::StyleColorsDark();
-    // 设置平台和渲染器
-    ImGui_ImplGlfw_InitForOpenGL(window, true);
-    ImGui_ImplOpenGL3_Init(glsl_version);
-
-    GLuint textureID = Mat2Texture("/home/kali-smily/openglim/2.jpg");
-    float f = 0.0f;
-    ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 1.00f);
-    // render loop
-    // -----------
-    while (!glfwWindowShouldClose(window))
-    {
-        // input
-        // -----
-        processInput(window);
-
-        // 使用imgui创建窗口
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
-        ImGui::NewFrame();
-        ImGui::Begin("你好");
-        ImGui::Image(&textureID, ImGui::GetContentRegionAvail(), ImVec2(0.0, 0.0), ImVec2(1.0, 1.0), ImVec4(255, 255, 255, 1), ImVec4(0, 255, 0, 1));
-        ImGui::Text("%.3f ms/frame (%.1f FPS)", 1000.0f / ImGui::GetIO().Framerate, ImGui::GetIO().Framerate);
-        ImGui::SliderFloat("float", &f, 0.0f, 1.0f);             // Edit 1 float using a slider from 0.0f to 1.0f
-        ImGui::ColorEdit3("clear color", (float *)&clear_color); // Edit 3 floats representing a color
-        ImGui::End();
->>>>>>> origin/main
-        // render
-        // 通过imgui的颜色控制背景颜色
-        glClearColor(clear_color.x, clear_color.y, clear_color.z, clear_color.w);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // also clear the depth buffer now!
-<<<<<<< HEAD
-        ImGui::PopStyleVar(4);
-=======
-
->>>>>>> origin/main
-        // 渲染
+        // Rendering
         ImGui::Render();
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-        // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-        // -------------------------------------------------------------------------------
-<<<<<<< HEAD
+        ImDrawData* main_draw_data = ImGui::GetDrawData();
+        const bool main_is_minimized = (main_draw_data->DisplaySize.x <= 0.0f || main_draw_data->DisplaySize.y <= 0.0f);
+        wd->ClearValue.color.float32[0] = clear_color.x * clear_color.w;
+        wd->ClearValue.color.float32[1] = clear_color.y * clear_color.w;
+        wd->ClearValue.color.float32[2] = clear_color.z * clear_color.w;
+        wd->ClearValue.color.float32[3] = clear_color.w;
+        if (!main_is_minimized)
+            FrameRender(wd, main_draw_data);
 
-        glfwSwapBuffers(window);
-        glfwPollEvents();
-
-        if (!data_ready)
+        // Update and Render additional Platform Windows
+        if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
         {
-            std::this_thread::sleep_for(std::chrono::duration<long long, std::ratio<1, 1000>>(20));
-            data_ready = true;
+            ImGui::UpdatePlatformWindows();
+            ImGui::RenderPlatformWindowsDefault();
         }
+
+        // Present Main Platform Window
+        if (!main_is_minimized)
+            FramePresent(wd);
     }
 
-=======
-        glfwSwapBuffers(window);
-        glfwPollEvents();
-    }
+    // Cleanup
+    err = vkDeviceWaitIdle(g_Device);
+    check_vk_result(err);
+    ImGui_ImplVulkan_Shutdown();
+    ImGui_ImplSDL2_Shutdown();
+    ImGui::DestroyContext();
 
-    // optional: de-allocate all resources once they've outlived their purpose:
-    // ------------------------------------------------------------------------
+    CleanupVulkanWindow();
+    CleanupVulkan();
 
-    // glfw: terminate, clearing all previously allocated GLFW resources.
-    // ------------------------------------------------------------------
->>>>>>> origin/main
-    glfwTerminate();
+    SDL_DestroyWindow(window);
+    SDL_Quit();
+
     return 0;
 }
-
-// process all input: query GLFW whether relevant keys are pressed/released this frame and react accordingly
-// ---------------------------------------------------------------------------------------------------------
-void processInput(GLFWwindow *window)
-{
-    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-        glfwSetWindowShouldClose(window, true);
-}
-
-// glfw: whenever the window size changed (by OS or user resize) this callback function executes
-// ---------------------------------------------------------------------------------------------
-void framebuffer_size_callback(GLFWwindow *window, int width, int height)
-{
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/main
-    // make sure the viewport matches the new window dimensions; note that width and
-    // height will be significantly larger than specified on retina displays.
-    glViewport(0, 0, width, height);
-}
-<<<<<<< HEAD
-
-// huafen midu cengce
-
-
-=======
->>>>>>> origin/main
