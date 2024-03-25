@@ -1,6 +1,7 @@
 #include <thread>
 #include <string>
 #include <vector>
+#include <opencv2/opencv.hpp>
 namespace smily
 {
 
@@ -98,7 +99,7 @@ namespace smily
             ~text()
             {
                 glDeleteTextures(1, &texture);
-                std::cout << "dsa" << std::endl;
+               
             }
         };
 

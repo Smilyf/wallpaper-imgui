@@ -1,3 +1,0 @@
-/home/kali-smily/openglim/build/CMakeFiles/openglim.dir
-/home/kali-smily/openglim/build/CMakeFiles/edit_cache.dir
-/home/kali-smily/openglim/build/CMakeFiles/rebuild_cache.dir
